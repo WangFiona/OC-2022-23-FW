@@ -97,7 +97,6 @@ public class auto1 extends LinearOpMode {
                     .build();
 
             correct = drive.trajectorySequenceBuilder(new Pose2d(line.getX(), line.getY()+(Left? -1 : 1), 0))
-                    //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(line)
                     .build();
 
