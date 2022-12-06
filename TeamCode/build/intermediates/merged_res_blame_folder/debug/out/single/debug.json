@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/raw_readme.md.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-main-23:/raw/readme.md"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/xml_scan.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-main-23:/xml/scan.xml"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/xml_mecanum2.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-main-23:/xml/mecanum2.xml"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/xml_teamwebcamcalibrations.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-main-23:/xml/teamwebcamcalibrations.xml"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/xml_turret1.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-main-23:/xml/turret1.xml"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/xml_mecanum1.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-main-23:/xml/mecanum1.xml"
+    },
+    {
+        "merged": "org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/xml_mecanum1.xml.flat",
+        "source": "org.firstinspires.ftc.teamcode.TeamCode-main-23:/xml/mecanum1.xml"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-merged_res-21:/xml_mecanum.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.4.2/org.firstinspires.ftc.teamcode.TeamCode-main-23:/xml/mecanum.xml"
+    }
+]

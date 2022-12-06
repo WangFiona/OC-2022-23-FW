@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<Robot type="FirstInspires-FTC">
+    <!--<Webcam name="Webcam 1" serialNumber="SN0001" />-->
+    <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
+        <LynxModule name="Expansion Hub 3" port="2">
+            <goBILDA5202SeriesMotor name="driveLB" port="0" />
+            <NeveRest20Gearmotor name="slideL" port="1" />
+            <goBILDA5202SeriesMotor name="driveLF" port="2" />
+            <Servo name="claw" port="4" />
+            <LynxEmbeddedIMU name="limu" port="0" bus="0" />
+            <!--<AnalogInput name="sonar" port="0" />
+            <AnalogInput name="sonarL" port="1" />
+            <goBILDA5201SeriesMotor name="duck" port="3" />
+            <RevColorSensorV3 name="colorSensor" port="1" bus="0" />
+            <REV_VL53L0X_RANGE_SENSOR name="rangeF" port="0" bus="2" /> -->
+<!--            <REV_VL53L0X_RANGE_SENSOR name="rangeL" port="0" bus="1" />-->
+        </LynxModule>
+        <LynxModule name="Control Hub" port="173">
+            <NeveRest20Gearmotor name="slideR" port="1" />
+            <goBILDA5202SeriesMotor name="driveRF" port="2" />
+            <goBILDA5202SeriesMotor name="driveRB" port="3" />
+            <!-- <AnalogInput name="sonarR" port="0" />
+            <goBILDA5202SeriesMotor name="intake" port="0" />
+            <Servo name="armR" port="5" />
+            Servo name="cap" port="4" />
+            <Servo name="cap" port="4" />
+            <Servo name="capClaw" port="2" />
+            <DigitalDevice name="led_white" port="0" />
+            <DigitalDevice name="led_yellow" port="1" />
+            <DigitalDevice name="led_red" port="2" />
+            <DigitalDevice name="led_blue" port="3" />
+            <DigitalDevice name="led_green" port="4" />
+            <DigitalDevice name="limitswitch" port="6" />
+            <LynxEmbeddedIMU name="rimu" port="0" bus="0" />
+            <REV_VL53L0X_RANGE_SENSOR name="rangeR" port="0" bus="1" />
+            <QWIIC_LED_STRIP name="ledstrip" port="0" bus="3" />-->
+        </LynxModule>
+    </LynxUsbDevice>
+    <!--<Webcam name="Webcam 1" serialNumber="SN0001" />-->
+</Robot>
