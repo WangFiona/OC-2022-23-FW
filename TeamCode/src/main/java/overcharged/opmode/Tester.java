@@ -45,7 +45,7 @@ Tester
     //private TankDriveLinear drive;
 
     private ServoTestInfo[] servoTestInfos;
-     /**
+    /**
      * Counter of servos in servo test
      */
     private int servoTestCounter = 0;
@@ -72,8 +72,8 @@ Tester
         DRIVE,
         SERVO_CALIBRATE,
         SERVO,
-        GYRO,
-        LED,
+        //GYRO,
+        //LED,
         SLIDE,
         SENSOR,
 
@@ -127,16 +127,16 @@ Tester
         OcServo hSlides = robot.hSlides.hSlides;
         servos.add(hSlides);
         servoTestInfos = new ServoTestInfo[]{
-            // claw
-            new ServoTestInfo(
-                    claw,
-                    robot.claw.OPEN,
-                    robot.claw.GRAB),
-            // hSlides
-            new ServoTestInfo(
-                    hSlides,
-                    robot.hSlides.MAX,
-                    robot.hSlides.MIN),
+                // claw
+                new ServoTestInfo(
+                        claw,
+                        robot.claw.OPEN,
+                        robot.claw.GRAB),
+                // hSlides
+                new ServoTestInfo(
+                        hSlides,
+                        robot.hSlides.MAX,
+                        robot.hSlides.MIN),
         };
 
         int testCounter = 0;
@@ -188,15 +188,15 @@ Tester
                     case SERVO:
                         servoTest(servoTestInfos);
                         break;
-                    case GYRO:
+                    /*case GYRO:
                         gyroTest();
-                        break;
+                        break;*/
                     case SWITCH:
                         switchTest();
                         break;
-                    case LED:
+                    /*case LED:
                         ledTest();
-                        break;
+                        break;*/
                     case SLIDE:
                         slideTest();
                         break;
@@ -247,10 +247,10 @@ Tester
             telemetry.addData("Test", "Encoders");
             telemetry.addData("Front",
                     "Left:" + integerFormatter.format(robot.driveLeftBack.getCurrentPosition()) +
-                            " Right:" + integerFormatter.format(robot.driveRightBack.getCurrentPosition()));
-            telemetry.addData("Back",
-                    "Left:" + integerFormatter.format(robot.driveLeftFront.getCurrentPosition()) +
                             " Right:" + integerFormatter.format(robot.driveRightFront.getCurrentPosition()));
+            telemetry.addData("Back",
+                    //"Null:" + integerFormatter.format(robot.driveLeftFront.getCurrentPosition()) +
+                    "Mid:" + integerFormatter.format(robot.driveRightBack.getCurrentPosition()));
             telemetry.addData("Slides:",
                     "Left:" + integerFormatter.format(robot.vSlides.slideLeft.getCurrentPosition()) +
                             " Right:" + integerFormatter.format(robot.vSlides.slideRight.getCurrentPosition()));
@@ -352,7 +352,7 @@ Tester
      * @param servoCalibrateList servos to be tested
      */
     private void servoCalibrate(List<OcServo> servoCalibrateList) {
-        int posJoy1 = (int)(servoCalibrateList.get(servoCalibrateCounter).getPosition() * 255f);
+        int posJoy1 = (int)(servoCalibrateList.get(servoCalibrateCounter).getPosition());
 
         while (opModeIsActive()) {
             long timeStamp = System.currentTimeMillis();
@@ -363,13 +363,13 @@ Tester
                 if(servoCalibrateCounter >= servoCalibrateList.size()){
                     servoCalibrateCounter = 0;
                 }
-                posJoy1 = (int)(servoCalibrateList.get(servoCalibrateCounter).getPosition() * 255f);
+                posJoy1 = (int)(servoCalibrateList.get(servoCalibrateCounter).getPosition());
             } else if(gamepad1.left_trigger > 0.9 && Button.BTN_PREV.canPress(timeStamp)) {
                 servoCalibrateCounter--;
                 if(servoCalibrateCounter < 0){
                     servoCalibrateCounter = servoCalibrateList.size() - 1;
                 }
-                posJoy1 = (int)(servoCalibrateList.get(servoCalibrateCounter).getPosition() * 255f);
+                posJoy1 = (int)(servoCalibrateList.get(servoCalibrateCounter).getPosition());
             }
             else if (gamepad1.left_stick_button && Button.BTN_BACK.canPress(timeStamp)) {
                 return;

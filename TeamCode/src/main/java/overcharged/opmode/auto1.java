@@ -79,7 +79,7 @@ public class auto1 extends LinearOpMode {
             Left = sl.selectPosition();
 
             double xVal = (Left? 50: 51);
-            double yVal = (Left? 11: -6); //9.8
+            double yVal = (Left? 11: -7); //-6
             line = new Vector2d(xVal, yVal);
             s3 = new Vector2d(xVal,0);
             p1 = new Vector2d(xVal-3, (Left? 23 : 25));
@@ -309,7 +309,7 @@ public class auto1 extends LinearOpMode {
         if(wait)
             lp.waitMillis(300);
 
-        robot.turret.moveTo((Left? 89 : -81), turretPower); //87
+        robot.turret.moveTo((Left? 89 : -79.5), turretPower); //87
         if(!wait)
             lp.waitMillis(200);
 

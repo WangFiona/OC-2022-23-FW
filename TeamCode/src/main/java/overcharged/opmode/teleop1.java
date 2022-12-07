@@ -332,14 +332,18 @@ public class teleop1 extends OpMode {
             slideDown = true;
         }
 
-        if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3+50){
+        if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3+30){
             powerSlow = true;
             //previousPower = slowPower;
             slowPower = 0.3f;
-        } else if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3-50){
+        } else if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3-80){
             powerSlow = true;
             previousPower = slowPower;
-            slowPower = 0.5f;
+            slowPower = 0.4f;
+        } else if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level2-50) {
+            powerSlow = true;
+            previousPower = slowPower;
+            slowPower = 0.7f;
         } else if(powerSlow){
             powerSlow = false;
             slowPower = previousPower;
@@ -449,7 +453,7 @@ public class teleop1 extends OpMode {
         }
 
         if(buttonState == ButtonState.PRESSED){
-            robot.vSlides.moveTo(level-200);
+            robot.vSlides.moveTo(level-260);
         } else if(buttonState == ButtonState.NO){
             robot.vSlides.moveTo(level);
         }
