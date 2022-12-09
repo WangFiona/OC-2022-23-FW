@@ -52,10 +52,10 @@ public class auto2 extends LinearOpMode {
     boolean grabbed = true;
     //int hSlidesReset = 150;
 
-    TrajectorySequence toSquare3, toLine, toLine2, to1, to2, to3, toScore, correct, correct2;
+    TrajectorySequence toSquare3, toLine, toLine2, to1, to2, to3, toScore, correct, correct2, to2p2, score, toR1, toR3;
     Pose2d start = new Pose2d();
 
-    Vector2d line, score, s3, p1, p2, p3, line2;
+    Vector2d line, s3, p1, p2, p3, line2, p2p2, scorePos;
 
     FtcDashboard dashboard = FtcDashboard.getInstance();
     MultipleTelemetry telems;
@@ -79,22 +79,24 @@ public class auto2 extends LinearOpMode {
             Left = sl.selectPosition();
 
             double xVal = (Left? 50: 51);
-            double yVal = (Left? 11: -7); //-6
-            double yVal2 = (Left? 8.5: -7); //-6
+            double yVal = (Left? 11: -9); //-6
+            double yVal2 = (Left? 8.5: -6); //-6
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
+            scorePos = new Vector2d(xVal, (Left? -15: 15));
             s3 = new Vector2d(xVal,0);
             p1 = new Vector2d(xVal-3, (Left? 23 : 25));
-            p2 = new Vector2d(xVal-3, (Left? 0 : 3));
+            p2 = new Vector2d(xVal-7, (Left? 0 : 3)); //xVal-3
+            p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
             p3 = new Vector2d(xVal-3, -24);
 
             toSquare3 = drive.trajectorySequenceBuilder(start)
                     //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(s3)
                     .addSpatialMarker(new Vector2d(1,0), () -> {
-                        robot.turret.moveTo((Left? -34 : 49), turretPower);
+                        robot.turret.moveTo((Left? -34 : 48), turretPower);
                         robot.vSlides.moveTo(1900);
-                        robot.hSlides.setPosition(Left? 128f : 115f);})
+                        robot.hSlides.setPosition(Left? 128f : 128f);})
                     .build();
 
             toLine = drive.trajectorySequenceBuilder(toSquare3.end())
@@ -110,18 +112,41 @@ public class auto2 extends LinearOpMode {
                     .lineTo(line2)
                     .build();
 
+            score = drive.trajectorySequenceBuilder(toLine.end())
+                    .lineTo(scorePos)
+                    .build();
+
             to1 = drive.trajectorySequenceBuilder(toLine.end())
                     .strafeTo(p1)
                     .build();
 
+            toR1 = drive.trajectorySequenceBuilder(toLine.end())
+                    .strafeTo(p1)
+                    .addSpatialMarker(new Vector2d(xVal-2,4), () -> {
+                        lowerSlidesThread(lp, 1);})
+                    .build();
+
             to2 = drive.trajectorySequenceBuilder(toLine.end())
                     .strafeTo(p2)
+                    //.addSpatialMarker(new Vector2d(xVal-3,2), () -> {
+                        //lowerSlidesThread(lp, 1);})
+                    .build();
+
+
+            to2p2 = drive.trajectorySequenceBuilder(to2.end())
+                    .lineTo(p2p2)
                     .build();
 
             to3 = drive.trajectorySequenceBuilder(toLine.end())
                     .strafeTo(p3)
-                    .addSpatialMarker(new Vector2d(-2,-12), () -> {
+                    .addSpatialMarker(new Vector2d(-2,-4), () -> {
                         lowerSlidesThread(lp, 1);})
+                    .build();
+
+            toR3 = drive.trajectorySequenceBuilder(toLine.end())
+                    .strafeTo(p3)
+                    //.addSpatialMarker(new Vector2d(xVal-3,2), () -> {
+                    //lowerSlidesThread(lp, 1);})
                     .build();
 
             this.detector = new SignalConePipeLine();
@@ -229,7 +254,7 @@ public class auto2 extends LinearOpMode {
         //robot.vSlides.moveTo(1700);
         lp.waitMillis(500);*/
 
-        robot.hSlides.setPosition(Left? 118f : 105f);
+        robot.hSlides.setPosition(Left? 115f : 95f);
         lp.waitMillis(500);
         robot.vSlides.moveTo(1780);
         lp.waitMillis(150);
@@ -268,7 +293,7 @@ public class auto2 extends LinearOpMode {
             cLevel--;
             grabbed = false;
 
-            float hSlidesOut = 108f;
+            float hSlidesOut = 85f;
             while (robot.sensorF.getDistance(DistanceUnit.CM) > 1.5 && hSlidesOut >= hSlides.MIN){//hSlidesOut >= hSlides.MIN+10) {
                 hSlidesOut -= 3;
                 robot.hSlides.setPosition(hSlidesOut);
@@ -279,7 +304,7 @@ public class auto2 extends LinearOpMode {
                     "currentPos L: " + robot.vSlides.slideLeft.getCurrentPosition());
             //robot.claw.setAutoGrab();
             robot.clawGrab();
-            lp.waitMillis(450);
+            lp.waitMillis(350);
             robot.hSlides.setPosition(hSlidesOut+10);
             //robot.hSlides.setPosition(110f);
             robot.vSlides.moveTo4();
@@ -289,8 +314,8 @@ public class auto2 extends LinearOpMode {
                 grabbed = true;
 
             robot.hSlides.setPosition(110f);
-            robot.turret.moveTo((Left? -46 : 56.5), turretPower);
-            lp.waitMillis(1000);
+            robot.turret.moveTo((Left? -45.5 : 56), turretPower); //-46
+            lp.waitMillis(1200);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
                 robot.hSlides.setPosition(hSlides.MIN);
@@ -302,8 +327,9 @@ public class auto2 extends LinearOpMode {
             robot.claw.setAutoOpen();
         }
 
-        robot.hSlides.setPosition(hSlides.MAX);
         lp.waitMillis(200);
+        robot.hSlides.setPosition(hSlides.MAX);
+        //lp.waitMillis(200);
         robot.turret.moveTo(0, turretPower);
         robot.vSlides.moveTo2();
         //lowerSlidesThread(lp,1);
@@ -313,13 +339,22 @@ public class auto2 extends LinearOpMode {
         drive.followTrajectorySequence(correct);
 
         if(signalColors == SignalColors.Red){
-            drive.followTrajectorySequence(to3);
+            if(Left) {
+                drive.followTrajectorySequence(to3);
+            } else {
+                lowerSlidesThread(lp, 1);
+                drive.followTrajectorySequence(toR3);
+            }
         } else if(signalColors == SignalColors.Green){
-            drive.followTrajectorySequence(to1);
-            lowerSlidesThread(lp, 1);
+            if(Left) {
+                lowerSlidesThread(lp, 1);
+                drive.followTrajectorySequence(to1);
+            } else {
+                drive.followTrajectorySequence(toR1);
+            }
         } else{ //blue
-            drive.followTrajectorySequence(to2);
             lowerSlidesThread(lp, 1);
+            drive.followTrajectorySequence(to2);
         }
 
         //lowerSlidesThread(lp, 1);
@@ -329,16 +364,16 @@ public class auto2 extends LinearOpMode {
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {
         if(!wait){
             robot.hSlides.setPosition(128f);
-            lp.waitMillis(600);
+            lp.waitMillis(500);
         } else {
-            robot.hSlides.setPosition((Left ? 95f : 105f));
+            robot.hSlides.setPosition((Left ? 85f : 90));
             //if(wait)
-            lp.waitMillis(300);
+            lp.waitMillis(250);
         }
 
         robot.turret.moveTo((Left? 86 : -79.5), turretPower); //87
         if(!wait) {
-            robot.hSlides.setPosition((Left ? 95f : 105f));
+            robot.hSlides.setPosition((Left ? 85f : 90));
             //lp.waitMillis(200);
         }
 
