@@ -94,7 +94,7 @@ public class auto2 extends LinearOpMode {
                     //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(s3)
                     .addSpatialMarker(new Vector2d(1,0), () -> {
-                        robot.turret.moveTo((Left? -34 : 48), turretPower);
+                        robot.turret.moveTo((Left? -34 : 50), turretPower);
                         robot.vSlides.moveTo(1900);
                         robot.hSlides.setPosition(Left? 128f : 128f);})
                     .build();
@@ -152,6 +152,7 @@ public class auto2 extends LinearOpMode {
             this.detector = new SignalConePipeLine();
             //this.detector.useDefaults();
             webcam.setPipeline(detector);
+            detector.isLeft(Left);
 
             try {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
@@ -314,8 +315,11 @@ public class auto2 extends LinearOpMode {
                 grabbed = true;
 
             robot.hSlides.setPosition(110f);
-            robot.turret.moveTo((Left? -45.5 : 56), turretPower); //-46
-            lp.waitMillis(1200);
+            robot.turret.moveTo((Left? -44.5 : 57), turretPower); //-46
+            if(Left)
+                lp.waitMillis(1200);
+            else
+                lp.waitMillis(1250);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
                 robot.hSlides.setPosition(hSlides.MIN);
@@ -366,14 +370,14 @@ public class auto2 extends LinearOpMode {
             robot.hSlides.setPosition(128f);
             lp.waitMillis(500);
         } else {
-            robot.hSlides.setPosition((Left ? 85f : 90));
+            robot.hSlides.setPosition((Left ? 85f : 95f));
             //if(wait)
             lp.waitMillis(250);
         }
 
         robot.turret.moveTo((Left? 86 : -79.5), turretPower); //87
         if(!wait) {
-            robot.hSlides.setPosition((Left ? 85f : 90));
+            robot.hSlides.setPosition((Left ? 85f : 95f));
             //lp.waitMillis(200);
         }
 

@@ -65,11 +65,11 @@ public class Turret {
     public void moveTo(double pos, double power){
         double encoder = 0;
         if(pos < 0){
-            encoder = (pos/180)*1450;//1730;
+            encoder = (pos/180)*1705;//1730;
             RobotLog.ii(TAG_SL, "turret pos<0");
         }
         if(pos > 0){
-            encoder = (pos/180)*1380;//1730;
+            encoder = (pos/180)*1705;//1730;
             RobotLog.ii(TAG_SL, "turret pos>0");
         }
         RobotLog.ii(TAG_SL, "turret encoder " + encoder + " turret pos " + pos);
@@ -80,10 +80,10 @@ public class Turret {
         double pos = turret.getCurrentPosition();
         double angle = 0;
         if(pos > 0){
-            angle = (pos/1450)*180;
+            angle = (pos/1705)*180;
         }
         if(pos < 0){
-            angle = (pos/1380)*180;
+            angle = (pos/1705)*180;
         }
         //RobotLog.ii(TAG_SL, "turret angle " + angle);
         return angle;

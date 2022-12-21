@@ -71,6 +71,8 @@ public class teleop1 extends OpMode {
     double previousPower = 0.5f;
     boolean powerSlow = false;
 
+    boolean goToZero = false;
+
     public enum ClawState{
         OPEN,
         GRAB;
@@ -209,7 +211,8 @@ public class teleop1 extends OpMode {
             hPosChanged = false;
         }
 
-        if(Math.abs(robot.turret.getCurrentPosition()) > robot.turret.maxPos)
+        if((robot.turret.getCurrentPosition() < 0 && robot.turret.getCurrentPosition() < -1810)
+                || (robot.turret.getCurrentPosition() > 0 && robot.turret.getCurrentPosition() > 1560))
             turretOn = false;
         else
             turretOn = true;
@@ -234,10 +237,10 @@ public class teleop1 extends OpMode {
                 slideLocation = SlideLocation.L2;
             }
             if(robot.vSlides.getCurrentPosition() > 400) {
-                if (tx > 0 && robot.turret.getCurrentPosition() < 1515) {
+                if (tx > 0 && robot.turret.getCurrentPosition() < 1560) {
                     robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.turret.setPower(turretPower);
-                } else if(robot.turret.getCurrentPosition() > -1820) {
+                } else if(robot.turret.getCurrentPosition() > -1810) {
                     robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.turret.setPower(-turretPower);
                 }
@@ -349,8 +352,15 @@ public class teleop1 extends OpMode {
             slowPower = previousPower;
         }
 
+        //robot.vSlides.slideLeft.getCurrentPosition() < robot.vSlides.level1-30
+        if((slideLocation == SlideLocation.BOTTOM || slideLocation == SlideLocation.L1) && Math.abs(robot.turret.getCurrentPosition()) < 200) {
+            robot.turret.moveTo(0, turretPower);
+            goToZero = true;
+        }else
+            goToZero = false;
 
         turretPos = robot.turret.getCurrentPosition();
+        telemetry.addData("goToZero", goToZero);
         telemetry.addData("slowPower", slowPower);
         telemetry.addData("sensorF", robot.sensorF.getDistance(DistanceUnit.CM));
         telemetry.addData("sensorL", robot.sensorL.getRawLightDetected());

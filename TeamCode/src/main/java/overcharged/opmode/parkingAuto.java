@@ -51,6 +51,7 @@ public class parkingAuto extends LinearOpMode {
             this.detector = new SignalConePipeLine();
             //this.detector.useDefaults();
             webcam.setPipeline(detector);
+            detector.isLeft(false);
 
             try {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
