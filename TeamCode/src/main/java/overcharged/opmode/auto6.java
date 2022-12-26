@@ -188,8 +188,6 @@ public class auto6 extends LinearOpMode {
             waitForStart();
 
             if (opModeIsActive()) {
-                //robot.turret.turret.setTargetPositionPIDFCoefficients(12, 0.05, 0, 0);
-
                 time1 = System.currentTimeMillis();
                 currentTime = System.currentTimeMillis();
                 while (currentTime - time1 < DuckDetector.DETECTION_WAIT_TIME) {
