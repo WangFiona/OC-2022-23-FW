@@ -1,7 +1,6 @@
 package overcharged.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -10,17 +9,12 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 import overcharged.components.DuckDetector;
-import overcharged.components.DuckPositions;
 import overcharged.components.MecanumDrive;
 import overcharged.components.RobotMecanum;
-import overcharged.components.RotationAxis;
 import overcharged.components.SignalColors;
 import overcharged.components.hSlides;
-import overcharged.linear.components.RobotTankMecanumLinear;
-import overcharged.linear.components.TankDriveLinear;
 import overcharged.linear.util.SelectLinear;
 import overcharged.linear.util.WaitLinear;
-import overcharged.test.CVTest;
 import overcharged.test.EasyOpenCVExample;
 import overcharged.test.SignalConePipeLine;
 
@@ -36,7 +30,7 @@ public class parkingAuto extends LinearOpMode {
     private SignalColors signalColors = SignalColors.Red;
     EasyOpenCVExample.RingDeterminationPipeline pipeline;
     double drivePower = -0.4f;
-    double turretPower = 0.6;
+    float turretPower = 0.6f;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -161,10 +155,10 @@ public class parkingAuto extends LinearOpMode {
             lp.waitMillis(1700);
         }
 
-        robot.turret.moveTo(0, 0.9);
+        robot.turret.moveTo(0, 0.9f);
     }
     public void reset(WaitLinear lp) throws InterruptedException {
-        robot.hSlides.setPosition(hSlides.MAX);
+        robot.hSlides.setPosition(hSlides.IN);
         robot.turret.moveTo(0, turretPower);
         lp.waitMillis(100);
         slideBottom(lp);

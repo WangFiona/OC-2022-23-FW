@@ -3,40 +3,43 @@ package overcharged.components;
 import static overcharged.config.RobotConstants.TAG_SL;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import overcharged.util.PIDCalculator;
 
 public class Turret {
-    public OcMotor turret;
+    public OcMotorEx turret;
     public static float TURRET_POWER = 0.8f;
 
     public int currentPos = 0;
     public double start;
     public double maxPos = 1500;
 
-    public static double p = 0.3;
+    public static double p = 1.8;
     public static double i = 0;
     public static double d = 0;
+    public static double f = 0;
+
+    public static double p2 = 15;
+    public static double i2 = 0;
+    public static double d2 = 0.4;
+    public static double f2 = 0;
     private PIDCalculator pidController = new PIDCalculator(p, i, d);
     private boolean pidState = false;
 
     public int currentPosition = 0;
 
     public Turret(HardwareMap hardwareMap){
-        turret = new OcMotor(hardwareMap, "turret", DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-        //turret = hardwareMap.get(OcMotorEx.class, "turret", DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-
-        //turret.setDirection(DcMotorSimple.Direction.FORWARD);
-        //turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        turret = new OcMotorEx(hardwareMap, "turret", DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
         turret.resetPosition();
         turret.setPower(0f);
         turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,new PIDFCoefficients(23,0,0,0));
-        //initialize(turret);
-        //resetTurretPosition();
+        //PIDFCoefficients pidNew = new PIDFCoefficients(p, i, d, f);
+        turret.setTargetPositionPIDFCoefficients(p, i, d, f);
+        //turret.setVelocityPIDFCoefficients(p2, i2, d2, f2);
     }
 
     public void resetTurretPosition(){
@@ -44,25 +47,25 @@ public class Turret {
         start = turret.getCurrentPosition();
     }
 
-    private void initialize(OcMotor motor) {
+    private void initialize(OcMotorEx motor) {
         reset(motor);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void reset(OcMotor motor) {
+    public void reset(OcMotorEx motor) {
         motor.setPower(0f);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.resetPosition();
     }
 
-    public void moveEncoderTo(int pos, double power){
+    public void moveEncoderTo(int pos, float power){
         turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turret.setTargetPosition(pos);
         turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        turret.setPower(0.9);//*factor);
+        turret.setPower(power);//*factor);
     }
 
-    public void moveTo(double pos, double power){
+    public void moveTo(double pos, float power){
         double encoder = 0;
         if(pos < 0){
             encoder = (pos/180)*1705;//1730;
@@ -73,6 +76,7 @@ public class Turret {
             RobotLog.ii(TAG_SL, "turret pos>0");
         }
         RobotLog.ii(TAG_SL, "turret encoder " + encoder + " turret pos " + pos);
+        RobotLog.ii(TAG_SL, "turret pidf " + turret.getPIDCoefficients());//p + " " +  i + " " + d + " " + f);
         moveEncoderTo((int)(encoder), power);
     }
 
@@ -152,14 +156,14 @@ public class Turret {
     }*/
 
     public void on(){
-        turret.setPower(0.485);
+        turret.setPower(0.485f);
     }
 
     public void mid(){
-        turret.setPower(0.44);
+        turret.setPower(0.44f);
     }
 
-    public void setPower(double pwr){
+    public void setPower(float pwr){
         turret.setPower(pwr);
     }
 

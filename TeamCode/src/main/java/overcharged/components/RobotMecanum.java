@@ -35,8 +35,6 @@ public class RobotMecanum {
     public vSlides vSlides;
     public hSlides hSlides;
     public RevColorSensorV3 sensorF;
-    public RevColorSensorV3 sensorL;
-    public RevColorSensorV3 sensorR;
 
     public final List<OcServo> servos = new ArrayList<>();
     public List<LynxModule> allHubs;
@@ -65,7 +63,7 @@ public class RobotMecanum {
             numberMissing++;
         }
 
-        try {
+        /*try {
             sensorL = hardwareMap.get(RevColorSensorV3.class, "sensorL");
         } catch (Exception e) {
             RobotLog.ee(RobotConstants.TAG_R,  "missing: sensorL" + e.getMessage());
@@ -77,7 +75,7 @@ public class RobotMecanum {
         } catch (Exception e) {
             RobotLog.ee(RobotConstants.TAG_R,  "missing: sensorR" + e.getMessage());
             numberMissing++;
-        }
+        }*/
 
         if(!roadrunner) {
             RobotLog.ii(RobotConstants.TAG_R, "Initializing motors");
@@ -133,7 +131,7 @@ public class RobotMecanum {
             this.drive = createDrive();
         }
 
-        if (isAutonomous) {
+        /*if (isAutonomous) {
             OcBnoGyro2 gyro2 = null;
             try {
                 gyro2 = new OcBnoGyro2(hardwareMap, "limu", "rimu");
@@ -148,7 +146,7 @@ public class RobotMecanum {
                 numberMissing++;
             }
             this.gyroSensor = gyro2;
-        }
+        }*/
 
         // claw initialization
         try {

@@ -22,7 +22,6 @@ import overcharged.components.DuckDetector;
 import overcharged.components.RobotMecanum;
 import overcharged.components.SignalColors;
 import overcharged.components.hSlides;
-import overcharged.drive.DriveConstants;
 import overcharged.drive.SampleMecanumDrive;
 import overcharged.linear.util.SelectLinear;
 import overcharged.linear.util.WaitLinear;
@@ -45,7 +44,7 @@ public class auto2 extends LinearOpMode {
     OpenCvWebcam webcam;
     EasyOpenCVExample.RingDeterminationPipeline pipeline;
     boolean Left = true;
-    double turretPower = 0.6;
+    float turretPower = 0.6f;
     double y3 = -60;
     int cone1 = 25;//30;
     int interval = 67;
@@ -295,7 +294,7 @@ public class auto2 extends LinearOpMode {
             grabbed = false;
 
             float hSlidesOut = 85f;
-            while (robot.sensorF.getDistance(DistanceUnit.CM) > 1.5 && hSlidesOut >= hSlides.MIN){//hSlidesOut >= hSlides.MIN+10) {
+            while (robot.sensorF.getDistance(DistanceUnit.CM) > 1.5 && hSlidesOut >= hSlides.OUT){//hSlidesOut >= hSlides.MIN+10) {
                 hSlidesOut -= 3;
                 robot.hSlides.setPosition(hSlidesOut);
                 lp.waitMillis(40);
@@ -322,7 +321,7 @@ public class auto2 extends LinearOpMode {
                 lp.waitMillis(1250);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
-                robot.hSlides.setPosition(hSlides.MIN);
+                robot.hSlides.setPosition(hSlides.OUT);
                 drive.followTrajectorySequence(correct2);
                 //lp.waitMillis(800);
                 robot.vSlides.moveTo(1780);
@@ -332,7 +331,7 @@ public class auto2 extends LinearOpMode {
         }
 
         lp.waitMillis(200);
-        robot.hSlides.setPosition(hSlides.MAX);
+        robot.hSlides.setPosition(hSlides.IN);
         //lp.waitMillis(200);
         robot.turret.moveTo(0, turretPower);
         robot.vSlides.moveTo2();
@@ -362,7 +361,7 @@ public class auto2 extends LinearOpMode {
         }
 
         //lowerSlidesThread(lp, 1);
-        robot.turret.moveTo(0, 0.9);
+        robot.turret.moveTo(0, 0.9f);
     }
 
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {

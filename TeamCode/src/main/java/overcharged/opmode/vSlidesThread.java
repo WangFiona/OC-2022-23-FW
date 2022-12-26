@@ -115,7 +115,7 @@ public class vSlidesThread implements Runnable {
     }
 
     public void slideDown(WaitLinear lp) throws InterruptedException {
-        robot.clawOpen();
+        //robot.clawOpen();
         while(!slideReachedBottom() && slideDownTime-System.currentTimeMillis()<1000){
             robot.vSlides.moveToBottom();
         }

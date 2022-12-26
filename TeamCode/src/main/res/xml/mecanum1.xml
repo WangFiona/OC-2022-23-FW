@@ -14,7 +14,7 @@
             <goBILDA5202SeriesMotor name="driveLB" port="0" />
             <goBILDA5202SeriesMotor name="turret" port="1" />
             <goBILDA5202SeriesMotor name="slideL" port="2" />
-            <LynxEmbeddedIMU name="imu" port="0" bus="0" />
+            <!--<LynxEmbeddedIMU name="imu" port="0" bus="0" /> -->
             <DigitalDevice name="limitswitch" port="1" />
             <Servo name="hSlides" port="4" />
             <RevColorSensorV3 name="sensorF" port="2" bus="2" />

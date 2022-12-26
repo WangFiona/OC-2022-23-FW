@@ -20,7 +20,6 @@ import java.util.List;
 
 import overcharged.components.Button;
 import overcharged.components.MecanumDrive;
-import overcharged.components.OcLed;
 import overcharged.components.OcMotorEx;
 import overcharged.components.OcServo;
 import overcharged.components.RobotMecanum;
@@ -135,8 +134,8 @@ Tester
                 // hSlides
                 new ServoTestInfo(
                         hSlides,
-                        robot.hSlides.MAX,
-                        robot.hSlides.MIN),
+                        robot.hSlides.IN,
+                        robot.hSlides.OUT),
         };
 
         int testCounter = 0;
@@ -641,8 +640,6 @@ Tester
 
         final double SCALE_FACTOR = 255;
         float sensorFColorHsvValues[] = {0F, 0F, 0F};
-        float sensorLColorHsvValues[] = {0F, 0F, 0F};
-        float sensorRColorHsvValues[] = {0F, 0F, 0F};
 
         while (opModeIsActive()) {
             long timeStamp = System.currentTimeMillis();
@@ -656,24 +653,12 @@ Tester
                     (int) (robot.sensorF.green() * SCALE_FACTOR),
                     (int) (robot.sensorF.blue() * SCALE_FACTOR),
                     sensorFColorHsvValues);
-            Color.RGBToHSV((int) (robot.sensorL.red() * SCALE_FACTOR),
-                    (int) (robot.sensorL.green() * SCALE_FACTOR),
-                    (int) (robot.sensorL.blue() * SCALE_FACTOR),
-                    sensorLColorHsvValues);
-            Color.RGBToHSV((int) (robot.sensorR.red() * SCALE_FACTOR),
-                    (int) (robot.sensorR.green() * SCALE_FACTOR),
-                    (int) (robot.sensorR.blue() * SCALE_FACTOR),
-                    sensorRColorHsvValues);
 
             telemetry.addData("Test", "Sensors");
 
 
             telemetry.addData("Front mm", decimalFormatter.format(robot.sensorF.getDistance(DistanceUnit.MM)));
             telemetry.addData("Hue Front Color", integerFormatter.format(sensorFColorHsvValues[0]));
-            telemetry.addData("Left mm", decimalFormatter.format(robot.sensorL.getDistance(DistanceUnit.MM)));
-            telemetry.addData("Hue Left Color", integerFormatter.format(sensorFColorHsvValues[0]));
-            telemetry.addData("Right mm", decimalFormatter.format(robot.sensorR.getDistance(DistanceUnit.MM)));
-            telemetry.addData("Hue Right Color", integerFormatter.format(sensorFColorHsvValues[0]));
 
             telemetry.addData("Back", "LeftStick");
 

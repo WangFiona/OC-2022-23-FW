@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -112,6 +113,17 @@ public class OcMotorEx
         // change coefficients using methods included with DcMotorEx class.
         PIDFCoefficients pidNew = new PIDFCoefficients(p, i, d, f);
         motor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidNew);
+    }
+
+    public void setTargetPositionPIDFCoefficients(double p, double i, double d, double f)
+    {
+        // change coefficients using methods included with DcMotorEx class.
+        PIDFCoefficients pidNew = new PIDFCoefficients(p, i, d, f);
+        motor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_TO_POSITION, pidNew);
+    }
+
+    PIDFCoefficients getPIDCoefficients(){
+        return motor.getPIDFCoefficients(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     /**

@@ -29,11 +29,11 @@ public class vSlides {
     /*public static int level4 = 1970;
     public static int level3 = 1470;
     public static int level2 = 880;*/
-    public static int level4 = 1970;
+    public static int level4 = 2000;
     public static int level3 = 1390;
     public static int level2 = 870;
-    public static int levelT = 550;
-    public static int level1 = 100;
+    public static int levelT = 500;
+    public static int level1 = 200;
     public static float factor = 1;//0.963f;//1.015f;
     //starting encoder reading
     public double start;
