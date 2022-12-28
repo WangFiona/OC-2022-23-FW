@@ -262,7 +262,9 @@ public class teleop1 extends OpMode {
             robot.hSlides.setPosition(hSlides.IN);
             hSlidePos = hSlides.IN;
             robot.turret.setPower(0);
-            robot.clawGrab();
+            if(slideMode == SlideMode.NORMAL)
+                robot.clawGrab();
+
             turretAdjust = 0;
             goZero = true;
             telemetry.addLine("return to zero");
@@ -314,8 +316,10 @@ public class teleop1 extends OpMode {
 
         if(zeroDown && (Math.abs(Math.abs(robot.turret.getCurrentAngle())-Math.abs(turretAdjust)) < 2)){
             robot.turret.moveTo(turretAdjust, turretPower);
-            slideLocation = SlideLocation.BOTTOM;
-            slideGoBottom = true;
+            if(slideMode == SlideMode.NORMAL) {
+                slideLocation = SlideLocation.BOTTOM;
+                slideGoBottom = true;
+            }
             goZero = false;
             zeroDown = false;
             robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
