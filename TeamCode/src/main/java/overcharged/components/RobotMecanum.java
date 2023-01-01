@@ -35,6 +35,7 @@ public class RobotMecanum {
     public vSlides vSlides;
     public hSlides hSlides;
     public RevColorSensorV3 sensorF;
+    public Aligner aligner;
 
     public final List<OcServo> servos = new ArrayList<>();
     public List<LynxModule> allHubs;
@@ -157,6 +158,15 @@ public class RobotMecanum {
             numberMissing++;
         }
 
+        // aligner initialization
+        try {
+            aligner = new Aligner(hardwareMap);
+        } catch (Exception e){
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: aligner " + e.getMessage());
+            missing = missing + ", Aligner";
+            numberMissing++;
+        }
+
         // turret initialization
         try {
             turret = new Turret(hardwareMap);
@@ -264,4 +274,7 @@ public class RobotMecanum {
     public void clawOpen() {claw.setOpen();}
     public void clawGrab() {claw.setGrab();}
 
+    public void alignerInit() {aligner.setInit();}
+    public void alignerOut() {aligner.setOut();}
+    public void alignerHalf() {aligner.setHalf();}
 }

@@ -125,6 +125,8 @@ Tester
         servos.add(claw);
         OcServo hSlides = robot.hSlides.hSlides;
         servos.add(hSlides);
+        OcServo aligner = robot.aligner.aligner;
+        servos.add(aligner);
         servoTestInfos = new ServoTestInfo[]{
                 // claw
                 new ServoTestInfo(
@@ -136,6 +138,10 @@ Tester
                         hSlides,
                         robot.hSlides.IN,
                         robot.hSlides.OUT),
+                new ServoTestInfo(
+                        aligner,
+                        robot.aligner.INIT,
+                        robot.aligner.OUT)
         };
 
         int testCounter = 0;
@@ -455,7 +461,7 @@ Tester
 
             long startTimestamp = System.currentTimeMillis();
             long timeStamp = startTimestamp;
-            long timeout = (long)(Math.abs(position - currentPosition) * 1000 * servoTestInfo.timeScale);
+            long timeout = (long)(Math.abs(position - currentPosition) * 5 * servoTestInfo.timeScale);
 
             while (opModeIsActive() &&
                     timeStamp - startTimestamp < timeout) {
