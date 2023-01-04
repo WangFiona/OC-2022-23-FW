@@ -43,10 +43,10 @@ public class auto7 extends LinearOpMode {
     SignalConePipeLine detector;
     OpenCvWebcam webcam;
     EasyOpenCVExample.RingDeterminationPipeline pipeline;
-    boolean Left = true;
+    boolean Left = false;
     float turretPower = 0.9f;
     double y3 = -60;
-    int cone1 = 5;//25;
+    int cone1 = 22;//5;
     int interval = 67;
     boolean grabbed = true;
     //int hSlidesReset = 150;
@@ -97,7 +97,7 @@ public class auto7 extends LinearOpMode {
                         //robot.hSlides.setPosition(Left? 132f : 142f);
                     })
                     .addSpatialMarker(new Vector2d((Left? 20 : 17), 0), () -> {
-                        robot.turret.moveTo((Left? 45 : -41), turretPower);
+                        robot.turret.moveTo((Left? 45 : -50), turretPower);
                     })
                     .build();
 
@@ -237,7 +237,7 @@ public class auto7 extends LinearOpMode {
         double startER = drive.rightFront.getCurrentPosition();
 
         robot.clawGrab();
-        robot.hSlides.setPosition(Left? 129f : 142f);//132
+        robot.hSlides.setPosition(Left? 120f : 133f);//(Left? 129f : 142f);//132
         //robot.hSlides.setPosition(100f);
         drive.followTrajectorySequence(toSquare3);
 
@@ -278,7 +278,7 @@ public class auto7 extends LinearOpMode {
             cLevel--;
             grabbed = false;
 
-            float hSlidesOut = 153f;
+            float hSlidesOut = 130f;//153f;
             while (robot.sensorF.getDistance(DistanceUnit.CM) > 2.5 && hSlidesOut <= hSlides.OUT){//hSlidesOut >= hSlides.MIN+10) {
                 hSlidesOut += 3;
                 robot.hSlides.setPosition(hSlidesOut);
@@ -298,9 +298,9 @@ public class auto7 extends LinearOpMode {
             }
 
             robot.alignerOut();
-            robot.hSlides.setPosition(Left? 188f : 179f);//183f
-            robot.turret.moveTo((Left? 71 : -66), turretPower); //-46
-            lp.waitMillis(1150);
+            robot.hSlides.setPosition(Left? 185f : 170f);//(Left? 188f : 179f);//183f
+            robot.turret.moveTo((Left? 71 : -71), turretPower); //-46
+            lp.waitMillis(950);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
                 //robot.hSlides.setPosition(Left? 183f : 179f);
@@ -320,7 +320,7 @@ public class auto7 extends LinearOpMode {
         robot.vSlides.moveToT();
 
         drive.followTrajectorySequence(correct);
-        lp.waitMillis(100);
+        lp.waitMillis(150);
 
         if(signalColors == SignalColors.Red){
             if(Left) {
@@ -349,16 +349,16 @@ public class auto7 extends LinearOpMode {
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {
         robot.turret.turret.setTargetPositionPIDFCoefficients(5,0,0,0);
         if(!wait){
-            robot.hSlides.setPosition(80f);
+            robot.hSlides.setPosition(69f);//80f);
             lp.waitMillis(500);
         } else {
-            robot.hSlides.setPosition(140f);//(Left ? 85f : 100f));
+            robot.hSlides.setPosition(129f);//140f);
             lp.waitMillis(250);
         }
 
-        robot.turret.moveTo((Left? -84 : 80.5), turretPower); //87
+        robot.turret.moveTo((Left? -83 : 81.4), turretPower); //87
         if(!wait) {
-            robot.hSlides.setPosition(Left? 143f : 145f);//(Left ? 85f : 100f));
+            robot.hSlides.setPosition(Left? 132f : 132f);//(Left? 143f : 145f);//(Left ? 85f : 100f));
         }
 
         robot.vSlides.moveTo(cone1+(interval*newL));
