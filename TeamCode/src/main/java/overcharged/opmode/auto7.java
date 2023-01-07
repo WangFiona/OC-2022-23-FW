@@ -31,7 +31,7 @@ import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
 
 @Config
-@Autonomous(name="auto7")
+@Autonomous(name="auto7Red")
 public class auto7 extends LinearOpMode {
 
     private RobotMecanum robot;
@@ -43,7 +43,7 @@ public class auto7 extends LinearOpMode {
     SignalConePipeLine detector;
     OpenCvWebcam webcam;
     EasyOpenCVExample.RingDeterminationPipeline pipeline;
-    boolean Left = false;
+    boolean Left = true;
     float turretPower = 0.9f;
     double y3 = -60;
     int cone1 = 22;//5;
@@ -75,7 +75,8 @@ public class auto7 extends LinearOpMode {
 
             drive = new SampleMecanumDrive(hardwareMap);
 
-            //Left = sl.selectPosition();
+            Left = sl.selectPosition();
+
             double xVal = (Left? 50: 51);
             double yVal = (Left? 11: -9); //-6
             double yVal2 = (Left? 8.5: -6); //-6
@@ -92,7 +93,7 @@ public class auto7 extends LinearOpMode {
                     //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(s3)
                     .addSpatialMarker(new Vector2d((Left? 10 : 15),0), () -> {
-                        robot.vSlides.moveTo(1900);
+                        robot.vSlides.moveTo(1980);
                         robot.alignerOut();
                         //robot.hSlides.setPosition(Left? 132f : 142f);
                     })
@@ -290,7 +291,7 @@ public class auto7 extends LinearOpMode {
             robot.clawGrab();
             lp.waitMillis(350);
             robot.hSlides.setPosition((hSlidesOut-10));
-            robot.vSlides.moveTo(1950);//moveTo4();
+            robot.vSlides.moveTo(2000);//moveTo4();
             lp.waitMillis(200);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10) {
@@ -298,7 +299,7 @@ public class auto7 extends LinearOpMode {
             }
 
             robot.alignerOut();
-            robot.hSlides.setPosition(Left? 185f : 170f);//(Left? 188f : 179f);//183f
+            robot.hSlides.setPosition(Left? 188f : 170f);//185f//(Left? 188f : 179f);//183f
             robot.turret.moveTo((Left? 71 : -71), turretPower); //-46
             lp.waitMillis(950);
 
@@ -311,6 +312,8 @@ public class auto7 extends LinearOpMode {
             robot.alignerInit();
             robot.claw.setAutoOpen();
         }
+
+        robot.turret.turret.setTargetPositionPIDFCoefficients(7,0,0,0);
 
         lp.waitMillis(300);
         robot.hSlides.setPosition(hSlides.IN);
@@ -356,7 +359,7 @@ public class auto7 extends LinearOpMode {
             lp.waitMillis(250);
         }
 
-        robot.turret.moveTo((Left? -83 : 81.4), turretPower); //87
+        robot.turret.moveTo((Left? -84.5 : 81.4), turretPower); //87
         if(!wait) {
             robot.hSlides.setPosition(Left? 132f : 132f);//(Left? 143f : 145f);//(Left ? 85f : 100f));
         }

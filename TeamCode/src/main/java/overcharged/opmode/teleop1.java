@@ -67,6 +67,8 @@ public class teleop1 extends OpMode {
     boolean hPosChanged = false;
     double stepSize = 2;
     SlideMode slideMode = SlideMode.NORMAL;
+    SlowMode slowMode = SlowMode.SLOW;
+    UpState upState = UpState.NO2;
     double previousPower = 0.5f;
     boolean powerSlow = false;
     boolean goToOne = false;
@@ -86,8 +88,16 @@ public class teleop1 extends OpMode {
         NO2;
     }
 
+    public enum UpState{
+        PRESSED,
+        PRESSING,
+        NO,
+        NO2;
+    }
+
     public enum SlideLocation {
         BOTTOM,
+        STACK,
         L1,
         LT,
         L2,
@@ -98,6 +108,11 @@ public class teleop1 extends OpMode {
     public enum SlideMode {
         NORMAL,
         CONE;
+    }
+
+    public enum SlowMode {
+        OVERRIDE,
+        SLOW;
     }
 
     @Override
@@ -166,15 +181,17 @@ public class teleop1 extends OpMode {
         /**
          * Turn on slow mode and blink blue indicatior for the drivers
          */
-        if (isSlow) {
-            slowPower = 0.4f;
-            y *= SLOW_POWER_MULT;
-            x *= SLOW_POWER_MULT;
-            rx *= SLOW_POWER_MULT;
-            //robot.ledBlueBlink();
-        } else {
-            slowPower=1;
-            //robot.ledBlueOn(false);
+        if(slowMode == SlowMode.SLOW) {
+            if (isSlow) {
+                slowPower = 0.4f;
+                y *= SLOW_POWER_MULT;
+                x *= SLOW_POWER_MULT;
+                rx *= SLOW_POWER_MULT;
+                //robot.ledBlueBlink();
+            } else {
+                slowPower = 1;
+                //robot.ledBlueOn(false);
+            }
         }
 
         /*if(gamepad1.y && Button.BTN_STRAIGHTEN.canPress(timestamp)){
@@ -198,6 +215,11 @@ public class teleop1 extends OpMode {
                 }
             }
         }*/
+
+        if(gamepad1.right_trigger > 0.9)// && Button.BTN_SLOWM.canPress(timestamp))
+            slowMode = SlowMode.OVERRIDE;
+        else
+            slowMode = SlowMode.SLOW;
 
         double hS = gamepad2.left_stick_y;
 
@@ -225,10 +247,10 @@ public class teleop1 extends OpMode {
         else
             turretOn = true;
 
-        if(gamepad1.right_trigger > 0.9 && Button.TURRET_RESET.canPress(timestamp))
+        if(gamepad1.a && Button.TURRET_RESET.canPress(timestamp))
             robot.turret.reset(robot.turret.turret);
 
-        if(gamepad1.dpad_up && Button.SLIDE_RESET.canPress(timestamp)){
+        if(gamepad1.b && Button.SLIDE_RESET.canPress(timestamp)){
             slideLocation = SlideLocation.BOTTOM;
             robot.clawGrab();
             slideManualDown = true;
@@ -289,16 +311,6 @@ public class teleop1 extends OpMode {
             turretN90 = true;
         }
 
-        /*if(turret90 && robot.turret.getCurrentAngle() < 89 && robot.turret.getCurrentAngle() > 85) {
-            turret90 = false;
-            goZero = false;
-        }
-
-        if(turretN90 && robot.turret.getCurrentAngle() > -89 && robot.turret.getCurrentAngle() < -85) {
-            turretN90 = false;
-            goZero = false;
-        }*/
-
         if(clawExtending && clawFlag > 40){
             clawFlag = 0;
             robot.turret.moveTo(turretAdjust, turretPower);
@@ -332,21 +344,26 @@ public class teleop1 extends OpMode {
             slideDown = true;
         }
 
-        if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3+30){
-            powerSlow = true;
-            //previousPower = slowPower;
-            slowPower = 0.3f;
-        } else if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3-80){
-            powerSlow = true;
+        if(slowMode == SlowMode.SLOW) {
+            if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3 + 30) {
+                powerSlow = true;
+                //previousPower = slowPower;
+                slowPower = 0.3f;
+            } else if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3 - 80) {
+                powerSlow = true;
+                previousPower = slowPower;
+                slowPower = 0.4f;
+            } else if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level2 - 50) {
+                powerSlow = true;
+                previousPower = slowPower;
+                slowPower = 0.7f;
+            } else if (powerSlow) {
+                powerSlow = false;
+                slowPower = previousPower;
+            }
+        } else {
             previousPower = slowPower;
-            slowPower = 0.4f;
-        } else if(robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level2-50) {
-            powerSlow = true;
-            previousPower = slowPower;
-            slowPower = 0.7f;
-        } else if(powerSlow){
-            powerSlow = false;
-            slowPower = previousPower;
+            slowPower = 0.8f;
         }
 
         //robot.vSlides.slideLeft.getCurrentPosition() < robot.vSlides.level1-30
@@ -357,6 +374,7 @@ public class teleop1 extends OpMode {
             goToZero = false;
 
         turretPos = robot.turret.getCurrentPosition();
+        telemetry.addData("upState", upState);
         telemetry.addData("goZero", goToZero);
         telemetry.addData("goToZero", goToZero);
         telemetry.addData("slowPower", slowPower);
@@ -378,39 +396,6 @@ public class teleop1 extends OpMode {
         telemetry.addData("R", robot.driveRightFront.getCurrentPosition());
         telemetry.addData("tx", tx);
         telemetry.update();
-
-        /*//Manual controls for slides
-        if(gamepad1.b && Button.BTN_SLIDEON.canPress(timestamp)){
-            //telemetry.addLine("button b pressed");
-            //telemetry.update();
-            if(slideOn){
-                //telemetry.addLine("button b pressed 0");
-                //telemetry.update();
-                robot.vSlides.setPower(0);
-                slideOn = false;
-            } else if(!slideOn){
-                //telemetry.addLine("button b pressed 0.7");
-                //telemetry.update();
-                robot.vSlides.setPower(0.7f);
-                slideOn = true;
-            }
-        }
-
-        if(gamepad1.a && Button.BTN_SLIDEDOWN.canPress(timestamp)){
-            //telemetry.addLine("button a pressed");
-            //telemetry.update();
-            if(slideDown){
-                //telemetry.addLine("button a pressed 0");
-                //telemetry.update();
-                robot.vSlides.setPower(0);
-                slideOn = false;
-            } else if(!slideDown){
-                //telemetry.addLine("button b pressed -0.7");
-                //telemetry.update();
-                robot.vSlides.setPower(-0.7f);
-                slideOn = true;
-            }
-        }*/
 
         if(gamepad2.y && Button.RESET_H.canPress(timestamp)){
             if(slideMode == SlideMode.NORMAL) {
@@ -443,7 +428,7 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(gamepad1.left_bumper && slideLocation != SlideLocation.BOTTOM){
+        if((gamepad1.left_bumper && slideLocation != SlideLocation.BOTTOM)){
             if(buttonState == ButtonState.NO2) {
                 buttonState = ButtonState.PRESSED;
             }
@@ -457,9 +442,25 @@ public class teleop1 extends OpMode {
                 buttonState = ButtonState.NO2;
         }
 
+        if((gamepad1.dpad_up)){
+            if(upState == UpState.NO2) {
+                upState = UpState.PRESSED;
+            }
+            else if(slideLocation != SlideLocation.BOTTOM){
+                upState = UpState.PRESSING;
+            }
+        } else{
+            if(upState == UpState.PRESSING)
+                upState = UpState.NO;
+            else
+                upState = UpState.NO2;
+        }
+
         if(slideLocation != SlideLocation.BOTTOM) {
             if (slideLocation == SlideLocation.L1)
                 level = robot.vSlides.level1;
+            else if (slideLocation == SlideLocation.STACK)
+                level = robot.vSlides.stack;
             else if (slideLocation == SlideLocation.LT)
                 level = robot.vSlides.levelT;
             else if (slideLocation == SlideLocation.L2)
@@ -471,13 +472,23 @@ public class teleop1 extends OpMode {
         }
 
         if(buttonState == ButtonState.PRESSED){
-            robot.vSlides.moveTo(level-260);
+            if(level == robot.vSlides.level1 || level == robot.vSlides.stack){
+                robot.vSlides.moveTo(50);
+            } else
+                robot.vSlides.moveTo(level-260);
         } else if(buttonState == ButtonState.NO){
+            robot.vSlides.moveTo(level);
+        }
+
+        if(upState == UpState.PRESSED){
+            robot.vSlides.moveTo(level+130);
+        } else if(upState == UpState.NO){
             robot.vSlides.moveTo(level);
         }
 
         //Send the slides to the bottom
         if(slideGoBottom){
+            slideLocation = SlideLocation.BOTTOM;
             slideBottom();
             goZero = false;
         }
@@ -504,6 +515,7 @@ public class teleop1 extends OpMode {
                 }
             } else {
                 //robot.clawOpen();
+                slideLocation = SlideLocation.STACK;
                 robot.vSlides.moveTo(105);
             }
         } else if((gamepad2.dpad_down) && Button.BTN_L2.canPress(timestamp)){
@@ -512,6 +524,7 @@ public class teleop1 extends OpMode {
                 slideLocation = SlideLocation.L2;
             } else {
                 //robot.clawOpen();
+                slideLocation = SlideLocation.STACK;
                 robot.vSlides.moveTo(180);
             }
         } else if((gamepad2.dpad_right) && Button.BTN_L3.canPress(timestamp)){
@@ -520,6 +533,7 @@ public class teleop1 extends OpMode {
                 slideLocation = SlideLocation.L3;
             } else {
                 //robot.clawOpen();
+                slideLocation = SlideLocation.STACK;
                 robot.vSlides.moveTo(255);
             }
         } else if((gamepad2.dpad_up) && Button.BTN_L4.canPress(timestamp)){
@@ -528,6 +542,7 @@ public class teleop1 extends OpMode {
                 slideLocation = SlideLocation.L4;
             } else {
                 //robot.clawOpen();
+                slideLocation = SlideLocation.STACK;
                 robot.vSlides.moveTo(330);
             }
         }
@@ -560,6 +575,7 @@ public class teleop1 extends OpMode {
      * Ensure that the slides safely reach the bottom with the arm in a correct position
      */
     public void slideBottom() {
+        slideLocation = SlideLocation.BOTTOM;
         if (!robot.vSlides.switchSlideDown.isTouch() && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
             robot.vSlides.moveToBottom();
         } else {
@@ -603,16 +619,16 @@ public class teleop1 extends OpMode {
     - joysticks = arcade drive
     - left bumper = lower slides a little
     - right bumper = claw
-    - a =
-    - b = turn turret to right and lower
-    - x = turn turret to left and lower
+    - a = turret reset
+    - b = slide all the way down (just switch)
+    - x =
     - y = set powers to 0
-    - up = slide all the way down (just switch)
+    - up = goes up slightly
     - right =
     - down = go to bottom
     - left =
     - left trigger = slow mode for drive
-    - right trigger = turret reset
+    - right trigger = slow mode override
 
     gamepad2:
     - left joystick = h slides

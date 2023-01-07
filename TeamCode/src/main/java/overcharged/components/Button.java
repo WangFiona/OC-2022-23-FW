@@ -5,6 +5,7 @@ package overcharged.components;
  */
 public class Button
 {
+    public final static Button BTN_SLOWM = new Button();
     public final static Button BTN_BOTTOM = new Button();
     public final static Button BTN_L1 = new Button();
     public final static Button BTN_L2 = new Button();

@@ -29,12 +29,14 @@ public class vSlides {
     /*public static int level4 = 1970;
     public static int level3 = 1470;
     public static int level2 = 880;*/
-    public static int level4 = 2000;
+    public static int level4 = 1970;
     public static int level3 = 1390;
     public static int level2 = 870;
     public static int levelT = 500;
+    public static int stack = 100;
     public static int level1 = 200;
-    public static float factor = 1;//0.963f;//1.015f;
+    public static float factorR = 0.957f;//0.963f;//1.015f;
+    public static float factorL = 1f;
     //starting encoder reading
     public double start;
     ///Disable the slides if the switch says touched even at this encoder level of the slides
@@ -43,7 +45,7 @@ public class vSlides {
     public static int SLIDE_SLOW_AT = 200;
     ///Speedup the slide motor at this encoder level of the slides
     public static int SLIDE_MOREPOWER_AT = 80;
-    public static int max_level_value = level4+75; //lesser value of the two motors. Use tester to get this value
+    public static int max_level_value = level4+100; //lesser value of the two motors. Use tester to get this value
 
     ///Slide power constant
     float SLIDE_POWER_UP_PID = 1f;
@@ -378,8 +380,8 @@ public class vSlides {
         if (gotoPositionR < 0) gotoPositionR = 0;
         float power = (float)(getPower(slideLeft, pos));
         RobotLog.ii(TAG_SL, "vSlides: Move the slide to position='" + pos + "' distanceL='" + distanceL + "' distanceR='" + distanceR  + "' gotoPositionL='" + gotoPositionL  + "' gotoPositionR='" + gotoPositionR  + "' power='" + power + "'");
-        slideLeft.setTargetPosition(gotoPositionL);
-        slideRight.setTargetPosition((int)(factor*gotoPositionR));
+        slideLeft.setTargetPosition((int)(factorL*gotoPositionL));
+        slideRight.setTargetPosition((int)(factorR*gotoPositionR));
         currentPositionL = gotoPositionL;
         currentPositionR = gotoPositionR;
         slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
