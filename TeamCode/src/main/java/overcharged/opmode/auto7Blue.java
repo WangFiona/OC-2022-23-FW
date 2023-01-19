@@ -79,7 +79,7 @@ public class auto7Blue extends LinearOpMode {
 
             double xVal = (Left? 50: 51);
             double yVal = (Left? 11: -9); //-6
-            double yVal2 = (Left? 8.5: -6); //-6
+            double yVal2 = (Left? 9: -6); //-6
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
@@ -238,7 +238,7 @@ public class auto7Blue extends LinearOpMode {
         double startER = drive.rightFront.getCurrentPosition();
 
         robot.clawGrab();
-        robot.hSlides.setPosition(Left? 120f : 117f);//(Left? 129f : 142f);//132
+        robot.hSlides.setPosition(Left? 123f : 113f);//(Left? 129f : 142f);//132
         //robot.hSlides.setPosition(100f);
         drive.followTrajectorySequence(toSquare3);
 
@@ -255,7 +255,7 @@ public class auto7Blue extends LinearOpMode {
         reset90(lp, Left, 5, false);
         drive.followTrajectorySequence(toLine);
 
-        long parkTime = 4500; //5500
+        long parkTime = 5000; //5500
         if(signalColors == SignalColors.Red)
             parkTime += Left? 1000 : 1000;
         else if(signalColors == SignalColors.Blue)
@@ -291,7 +291,7 @@ public class auto7Blue extends LinearOpMode {
             robot.clawGrab();
             lp.waitMillis(350);
             robot.hSlides.setPosition((hSlidesOut-10));
-            robot.vSlides.moveTo(2000);//moveTo4();
+            robot.vSlides.moveTo(2030);//moveTo4();
             lp.waitMillis(200);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10) {
@@ -299,8 +299,8 @@ public class auto7Blue extends LinearOpMode {
             }
 
             robot.alignerOut();
-            robot.hSlides.setPosition(Left? 188f : 149f);//185f//(Left? 188f : 179f);//183f
-            robot.turret.moveTo((Left? 74 : -75), turretPower); //-46
+            robot.hSlides.setPosition(Left? 179f : 142f);//185f//(Left? 188f : 179f);//183f
+            robot.turret.moveTo((Left? 72.5 : -75), turretPower); //-46
             lp.waitMillis(950);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
@@ -308,7 +308,8 @@ public class auto7Blue extends LinearOpMode {
                 drive.followTrajectorySequence(correct2);
                 robot.vSlides.moveTo(1780);
                 lp.waitMillis(150);
-            }
+            } else
+                lp.waitMillis(200);
             robot.alignerInit();
             robot.claw.setAutoOpen();
         }
@@ -355,13 +356,13 @@ public class auto7Blue extends LinearOpMode {
             robot.hSlides.setPosition(69f);//80f);
             lp.waitMillis(500);
         } else {
-            robot.hSlides.setPosition(129f);//140f);
+            robot.hSlides.setPosition(115f);//140f);
             lp.waitMillis(250);
         }
 
-        robot.turret.moveTo((Left? -83 : 81.4), turretPower); //87
+        robot.turret.moveTo((Left? -85 : 81), turretPower); //87
         if(!wait) {
-            robot.hSlides.setPosition(Left? 132f : 132f);//(Left? 143f : 145f);//(Left ? 85f : 100f));
+            robot.hSlides.setPosition(Left? 125f : 132f);//(Left? 143f : 145f);//(Left ? 85f : 100f));
         }
 
         robot.vSlides.moveTo(cone1+(interval*newL));

@@ -238,7 +238,7 @@ public class auto7 extends LinearOpMode {
         double startER = drive.rightFront.getCurrentPosition();
 
         robot.clawGrab();
-        robot.hSlides.setPosition(Left? 120f : 133f);//(Left? 129f : 142f);//132
+        robot.hSlides.setPosition(Left? 120f : 116f);//(Left? 129f : 142f);//132
         //robot.hSlides.setPosition(100f);
         drive.followTrajectorySequence(toSquare3);
 
@@ -291,7 +291,7 @@ public class auto7 extends LinearOpMode {
             robot.clawGrab();
             lp.waitMillis(350);
             robot.hSlides.setPosition((hSlidesOut-10));
-            robot.vSlides.moveTo(2000);//moveTo4();
+            robot.vSlides.moveTo(2020);//moveTo4();
             lp.waitMillis(200);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10) {
@@ -299,8 +299,8 @@ public class auto7 extends LinearOpMode {
             }
 
             robot.alignerOut();
-            robot.hSlides.setPosition(Left? 188f : 170f);//185f//(Left? 188f : 179f);//183f
-            robot.turret.moveTo((Left? 71 : -71), turretPower); //-46
+            robot.hSlides.setPosition(Left? 179f : 150f);//185f//(Left? 188f : 179f);//183f
+            robot.turret.moveTo((Left? 71 : -74), turretPower); //-46
             lp.waitMillis(950);
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
@@ -308,7 +308,9 @@ public class auto7 extends LinearOpMode {
                 drive.followTrajectorySequence(correct2);
                 robot.vSlides.moveTo(1780);
                 lp.waitMillis(150);
-            }
+            }else
+                lp.waitMillis(200);
+
             robot.alignerInit();
             robot.claw.setAutoOpen();
         }
@@ -355,11 +357,11 @@ public class auto7 extends LinearOpMode {
             robot.hSlides.setPosition(69f);//80f);
             lp.waitMillis(500);
         } else {
-            robot.hSlides.setPosition(129f);//140f);
+            robot.hSlides.setPosition(115f);//129f);
             lp.waitMillis(250);
         }
 
-        robot.turret.moveTo((Left? -84.5 : 81.4), turretPower); //87
+        robot.turret.moveTo((Left? -84.5 : 83.1), turretPower); //87
         if(!wait) {
             robot.hSlides.setPosition(Left? 132f : 132f);//(Left? 143f : 145f);//(Left ? 85f : 100f));
         }

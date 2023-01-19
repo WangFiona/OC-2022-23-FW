@@ -31,7 +31,7 @@ import overcharged.test.EasyOpenCVExample;
 import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
 
-@Disabled
+@Config
 @Autonomous(name="auto8mid")
 public class auto8mid extends LinearOpMode {
 

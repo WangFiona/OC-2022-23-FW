@@ -8,7 +8,7 @@ public class Claw {
 
     public static final float OPEN = 142f;//134f;
     public static final float GRAB = 108f;//86f;
-    public static final float AUTO_OPEN = 178f;//170f;
+    public static final float AUTO_OPEN = 182f;//170f;
 
     public Claw(HardwareMap hardwareMap) {
         claw = new OcServo(hardwareMap, "claw", OPEN);

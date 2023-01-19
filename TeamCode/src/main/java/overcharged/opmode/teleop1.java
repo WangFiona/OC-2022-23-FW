@@ -163,7 +163,7 @@ public class teleop1 extends OpMode {
             isSlow = !isSlow;
         }*/
 
-        if (gamepad1.left_trigger > 0.9) {
+        if (gamepad1.left_trigger > 0.9 || gamepad2.right_bumper) {
             isSlow = true;
         } else {
             isSlow = false;
@@ -414,7 +414,7 @@ public class teleop1 extends OpMode {
         }
 
         //Controls for claw
-        if((gamepad1.right_bumper || gamepad2.right_bumper) && Button.BTN_OPEN.canPress(timestamp)){
+        if((gamepad1.right_bumper) && Button.BTN_OPEN.canPress(timestamp)){
             if(clawState == ClawState.GRAB && !slideGoBottom){
                 robot.clawOpen();
                 clawState = ClawState.OPEN;
