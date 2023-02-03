@@ -297,7 +297,7 @@ public class teleop1 extends OpMode {
 
         if(gamepad2.x && Button.TURRET_RIGHT.canPress(timestamp) && slideLocation != SlideLocation.BOTTOM && slideLocation != SlideLocation.L1){
             robot.turret.setPower(0);
-            turretAdjust = -87;
+            turretAdjust = -92;//-87;
             robot.turret.moveTo(turretAdjust, turretPower);
             goZero = true;
             turret90 = true;
