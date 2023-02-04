@@ -1,5 +1,6 @@
 package overcharged.opmode;
 
+import static overcharged.config.RobotConstants.TAG_SL;
 import static overcharged.config.RobotConstants.TAG_T;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -73,6 +74,9 @@ public class teleop1 extends OpMode {
     boolean powerSlow = false;
     boolean goToOne = false;
     long slideDelay;
+    boolean manualModeT = false;
+
+    boolean turretReset = false;
 
     boolean goToZero = false;
 
@@ -241,14 +245,22 @@ public class teleop1 extends OpMode {
             hPosChanged = false;
         }
 
-        if((robot.turret.getCurrentPosition() < 0 && robot.turret.getCurrentPosition() < -1810)
-                || (robot.turret.getCurrentPosition() > 0 && robot.turret.getCurrentPosition() > 1560))
+        /*if((robot.turret.getCurrentPosition() < 0 && robot.turret.getCurrentPosition() < -1810)
+                || (robot.turret.getCurrentPosition() > 0 && robot.turret.getCurrentPosition() > 1550))
             turretOn = false;
         else
-            turretOn = true;
+            turretOn = true;*/
 
-        if(gamepad1.a && Button.TURRET_RESET.canPress(timestamp))
-            robot.turret.reset(robot.turret.turret);
+        if(gamepad1.a && Button.TURRET_RESET.canPress(timestamp)) {
+            turretReset = true;
+            //robot.turret.reset(robot.turret.turret);
+            //robot.turret.turret.resetPosition();
+            robot.turret.turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            RobotLog.ii(TAG_SL, "turret encoder reset" + robot.turret.getCurrentPosition());
+        }
+        RobotLog.ii(TAG_SL, "turret encoder " + robot.turret.getCurrentPosition());
+        RobotLog.ii(TAG_SL, "slideL encoder " + robot.vSlides.slideLeft.getCurrentPosition());
+        RobotLog.ii(TAG_SL, "slideR encoder " + robot.vSlides.slideRight.getCurrentPosition());
 
         if(gamepad1.b && Button.SLIDE_RESET.canPress(timestamp)){
             slideLocation = SlideLocation.BOTTOM;
@@ -261,26 +273,36 @@ public class teleop1 extends OpMode {
 
         //Manual controls for turret
         double tx = -gamepad2.right_stick_x;
-        if(turretOn && Math.abs(tx) > 0.1) {
+        if(Math.abs(tx) > 0.1) {
             if(slideLocation == SlideLocation.BOTTOM || slideLocation == SlideLocation.L1) {
                 robot.vSlides.moveTo2();
                 slideLocation = SlideLocation.L2;
             }
             if(robot.vSlides.getCurrentPosition() > 400) {
-                if (tx > 0 && robot.turret.getCurrentPosition() < 1560) {
+                if (tx > 0 && robot.turret.getCurrentPosition() < 1550) {
                     robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.turret.setPower(turretPower);
-                } else if(robot.turret.getCurrentPosition() > -1810) {
+                    manualModeT = true;
+                } else if(tx < 0 && robot.turret.getCurrentPosition() > -1650){//1810) {
                     robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.turret.setPower(-turretPower);
+                    manualModeT = true;
+                } else {
+                    robot.turret.setPower(0);
+                    manualModeT = false;
                 }
             }
         } else{
-            if(!goZero)
+            if(!goZero || manualModeT) {
                 robot.turret.setPower(0);
+                manualModeT = false;
+            }
         }
 
         if(gamepad2.a && Button.BTN_TURRET.canPress(timestamp)){
+            if(slideLocation == SlideLocation.L4 || slideLocation == SlideLocation.L3){
+                robot.vSlides.moveTo2();
+            }
             robot.hSlides.setPosition(hSlides.IN);
             hSlidePos = hSlides.IN;
             robot.turret.setPower(0);
@@ -311,7 +333,7 @@ public class teleop1 extends OpMode {
             turretN90 = true;
         }
 
-        if(clawExtending && clawFlag > 40){
+        /*if(clawExtending && clawFlag > 40){
             clawFlag = 0;
             robot.turret.moveTo(turretAdjust, turretPower);
             zeroDown = true;
@@ -319,7 +341,7 @@ public class teleop1 extends OpMode {
             clawExtending = false;
         } else{
             clawFlag++;
-        }
+        }*/
 
         if(robot.turret.getCurrentAngle() > 50 && right){
             robot.hSlides.setPosition(hSlides.PRESET1);
@@ -374,6 +396,8 @@ public class teleop1 extends OpMode {
             goToZero = false;
 
         turretPos = robot.turret.getCurrentPosition();
+        telemetry.addData("turretReset?", turretReset);
+        telemetry.addData("turret encoder base", robot.turret.turret.encoderBase);
         telemetry.addData("upState", upState);
         telemetry.addData("goZero", goToZero);
         telemetry.addData("goToZero", goToZero);
@@ -580,9 +604,13 @@ public class teleop1 extends OpMode {
             robot.vSlides.moveToBottom();
         } else {
             robot.vSlides.forcestop();
-            robot.vSlides.reset(robot.vSlides.slideLeft);
-            robot.vSlides.reset(robot.vSlides.slideRight);
+            robot.vSlides.slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.vSlides.slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            //robot.vSlides.reset(robot.vSlides.slideLeft);
+            //robot.vSlides.reset(robot.vSlides.slideRight);
             telemetry.addLine("reset");
+            RobotLog.ii(TAG_SL, "slideL encoder reset " + robot.vSlides.slideLeft.getCurrentPosition());
+            RobotLog.ii(TAG_SL, "slideR encoder reset " + robot.vSlides.slideRight.getCurrentPosition());
             //telemetry.update();
             if(justAdjusted) {
                 zeroDown = true;

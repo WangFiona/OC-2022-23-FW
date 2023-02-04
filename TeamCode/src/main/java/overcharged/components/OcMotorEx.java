@@ -24,7 +24,7 @@ public class OcMotorEx
         extends OcDevice {
 
     private DcMotorEx motor;
-    private int encoderBase = 0;
+    public int encoderBase = 0;
 
     /**
      * initialize the motor
