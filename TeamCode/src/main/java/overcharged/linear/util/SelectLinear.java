@@ -131,6 +131,17 @@ public class SelectLinear
         return index == 0;
     }
 
+    public int selectLength ()
+            throws InterruptedException {
+        RobotLog.i("entered hslide dump length");
+
+        String[] length = new String[] {"Medium", "Far", "Close"};
+        //int index =
+        int index = select(length,
+                "Dump Length");
+        return index;
+    }
+
     public boolean selectWarehouse ()
             throws InterruptedException {
 

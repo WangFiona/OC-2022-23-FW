@@ -32,7 +32,7 @@ public class DuckDetector extends DogeCVDetector {
     public static double R_DIFF = 0.09;
     public static double R_BOTTOM = R_TOP+R_DIFF;
 
-    public static long DETECTION_WAIT_TIME = 800;
+    public static long DETECTION_WAIT_TIME = 650;//800;
 
     // Results of the detector
     private Point screenPosition = new Point(); // Center screen position of the block

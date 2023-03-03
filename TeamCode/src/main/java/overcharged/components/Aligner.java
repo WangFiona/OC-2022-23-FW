@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Aligner {
     public OcServo aligner;
 
-    public static final float INIT = 28f;
-    public static final float OUT = 182f;//200f;
-    public static final float HALF = 150f;
+    public static final float INIT = 25f;//21f;
+    public static float OUT = 198f;//194f;//182f;//182f;
+    public static final float HALF = 154f;//150f;
 
     public Aligner(HardwareMap hardwareMap) {
         aligner = new OcServo(hardwareMap, "aligner", INIT);
@@ -16,6 +16,8 @@ public class Aligner {
     public void setPosition(float pos){
         aligner.setPosition(pos);
     }
+
+    public void autoValue() { OUT = 182f; }
 
     public void setInit() { aligner.setPosition(INIT); }
 

@@ -19,6 +19,11 @@
             <DigitalDevice name="limitswitch" port="1" />
             <Servo name="hSlides" port="4" />
             <RevColorSensorV3 name="sensorF" port="2" bus="2" />
+            <DigitalDevice name="led_white" port="6" />
+            <DigitalDevice name="led_yellow" port="4" />
+            <DigitalDevice name="led_red" port="2" />
+            <DigitalDevice name="led_blue" port="5" />
+            <DigitalDevice name="led_green" port="3" />
             <!--<RevColorSensorV3 name="sensorL" port="1" bus="1" />-->
         </LynxModule>
     </LynxUsbDevice>

@@ -75,10 +75,26 @@ public class teleop1 extends OpMode {
     boolean goToOne = false;
     long slideDelay;
     boolean manualModeT = false;
-
     boolean turretReset = false;
-
     boolean goToZero = false;
+    boolean autoGrab = false;
+    boolean aligner = true;
+    boolean alignerOut = false;
+    long alignerDelay;
+    long waitTime;
+    boolean waitTurret = false;
+    boolean Left = true;
+    boolean cycleMode = false;
+    long startCycle;
+    boolean firstCycle = false;
+    boolean firstTime = false;
+    boolean smallTurn = false;
+    long smallWait;
+    boolean firstTime2 = true;
+    boolean firstTime3 = true;
+    boolean firstTime4 = true;
+    boolean firstTime5 = true;
+    double grabAngle = 50;
 
     public enum ClawState{
         OPEN,
@@ -133,7 +149,7 @@ public class teleop1 extends OpMode {
             RobotLog.ii(TAG_T, "Teleop init slide position reset");
             telemetry.addData("Status", "Initialized");
             telemetry.update();
-            robot.turret.turret.setTargetPositionPIDFCoefficients(14,0,0,0);
+            robot.turret.turret.setTargetPositionPIDFCoefficients(16,0,0,0);
         } catch (Exception e) {
             RobotLog.ee(TAG_T, "Teleop init failed: " + e.getMessage());
             telemetry.addData("Init Failed", e.getMessage());
@@ -167,7 +183,7 @@ public class teleop1 extends OpMode {
             isSlow = !isSlow;
         }*/
 
-        if (gamepad1.left_trigger > 0.9 || gamepad2.right_bumper) {
+        if (gamepad1.left_trigger > 0.9 || gamepad2.y) {
             isSlow = true;
         } else {
             isSlow = false;
@@ -191,10 +207,10 @@ public class teleop1 extends OpMode {
                 y *= SLOW_POWER_MULT;
                 x *= SLOW_POWER_MULT;
                 rx *= SLOW_POWER_MULT;
-                //robot.ledBlueBlink();
+                robot.ledBlueBlink();
             } else {
                 slowPower = 1;
-                //robot.ledBlueOn(false);
+                robot.ledBlueOn(false);
             }
         }
 
@@ -254,15 +270,15 @@ public class teleop1 extends OpMode {
         if(gamepad1.a && Button.TURRET_RESET.canPress(timestamp)) {
             turretReset = true;
             //robot.turret.reset(robot.turret.turret);
-            //robot.turret.turret.resetPosition();
-            robot.turret.turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.turret.turret.resetPosition();
+            //robot.turret.turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             RobotLog.ii(TAG_SL, "turret encoder reset" + robot.turret.getCurrentPosition());
         }
         RobotLog.ii(TAG_SL, "turret encoder " + robot.turret.getCurrentPosition());
         RobotLog.ii(TAG_SL, "slideL encoder " + robot.vSlides.slideLeft.getCurrentPosition());
         RobotLog.ii(TAG_SL, "slideR encoder " + robot.vSlides.slideRight.getCurrentPosition());
 
-        if(gamepad1.b && Button.SLIDE_RESET.canPress(timestamp)){
+        if(gamepad1.x && Button.SLIDE_RESET.canPress(timestamp)){
             slideLocation = SlideLocation.BOTTOM;
             robot.clawGrab();
             slideManualDown = true;
@@ -275,8 +291,8 @@ public class teleop1 extends OpMode {
         double tx = -gamepad2.right_stick_x;
         if(Math.abs(tx) > 0.1) {
             if(slideLocation == SlideLocation.BOTTOM || slideLocation == SlideLocation.L1) {
-                robot.vSlides.moveTo2();
-                slideLocation = SlideLocation.L2;
+                robot.vSlides.moveTo(250);
+                slideLocation = SlideLocation.LT;
             }
             if(robot.vSlides.getCurrentPosition() > 400) {
                 if (tx > 0 && robot.turret.getCurrentPosition() < 1550) {
@@ -299,14 +315,39 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(gamepad2.a && Button.BTN_TURRET.canPress(timestamp)){
-            if(slideLocation == SlideLocation.L4 || slideLocation == SlideLocation.L3){
-                robot.vSlides.moveTo2();
-            }
+        if((gamepad1.dpad_down || gamepad2.a) && Button.BTN_TURRET.canPress(timestamp)){
+            robot.alignerInit();
             robot.hSlides.setPosition(hSlides.IN);
             hSlidePos = hSlides.IN;
+            waitTime = System.currentTimeMillis();
+
+            if(slideLocation == SlideLocation.L4 || Math.abs(robot.turret.getCurrentAngle()) > 70 || !aligner) {
+                smallWait = System.currentTimeMillis();
+                smallTurn = true;
+
+                robot.turret.setPower(0);
+                if (slideMode == SlideMode.NORMAL)
+                    robot.clawGrab();
+
+                turretAdjust = 0;
+                goZero = true;
+                robot.turret.moveTo(turretAdjust, turretPower);
+                zeroDown = true;
+            } else{
+                waitTurret = true;
+            }
+        }
+
+        if(smallTurn && System.currentTimeMillis()-smallWait > 400){
+            smallTurn = false;
+            if (slideLocation == SlideLocation.L4 || slideLocation == SlideLocation.L3) {
+                robot.vSlides.moveTo2();
+            }
+        }
+
+        if(waitTurret && System.currentTimeMillis()-waitTime > 400){
             robot.turret.setPower(0);
-            if(slideMode == SlideMode.NORMAL)
+            if (slideMode == SlideMode.NORMAL)
                 robot.clawGrab();
 
             turretAdjust = 0;
@@ -315,9 +356,14 @@ public class teleop1 extends OpMode {
             telemetry.update();
             robot.turret.moveTo(turretAdjust, turretPower);
             zeroDown = true;
+
+            waitTurret = false;
         }
 
         if(gamepad2.x && Button.TURRET_RIGHT.canPress(timestamp) && slideLocation != SlideLocation.BOTTOM && slideLocation != SlideLocation.L1){
+            if(Left){
+                robot.alignerInit();
+            }
             robot.turret.setPower(0);
             turretAdjust = -92;//-87;
             robot.turret.moveTo(turretAdjust, turretPower);
@@ -326,22 +372,15 @@ public class teleop1 extends OpMode {
         }
 
         if(gamepad2.b && Button.TURRET_LEFT.canPress(timestamp) && slideLocation != SlideLocation.BOTTOM && slideLocation != SlideLocation.L1){
+            if(!Left){
+                robot.alignerInit();
+            }
             robot.turret.setPower(0);
             turretAdjust = 87;
             robot.turret.moveTo(turretAdjust, turretPower);
             goZero = true;
             turretN90 = true;
         }
-
-        /*if(clawExtending && clawFlag > 40){
-            clawFlag = 0;
-            robot.turret.moveTo(turretAdjust, turretPower);
-            zeroDown = true;
-            justAdjusted = true;
-            clawExtending = false;
-        } else{
-            clawFlag++;
-        }*/
 
         if(robot.turret.getCurrentAngle() > 50 && right){
             robot.hSlides.setPosition(hSlides.PRESET1);
@@ -357,6 +396,8 @@ public class teleop1 extends OpMode {
             goZero = false;
             zeroDown = false;
             robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.hSlides.setPosition(hSlides.IN);
+            hSlidePos = hSlides.IN;
         }
 
         if((turretPos < 1515 && turretPos > 970) || (turretPos < -875 && turretPos > -1820)){
@@ -388,12 +429,11 @@ public class teleop1 extends OpMode {
             slowPower = 0.8f;
         }
 
-        //robot.vSlides.slideLeft.getCurrentPosition() < robot.vSlides.level1-30
-        if((slideLocation == SlideLocation.BOTTOM || slideLocation == SlideLocation.L1) && Math.abs(robot.turret.getCurrentPosition()) < 200) {
+        if(!cycleMode && (slideLocation == SlideLocation.BOTTOM || slideLocation == SlideLocation.L1) && Math.abs(robot.turret.getCurrentPosition()) < 200) {
             robot.turret.moveTo(0, turretPower);
-            goToZero = true;
-        }else
-            goToZero = false;
+            //goToZero = true;
+        }//else
+            //goToZero = false;
 
         turretPos = robot.turret.getCurrentPosition();
         telemetry.addData("turretReset?", turretReset);
@@ -402,7 +442,7 @@ public class teleop1 extends OpMode {
         telemetry.addData("goZero", goToZero);
         telemetry.addData("goToZero", goToZero);
         telemetry.addData("slowPower", slowPower);
-        //telemetry.addData("sensorF", robot.sensorF.getDistance(DistanceUnit.CM));
+        telemetry.addData("sensorF", robot.sensorF.getDistance(DistanceUnit.CM));
         //telemetry.addData("sensorL", robot.sensorL.getRawLightDetected());
         //telemetry.addData("sensorR", robot.sensorR.getRawLightDetected());
         telemetry.addData("turret encoder ", turretPos);
@@ -421,7 +461,7 @@ public class teleop1 extends OpMode {
         telemetry.addData("tx", tx);
         telemetry.update();
 
-        if(gamepad2.y && Button.RESET_H.canPress(timestamp)){
+        if(gamepad1.dpad_left && Button.RESET_H.canPress(timestamp)){
             if(slideMode == SlideMode.NORMAL) {
                 hSlidePos = hSlides.INIT;
                 robot.hSlides.setPosition(hSlidePos);
@@ -440,6 +480,7 @@ public class teleop1 extends OpMode {
         //Controls for claw
         if((gamepad1.right_bumper) && Button.BTN_OPEN.canPress(timestamp)){
             if(clawState == ClawState.GRAB && !slideGoBottom){
+                robot.alignerInit();
                 robot.clawOpen();
                 clawState = ClawState.OPEN;
             }else if(clawState == ClawState.OPEN){
@@ -466,7 +507,7 @@ public class teleop1 extends OpMode {
                 buttonState = ButtonState.NO2;
         }
 
-        if((gamepad1.dpad_up)){
+        if(gamepad1.left_trigger > 0.9){
             if(upState == UpState.NO2) {
                 upState = UpState.PRESSED;
             }
@@ -514,7 +555,8 @@ public class teleop1 extends OpMode {
         if(slideGoBottom){
             slideLocation = SlideLocation.BOTTOM;
             slideBottom();
-            goZero = false;
+            if(!cycleMode)
+                goZero = false;
         }
 
         if(gamepad2.left_trigger > 0.9)
@@ -523,13 +565,17 @@ public class teleop1 extends OpMode {
             slideMode = SlideMode.NORMAL;
 
         //Controls for slide levels
-        if((gamepad1.dpad_down || gamepad2.left_bumper) && Button.BTN_BOTTOM.canPress(timestamp)){
-            if(slideDown){
+        if(gamepad2.left_bumper && Button.BTN_BOTTOM.canPress(timestamp)){
+            robot.alignerInit();
+            waitTime = System.currentTimeMillis();
+            if(slideDown && Math.abs(robot.turret.getCurrentAngle()) > 70 || !aligner){
                 robot.clawGrab();
                 slideLocation = SlideLocation.BOTTOM;
                 slideGoBottom = true;
-            }
+            } else
+                waitTurret = true;
         } else if((gamepad2.dpad_left) && Button.BTN_L1.canPress(timestamp)){
+            robot.alignerInit();
             if(slideMode == SlideMode.NORMAL) {
                 if (slideDown) {
                     robot.clawGrab();
@@ -540,21 +586,26 @@ public class teleop1 extends OpMode {
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
-                robot.vSlides.moveTo(105);
+                robot.vSlides.moveTo(75);
             }
         } else if((gamepad2.dpad_down) && Button.BTN_L2.canPress(timestamp)){
+            robot.alignerInit();
             if(slideMode == SlideMode.NORMAL) {
                 robot.vSlides.moveTo2();
                 slideLocation = SlideLocation.L2;
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
-                robot.vSlides.moveTo(180);
+                robot.vSlides.moveTo(160);
             }
         } else if((gamepad2.dpad_right) && Button.BTN_L3.canPress(timestamp)){
             if(slideMode == SlideMode.NORMAL) {
                 robot.vSlides.moveTo3();
                 slideLocation = SlideLocation.L3;
+                /*if(aligner){
+                    alignerOut = true;
+                    alignerDelay = System.currentTimeMillis();
+                }*/
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
@@ -564,11 +615,20 @@ public class teleop1 extends OpMode {
             if(slideMode == SlideMode.NORMAL) {
                 robot.vSlides.moveTo4();
                 slideLocation = SlideLocation.L4;
+                if(aligner){
+                    alignerOut = true;
+                    alignerDelay = System.currentTimeMillis();
+                }
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
                 robot.vSlides.moveTo(330);
             }
+        }
+
+        if(alignerOut && System.currentTimeMillis() - alignerDelay > 400){
+            robot.alignerOut();
+            alignerOut = false;
         }
 
         if(gamepad1.y && Button.SET_ZERO.canPress(timestamp)){
@@ -580,7 +640,191 @@ public class teleop1 extends OpMode {
             robot.turret.setPower(0);
             robot.vSlides.forcestop();
         }
+
+        if(robot.vSlides.switchSlideDown.isTouch()){
+            robot.vSlides.slideLeft.resetPosition();
+            robot.vSlides.slideRight.resetPosition();
+        }
         //telemetry.update();
+
+        if(gamepad2.right_bumper && Button.BTN_AUTOGRAB.canPress(timestamp)){
+            if(autoGrab){
+                autoGrab = false;
+            } else {
+                autoGrab = true;
+            }
+        }
+
+        if(aligner)
+            robot.ledGreenOn(true);
+        else
+            robot.ledGreenOn(false);
+
+        if(autoGrab && robot.sensorF.getDistance(DistanceUnit.CM) < 7 && clawState == ClawState.OPEN){
+            robot.clawGrab();
+            clawState = ClawState.GRAB;
+            if(slideLocation == SlideLocation.BOTTOM && slideMode == SlideMode.NORMAL) {
+                goToOne = true;
+                slideDelay = System.currentTimeMillis();
+            }
+            robot.ledYellowOn(true);
+            autoGrab = false;
+        }
+
+        if(robot.sensorF.getDistance(DistanceUnit.CM) > 7 && clawState == ClawState.OPEN)
+            robot.ledYellowOn(false);
+
+        robot.drawLed();
+
+        if(gamepad1.b && Button.BTN_ALIGNER.canPress(timestamp)){
+            if(aligner){
+                aligner = false;
+                robot.alignerInit();
+            } else {
+                aligner = true;
+            }
+        }
+
+        if(gamepad1.dpad_right && Button.CYCLE_MODE.canPress(timestamp)){
+            if(cycleMode) {
+                robot.turret.turret.setTargetPositionPIDFCoefficients(16, 0, 0, 0);
+                cycleMode = false;
+                robot.clawGrab();
+                robot.alignerInit();
+                if(robot.vSlides.getCurrentPosition() > 1800) {
+                    turretAdjust = 0;
+                    goZero = true;
+                    robot.turret.moveTo(turretAdjust, turretPower);
+                    zeroDown = true;
+                } else {
+                    waitTurret = true;
+                    waitTime = System.currentTimeMillis();
+                }
+            }
+            else {
+                robot.turret.turret.setTargetPositionPIDFCoefficients(7, 0, 0, 0);
+                cycleMode = true;
+                firstCycle = true;
+                firstTime = true;
+                startCycle = System.currentTimeMillis();
+            }
+        }
+
+        //First time, extend h slides
+        if(cycleMode && firstCycle && System.currentTimeMillis() - startCycle <= 200 && firstTime){
+            robot.hSlides.setPosition(120f);
+            firstTime = false;
+        }
+
+        //first time, turn turret towards cone
+        if(cycleMode && firstCycle && System.currentTimeMillis() - startCycle > 200 &&
+                System.currentTimeMillis() - startCycle <= 800 && firstTime2){
+            goZero = true;
+            turretAdjust = -62;
+            robot.turret.moveTo(turretAdjust, turretPower);
+            robot.claw.setAutoOpen();
+            firstTime2 = false;
+        }
+
+
+        //first time, detect for cone
+        //if(cycleMode && firstCycle && System.currentTimeMillis() - startCycle > 400 && robot.sensorF.getDistance(DistanceUnit.CM) > 5){
+            //robot.turret.setPower(-0.2f);
+        //} else
+        if(cycleMode && System.currentTimeMillis() - startCycle > 800
+                    && System.currentTimeMillis() - startCycle < 1250){// && robot.sensorF.getDistance(DistanceUnit.CM) <= 5){
+            //grabAngle = robot.turret.getCurrentAngle();
+            robot.hSlides.setPosition(168f);
+            firstTime5 = true;
+            robot.turret.turret.setTargetPositionPIDFCoefficients(2, 0, 0, 0);
+        }
+
+        if(cycleMode && firstCycle && System.currentTimeMillis() - startCycle > 970
+                && System.currentTimeMillis() - startCycle < 1250){
+            robot.clawGrab();
+            firstCycle = false;
+        }
+
+        if(cycleMode && System.currentTimeMillis() - startCycle > 1000
+                && System.currentTimeMillis() - startCycle < 1100){
+            robot.clawGrab();
+        }
+
+        //extend slides up and turn turret to dump
+        if(cycleMode && System.currentTimeMillis() - startCycle > 1250 &&
+                System.currentTimeMillis() - startCycle <= 2700 && firstTime3){
+            robot.vSlides.moveTo4();
+            turretAdjust = 69;
+            robot.turret.moveTo(turretAdjust, 0.6f);
+            firstTime3 = false;
+        }
+
+        //extend aligner
+        if(cycleMode && System.currentTimeMillis() - startCycle > 1450 &&
+                System.currentTimeMillis() - startCycle <= 2700){
+            //robot.alignerOut();
+            robot.hSlides.setPosition(120f);
+        }
+
+        if(cycleMode && System.currentTimeMillis() - startCycle > 1820 &&
+                System.currentTimeMillis() - startCycle <= 2700){
+            robot.alignerOut();
+        }
+
+        //lower slides a little before dumping
+        if(cycleMode && System.currentTimeMillis() - startCycle > 2700 &&
+                System.currentTimeMillis() - startCycle <= 3000 && firstTime4){
+            robot.vSlides.moveTo(1949-300);
+            firstTime4 = false;
+        }
+
+        //open claw and move aligner in
+        if(cycleMode && System.currentTimeMillis() - startCycle > 3000 &&
+                System.currentTimeMillis() - startCycle <= 3200){
+            robot.clawOpen();
+        }
+
+        if(cycleMode && System.currentTimeMillis() - startCycle > 3200 &&
+                System.currentTimeMillis() - startCycle <= 3400){
+            robot.hSlides.setPosition(110f);
+        }
+
+        if(cycleMode && System.currentTimeMillis() - startCycle > 3490){
+            robot.alignerInit();
+        }
+
+        //reset to starting position
+        if(cycleMode && System.currentTimeMillis() - startCycle > 3400 && firstTime5){
+            //robot.clawGrab();
+            robot.turret.turret.setTargetPositionPIDFCoefficients(7, 0, 0, 0);
+            robot.claw.setAutoOpen();
+            slideLocation = SlideLocation.BOTTOM;
+            slideGoBottom = true;
+            turretAdjust = -62;
+            robot.turret.moveTo(turretAdjust, turretPower);
+            firstTime5 = false;
+
+            firstTime = true;
+            firstTime2 = true;
+            firstTime3 = true;
+            firstTime4 = true;
+        }
+
+        if(cycleMode && System.currentTimeMillis() - startCycle > 3700){
+            startCycle = System.currentTimeMillis();
+            robot.hSlides.setPosition(125f);
+        }
+
+        /*//not first cycle, extend h slides
+        if(cycleMode && !firstCycle && System.currentTimeMillis() - startCycle < 600){
+            robot.hSlides.setPosition(120f);
+            firstTime5 = true;
+        }
+
+        //not first cycle, grab cone
+        if(cycleMode && !firstCycle && System.currentTimeMillis() - startCycle > 600 && System.currentTimeMillis() - startCycle < 800){// && robot.sensorF.getDistance(DistanceUnit.CM) < 3){
+            robot.clawGrab();
+        }*/
     }
 
     public void manualDown(){
@@ -600,7 +844,7 @@ public class teleop1 extends OpMode {
      */
     public void slideBottom() {
         slideLocation = SlideLocation.BOTTOM;
-        if (!robot.vSlides.switchSlideDown.isTouch() && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
+        if (!robot.vSlides.switchSlideDown.isTouch()){// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
             robot.vSlides.moveToBottom();
         } else {
             robot.vSlides.forcestop();
@@ -648,25 +892,25 @@ public class teleop1 extends OpMode {
     - left bumper = lower slides a little
     - right bumper = claw
     - a = turret reset
-    - b = slide all the way down (just switch)
-    - x =
+    - b = aligner mode
+    - x = slide all the way down (just switch)
     - y = set powers to 0
-    - up = goes up slightly
+    - up =
     - right =
     - down = go to bottom
-    - left =
-    - left trigger = slow mode for drive
+    - left = reset h slides
+    - left trigger = goes up slightly //slow mode for drive
     - right trigger = slow mode override
 
     gamepad2:
     - left joystick = h slides
     - right joystick = turret
     - left bumper = go to bottom
-    - right bumper = claw
+    - right bumper = claw mode on
     - a = turret go to zero and slide down
     - b = go 90 to left
     - x = go 90 to right
-    - y = reset h slides
+    - y = slow mode
     - up = level 4
     - right = level 3
     - down = level 2

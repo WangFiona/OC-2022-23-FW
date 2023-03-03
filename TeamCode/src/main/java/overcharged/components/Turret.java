@@ -29,6 +29,9 @@ public class Turret {
     public static double f2 = 0;
     private PIDCalculator pidController = new PIDCalculator(p, i, d);
     private boolean pidState = false;
+    private boolean negative = true;
+    private double angleToEncoder = 1705/180f;
+    private double encoderToAngle = 180/1705f;
 
     public int currentPosition = 0;
 
@@ -45,6 +48,10 @@ public class Turret {
     public void resetTurretPosition(){
         currentPos = 0;
         start = turret.getCurrentPosition();
+    }
+
+    public void isNegative(boolean negat){
+        negative = negat;
     }
 
     private void initialize(OcMotorEx motor) {
@@ -65,14 +72,35 @@ public class Turret {
         turret.setPower(power);//*factor);
     }
 
+    public void moveTo2(double angle, float power, boolean clockwise){
+        double current = getCurrentAngle();
+        double difference = angle - current;
+        RobotLog.ii(TAG_SL, "turret angle " + angle + " turret current " + current + " turret dff " + difference);
+        if(!clockwise){
+            while (difference > 0){
+                difference -= 360;
+            }
+            if(difference < -360)
+                difference += 360;
+        } else {
+            while (difference < 0){
+                difference += 360;
+            }
+            if(difference > 360)
+                difference -= 360;
+        }
+        double goTo = turret.getCurrentPosition()+(difference*angleToEncoder);
+        moveEncoderTo((int)(goTo), power);
+    }
+
     public void moveTo(double pos, float power){
         double encoder = 0;
-        if(pos < 0){
-            encoder = (pos/180)*1705;//1730;
+        if (pos < 0) {
+            encoder = (pos / 180) * 1705;//1730;
             RobotLog.ii(TAG_SL, "turret pos<0");
         }
-        if(pos > 0){
-            encoder = (pos/180)*1705;//1730;
+        if (pos > 0) {
+            encoder = (pos / 180) * 1705;//1730;
             RobotLog.ii(TAG_SL, "turret pos>0");
         }
         RobotLog.ii(TAG_SL, "turret encoder " + encoder + " turret pos " + pos);
@@ -82,14 +110,19 @@ public class Turret {
 
     public double getCurrentAngle() {
         double pos = turret.getCurrentPosition();
-        double angle = 0;
-        if(pos > 0){
-            angle = (pos/1705)*180;
-        }
-        if(pos < 0){
-            angle = (pos/1705)*180;
-        }
-        //RobotLog.ii(TAG_SL, "turret angle " + angle);
+        double angle = pos*encoderToAngle;
+        RobotLog.ii(TAG_SL, "turret encoderpos " + pos + " turret angle " + angle + " turret encoderToAngle " + encoderToAngle);
+        /*if(negative) {
+            angle = pos*encoderToAngle;
+            //RobotLog.ii(TAG_SL, "turret angle " + angle);
+        } else {
+            if (pos > 0) {
+                angle = pos*encoderToAngle;
+            }
+            if (pos < 0) {
+                angle = 360 + pos*encoderToAngle;
+            }
+        }*/
         return angle;
     }
 

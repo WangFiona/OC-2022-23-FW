@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -31,7 +32,7 @@ import overcharged.test.EasyOpenCVExample;
 import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
 
-@Disabled
+@Config
 @Autonomous(name="auto8mid")
 public class auto8mid extends LinearOpMode {
 
@@ -44,18 +45,27 @@ public class auto8mid extends LinearOpMode {
     SignalConePipeLine detector;
     OpenCvWebcam webcam;
     EasyOpenCVExample.RingDeterminationPipeline pipeline;
-    boolean Left = true;
-    float turretPower = 0.9f;
+    boolean Left = false;
+    float turretPower = 1f;
     double y3 = -60;
-    int cone1 = 22;//5;
-    int interval = 67;
+    int cone1 = -10;//22;//5;
+    int interval = 70;//67
     boolean grabbed = true;
+    double resetAngle = 13;
+    int offset = 60;
+    float dumpLengthL = 79f;
+    float dumpLength2L = 137f;
+    float dumpLengthR = 89f;
+    float dumpLength2R = 134f;
+    float close = 12f;
+    float far = 15f;
+    int Length = 0;
     //int hSlidesReset = 150;
 
     TrajectorySequence toSquare3, toLine, toLine2, to1, to2, to3, toScore, correct, correct2, to2p2, score, toR1, toR3;
     Pose2d start = new Pose2d();
 
-    Vector2d line, p1, p2, p3, line2, p2p2, scorePos;
+    Vector2d line, p1, p2, p3, line2, p2p2, scorePos, pR3;
     Pose2d s3;
 
     FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -76,45 +86,72 @@ public class auto8mid extends LinearOpMode {
             //robot.clawGrab();
 
             drive = new SampleMecanumDrive(hardwareMap);
+            robot.clawGrab();
+            robot.aligner.autoValue();
 
-            Left = sl.selectPosition();
+            /*Left = sl.selectPosition();
+            if(!Left)
+                resetAngle = 15;
+
+            Length = sl.selectLength();
+            if(Length == 2){
+                dumpLengthL -= close;
+                dumpLength2L -= close;
+                dumpLengthL -= close;
+                dumpLength2R -= close;
+            } else if(Length == 1){
+                dumpLengthL += far;
+                dumpLength2L += far;
+                dumpLengthR += far;
+                dumpLength2R += far;
+            }*/
 
             double xVal = (Left? 50: 51);
-            double yVal = (Left? 11: -9); //-6
+            double yVal = (Left? 11: -12); //-6
             double yVal2 = (Left? 8.5: -6); //-6
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
             s3 = new Pose2d(xVal,0, Left? Math.toRadians(90) : Math.toRadians(-90));
-            p1 = new Vector2d(xVal-3, (Left? 22 : 26));
-            p2 = new Vector2d(xVal-5, (Left? -3 : 0)); //xVal-3
+            p1 = new Vector2d(xVal-1, (Left? 22 : 26));
+            p2 = new Vector2d(xVal-5, (Left? -3 : 3)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
-            p3 = new Vector2d(xVal-(Left? 2 : 4), -27);
+            p3 = new Vector2d(xVal-(Left? 2 : 2), -26);
+            pR3 = new Vector2d(25, -25);
 
             toSquare3 = drive.trajectorySequenceBuilder(start)
                     //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(s3)
                     .addSpatialMarker(new Vector2d((Left? 10 : 15),0), () -> {
                         robot.vSlides.moveTo(1420);
+                        //robot.alignerOut();
+                        //robot.hSlides.setPosition(Left? 132f : 142f);
+                    })
+                    .addSpatialMarker(new Vector2d((Left? 20 : 20), 0), () -> {
+                        robot.turret.moveTo((Left? -163 : 163), turretPower);//, Left? false : true);//-154 : 151), turretPower);
+                    })
+                    .addSpatialMarker(new Vector2d((Left? 30 : 30),0), () -> {
                         robot.alignerOut();
                         //robot.hSlides.setPosition(Left? 132f : 142f);
                     })
-                    .addSpatialMarker(new Vector2d((Left? 20 : 17), 0), () -> {
-                        robot.turret.moveTo((Left? -154 : 151), turretPower);
+                    .addSpatialMarker(new Vector2d((Left? 50 : 50),0), () -> {
+                        robot.vSlides.moveTo(1160);
+                        robot.turret.setPower(0);
                     })
                     .build();
 
             toLine = drive.trajectorySequenceBuilder(toSquare3.end())
                     //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
-                    .strafeTo(line)
+                    .lineToLinearHeading(new Pose2d(line, Left? Math.toRadians(90) : Math.toRadians(-93)))
+                    //.strafeTo(line)
                     .build();
 
             correct = drive.trajectorySequenceBuilder(new Pose2d(line.getX(), line.getY()+(Left? -1 : 1), Left? Math.toRadians(90) : Math.toRadians(-90)))
-                    .lineTo(line)
+                    .lineToLinearHeading(new Pose2d(line, Left? Math.toRadians(90) : Math.toRadians(-93)))
                     .build();
 
             correct2 = drive.trajectorySequenceBuilder(new Pose2d(line.getX(), line.getY()+(Left? -1 : 1), Left? Math.toRadians(90) : Math.toRadians(-90)))
-                    .lineTo(line2)
+                    .lineToLinearHeading(new Pose2d(line2, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     .build();
 
             score = drive.trajectorySequenceBuilder(toLine.end())
@@ -122,7 +159,7 @@ public class auto8mid extends LinearOpMode {
                     .build();
 
             to1 = drive.trajectorySequenceBuilder(toLine.end())
-                    .strafeTo(p1)
+                    .lineToLinearHeading(new Pose2d(p1, 0))
                     .build();
 
             toR1 = drive.trajectorySequenceBuilder(toLine.end())
@@ -148,10 +185,11 @@ public class auto8mid extends LinearOpMode {
                     //lowerSlidesThread(lp, 1);})
                     .build();
 
-            toR3 = drive.trajectorySequenceBuilder(toLine.end())
-                    .strafeTo(p3)
-                    //.addSpatialMarker(new Vector2d(xVal-3,2), () -> {
-                    //lowerSlidesThread(lp, 1);})
+            toR3 = drive.trajectorySequenceBuilder(correct2.end())
+                    //.lineToLinearHeading(new Pose2d(line2.getX(), line2.getY()+7, Left? Math.toRadians(90) : Math.toRadians(-90)))
+                    //.lineToLinearHeading(new Pose2d(25, line2.getY()+7, Left? Math.toRadians(90) : Math.toRadians(-90)))
+                    //.lineToLinearHeading(new Pose2d(25, -22, Left? Math.toRadians(90) : Math.toRadians(-90)))
+                    .lineToLinearHeading(new Pose2d(p3, 0))
                     .build();
 
             this.detector = new SignalConePipeLine();
@@ -186,6 +224,11 @@ public class auto8mid extends LinearOpMode {
             //detector.reset();
             telemetry.addData("Signal Color", signalColors);
             telemetry.addData("Left?", Left);
+            telemetry.addData("Aligner Value", robot.aligner.OUT);
+            /*telemetry.addData("Dump LengthL", dumpLengthL);
+            telemetry.addData("Dump Length2L", dumpLength2L);
+            telemetry.addData("Dump LengthR", dumpLengthR);
+            telemetry.addData("Dump Length2R", dumpLength2R);*/
             telemetry.update();
 
             if (isStopRequested()) {
@@ -195,6 +238,7 @@ public class auto8mid extends LinearOpMode {
             waitForStart();
 
             if (opModeIsActive()) {
+                startTime = System.currentTimeMillis();
                 time1 = System.currentTimeMillis();
                 currentTime = System.currentTimeMillis();
                 while (currentTime - time1 < DuckDetector.DETECTION_WAIT_TIME) {
@@ -233,33 +277,24 @@ public class auto8mid extends LinearOpMode {
 
     public void AutoBody(WaitLinear lp, boolean Left) throws InterruptedException {
         RobotLog.ii(TAG_SL, "started");
-        startTime = System.currentTimeMillis();
         drive.setPoseEstimate(start);
         double startEL = drive.leftRear.getCurrentPosition();
         double startEM = drive.rightRear.getCurrentPosition();
         double startER = drive.rightFront.getCurrentPosition();
 
-        robot.clawGrab();
-        robot.hSlides.setPosition(Left ? 87f : 100f);//(Left? 129f : 142f);//132
-        //robot.hSlides.setPosition(100f);
+        robot.turret.isNegative(false);
+        robot.hSlides.setPosition(Left? dumpLengthL : dumpLengthR);//Left ? 79f : 79f);//(Left? 129f : 142f);//132
         drive.followTrajectorySequence(toSquare3);
 
-        //robot.hSlides.setPosition(Left? 137f : 142f);//Left? 115f : 92f);
-        lp.waitMillis(400);
-        //robot.turret.moveTo((Left? 50 : -47), turretPower); //40,-44
-        //lp.waitMillis(300);
-        robot.vSlides.moveTo(1200);
-        lp.waitMillis(150);
-        robot.alignerInit();
+        //robot.alignerInit();
         robot.claw.setAutoOpen();
-        //lp.waitMillis(200);
 
         reset90(lp, Left, 5, false);
-        drive.followTrajectorySequence(toLine);
+        //drive.followTrajectorySequence(toLine);
 
         long parkTime = 4500; //5500
         if (signalColors == SignalColors.Red)
-            parkTime += Left ? 1000 : 1000;
+            parkTime += Left ? 1000 : 2000;
         else if (signalColors == SignalColors.Blue)
             parkTime += 1000;
         else
@@ -267,7 +302,10 @@ public class auto8mid extends LinearOpMode {
 
         int cLevel = 5;
         boolean firstTime = true;
-        while (System.currentTimeMillis() - startTime < (30000 - parkTime) && opModeIsActive() && cLevel >= 1) {
+        int numGrabbed = 0;
+        int notGrab = 0;
+        while(System.currentTimeMillis() - startTime < (30000-parkTime) && opModeIsActive() && cLevel >= 1 && notGrab < 2 && numGrabbed<5) {
+            numGrabbed++;
             if (!grabbed)
                 cLevel++;
 
@@ -276,7 +314,7 @@ public class auto8mid extends LinearOpMode {
             else
                 reset90(lp, Left, cLevel, true);
             RobotLog.ii(TAG_SL, "cLevel: " + cLevel);
-            robot.turret.turret.setTargetPositionPIDFCoefficients(1.4, 0, 0, 0);
+            robot.turret.turret.setTargetPositionPIDFCoefficients(1.5, 0, 0, 0);//1.4
 
             cLevel--;
             grabbed = false;
@@ -285,7 +323,7 @@ public class auto8mid extends LinearOpMode {
             while (robot.sensorF.getDistance(DistanceUnit.CM) > 2.5 && hSlidesOut <= hSlides.OUT) {//hSlidesOut >= hSlides.MIN+10) {
                 hSlidesOut += 3;
                 robot.hSlides.setPosition(hSlidesOut);
-                lp.waitMillis(40);
+                lp.waitMillis(10);
             }
 
             RobotLog.ii(TAG_SL, "sensorF distance: " + robot.sensorF.getDistance(DistanceUnit.CM) + "hSlidesOut: " + hSlidesOut + "vSlides: currentPos R: " + robot.vSlides.slideRight.getCurrentPosition() +
@@ -293,91 +331,118 @@ public class auto8mid extends LinearOpMode {
             robot.clawGrab();
             lp.waitMillis(350);
             robot.hSlides.setPosition((hSlidesOut - 10));
-            robot.vSlides.moveTo(1450);//moveTo4();
+            robot.vSlides.moveTo(1430);//moveTo4();
             lp.waitMillis(200);
 
             if (robot.sensorF.getDistance(DistanceUnit.CM) < 10) {
                 grabbed = true;
-            }
+            } else
+                notGrab++;
 
             robot.alignerOut();
-            robot.hSlides.setPosition(Left ? 137f : 137f);//(Left? 188f : 179f);//183f
-            robot.turret.moveTo((Left ? -180 : 180), turretPower); //-46
-            lp.waitMillis(950);
+            robot.hSlides.setPosition(Left? dumpLength2L : dumpLength2R);//Left ? 137f : 127f);//(Left? 188f : 179f);//183f
+            robot.turret.moveTo((Left ? -173 : 174), turretPower);//, Left? false : true);//-180 : 180), turretPower); //-46
+            lp.waitMillis(700);
+            RobotLog.ii(TAG_SL, "dump actual angle " + robot.turret.getCurrentAngle());
 
             if (robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
                 //robot.hSlides.setPosition(Left? 183f : 179f);
                 drive.followTrajectorySequence(correct2);
-                robot.vSlides.moveTo(1200);
+                robot.vSlides.moveTo(1140);
+                robot.turret.setPower(0);
                 lp.waitMillis(150);
+            } else {
+                lp.waitMillis(700);
             }
-            robot.alignerInit();
+            //robot.alignerInit();
             robot.claw.setAutoOpen();
         }
+        robot.alignerInit();
 
         robot.turret.turret.setTargetPositionPIDFCoefficients(7, 0, 0, 0);
 
-        lp.waitMillis(300);
+        //lp.waitMillis(300);
         robot.hSlides.setPosition(hSlides.IN);
-        lp.waitMillis(150);
+        lp.waitMillis(250);
         robot.clawGrab();
-        robot.turret.moveTo(0, turretPower);
-        if ((Left && signalColors == SignalColors.Green) || (!Left && signalColors == SignalColors.Red)) {
-            lp.waitMillis(200);
+        robot.turret.moveTo(0, turretPower);//, Left? true : false);
+        lp.waitMillis(500);
+        /*if ((Left && signalColors == SignalColors.Green) || (!Left && signalColors == SignalColors.Red)) {
+            //lp.waitMillis(200);
             lowerSlidesThread(lp, 1);
             lp.waitMillis(200);
             drive.followTrajectorySequence(correct);
         } else{
-            robot.vSlides.moveTo2();
+            //robot.vSlides.moveTo2();
             drive.followTrajectorySequence(correct);
             lp.waitMillis(400);
-        }
+        }*/
 
+        lowerSlidesThread(lp, 1);
         if(signalColors == SignalColors.Red){
             if(Left) {
-                lowerSlidesThread(lp, 1);
                 drive.followTrajectorySequence(to3);
-            } else {
-                //lowerSlidesThread(lp, 1);
+            } else { //special park
                 drive.followTrajectorySequence(toR3);
             }
         } else if(signalColors == SignalColors.Green){
-            if(Left) {
-                //lowerSlidesThread(lp, 1);
+            if(Left) { //special park
                 drive.followTrajectorySequence(to1);
             } else {
-                lowerSlidesThread(lp, 1);
                 drive.followTrajectorySequence(toR1);
             }
         } else{ //blue
-            lowerSlidesThread(lp, 1);
             drive.followTrajectorySequence(to2);
         }
-
-        robot.turret.moveTo(0, 0.9f);
     }
 
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {
-        robot.turret.turret.setTargetPositionPIDFCoefficients(5,0,0,0);
-        if(!wait){
-            robot.hSlides.setPosition(69f);//80f);
-            lp.waitMillis(500);
-        } else {
-            robot.hSlides.setPosition(129f);//140f);
-            lp.waitMillis(250);
-        }
+        robot.turret.turret.setTargetPositionPIDFCoefficients(7,0,0,0);
+        //if(!wait){
+        //    robot.hSlides.setPosition(33f);//80f);
+        //    lp.waitMillis(500);
+        //} else {
+        robot.hSlides.setPosition(Left? 80f : 80f);//140f);
+        robot.alignerInit();
+        lp.waitMillis(350);//600);
+        //}
 
-        robot.turret.moveTo((Left? 2 : 1), turretPower); //87
-        lp.waitMillis(150);
-        if(!wait) {
-            robot.hSlides.setPosition(Left? 132f : 132f);//(Left? 143f : 145f);//(Left ? 85f : 100f));
-        }
+        robot.turret.moveTo(resetAngle, turretPower);//, Left? true : false);//(Left? -(resetAngle) : (resetAngle)), turretPower);
 
+        //if(!wait) {
+            lp.waitMillis(300);
+            robot.hSlides.setPosition(Left? 130f : 125f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
+        //}
+
+        lp.waitMillis(400);//84.5, 81.4
         robot.vSlides.moveTo(cone1+(interval*newL));
         if(wait) {
             drive.followTrajectorySequence(correct);
-            lp.waitMillis(200);
+            //lp.waitMillis(100);
+        } else
+            drive.followTrajectorySequence(toLine);
+
+        telemetry.addData("reset angle ", resetAngle);
+        telemetry.update();
+        while(!wait && robot.sensorF.getDistance(DistanceUnit.CM) > 8 && ((Left && robot.turret.getCurrentAngle() < 5) || (!Left && robot.turret.getCurrentAngle() > 5))){//robot.turret.getCurrentAngle()+360 < 370){
+            robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.turret.setPower(Left? 0.2f : -0.2f);
+            RobotLog.ii(TAG_SL, "current angle " + robot.turret.getCurrentAngle());
+            telemetry.addData("current angle", robot.turret.getCurrentAngle());
+            telemetry.addData("reset angle ", resetAngle);
+            telemetry.addData("distance ", robot.sensorF.getDistance(DistanceUnit.CM));
+            telemetry.update();
         }
+        robot.turret.setPower(0);
+        if((Left && robot.turret.getCurrentAngle() >= 5) || (!Left && robot.turret.getCurrentAngle() <= 5)){//robot.turret.getCurrentAngle()+360 >= 370){
+            resetAngle = 0;
+            robot.turret.moveTo(resetAngle, turretPower);//, Left? false : true); //84.5, 81.4
+        } else if(!wait) {
+            resetAngle = robot.turret.getCurrentAngle() - (Left ? 2 : -5);
+            robot.turret.moveTo(resetAngle, turretPower);//, Left? false : true);
+        }
+        RobotLog.ii(TAG_SL, "reset angle " + resetAngle);
+        RobotLog.ii(TAG_SL, "reset actual angle " + robot.turret.getCurrentAngle());
     }
 
     public void lowerSlidesThread(WaitLinear lp, int level) { // asynchronously start raising the slides
