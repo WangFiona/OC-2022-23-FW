@@ -127,6 +127,8 @@ Tester
         servos.add(hSlides);
         OcServo aligner = robot.aligner.aligner;
         servos.add(aligner);
+        OcServo pivot = robot.aligner.pivot;
+        servos.add(pivot);
         servoTestInfos = new ServoTestInfo[]{
                 // claw
                 new ServoTestInfo(
@@ -141,7 +143,11 @@ Tester
                 new ServoTestInfo(
                         aligner,
                         robot.aligner.INIT,
-                        robot.aligner.OUT)
+                        robot.aligner.OUT),
+                new ServoTestInfo(
+                        pivot,
+                        robot.aligner.LEFT,
+                        robot.aligner.RIGHT)
         };
 
         int testCounter = 0;

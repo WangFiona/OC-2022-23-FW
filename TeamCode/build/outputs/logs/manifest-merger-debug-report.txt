@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-80:12
+ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-80:12
 MERGED from [org.firstinspires.ftc:OnBotJava:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/1a7e25d2fbc9d9c9f72f4b3380e5c53d/transformed/jetified-OnBotJava-8.1.1/AndroidManifest.xml:34:1-43:12
 MERGED from [org.firstinspires.ftc:Blocks:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/a381e547c5b335b4f336c1a8dc63554f/transformed/jetified-Blocks-8.1.1/AndroidManifest.xml:2:1-26:12
 MERGED from [com.acmerobotics.dashboard:dashboard:0.4.6] /Users/fionawang/.gradle/caches/transforms-3/c68fa6d62923f4715164fad4ca8705d2/transformed/jetified-dashboard-0.4.6/AndroidManifest.xml:2:1-9:12
@@ -44,27 +44,27 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/fionawang/
 MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/fionawang/.gradle/caches/transforms-3/4e786792028adedfab0f8cd035ae1abc/transformed/core-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [org.openftc:opencv-repackaged:4.5.3-B] /Users/fionawang/.gradle/caches/transforms-3/7c2b163972c5e064e02ca15ffe753027/transformed/jetified-opencv-repackaged-4.5.3-B/AndroidManifest.xml:2:1-11:12
 MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/fionawang/.gradle/caches/transforms-3/9250e5fcfdd977913d30d77c44b99cac/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:2:1-12:12
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
 	package
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:8:1-11:12
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:9:5-63
+		ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:9:5-63
 application
-ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml:10:5-19
-MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:5-78:19
-MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:5-78:19
+ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml:10:5-19
+MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:5-78:19
+MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:5-78:19
 MERGED from [org.firstinspires.ftc:Blocks:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/a381e547c5b335b4f336c1a8dc63554f/transformed/jetified-Blocks-8.1.1/AndroidManifest.xml:18:5-24:19
 MERGED from [org.firstinspires.ftc:Blocks:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/a381e547c5b335b4f336c1a8dc63554f/transformed/jetified-Blocks-8.1.1/AndroidManifest.xml:18:5-24:19
 MERGED from [org.firstinspires.ftc:FtcCommon:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/141689e5190e0e257142042991ad8358/transformed/jetified-FtcCommon-8.1.1/AndroidManifest.xml:23:5-172:19
@@ -92,25 +92,25 @@ MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/fionawang/.gradle/cach
 	android:supportsRtl
 		ADDED from [com.github.dogecv:dogecv:2020.4-alpha] /Users/fionawang/.gradle/caches/transforms-3/c4e7add004c1dc225749eb541b3426e9/transformed/jetified-dogecv-2020.4-alpha/AndroidManifest.xml:14:9-35
 	android:label
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:9-41
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:9-41
 	android:largeHeap
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:18:9-33
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:18:9-33
 	android:icon
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:9-45
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:9-45
 	android:allowBackup
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-35
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-35
 	android:theme
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:19:9-45
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:19:9-45
 	android:name
 		ADDED from [org.firstinspires.ftc:RobotCore:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/3c78789e36818da5ea2d73e485f8e74e/transformed/jetified-RobotCore-8.1.1/AndroidManifest.xml:87:18-97
 	android:usesCleartextTraffic
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:9-44
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:9-44
 uses-sdk
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:8:5-10:41
-MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:8:5-10:41
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:8:5-10:41
+MERGED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:8:5-10:41
 MERGED from [org.firstinspires.ftc:OnBotJava:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/1a7e25d2fbc9d9c9f72f4b3380e5c53d/transformed/jetified-OnBotJava-8.1.1/AndroidManifest.xml:39:5-41:41
 MERGED from [org.firstinspires.ftc:OnBotJava:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/1a7e25d2fbc9d9c9f72f4b3380e5c53d/transformed/jetified-OnBotJava-8.1.1/AndroidManifest.xml:39:5-41:41
 MERGED from [org.firstinspires.ftc:Blocks:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/a381e547c5b335b4f336c1a8dc63554f/transformed/jetified-Blocks-8.1.1/AndroidManifest.xml:7:5-9:41
@@ -187,109 +187,109 @@ MERGED from [org.openftc:opencv-repackaged:4.5.3-B] /Users/fionawang/.gradle/cac
 MERGED from [org.openftc:opencv-repackaged:4.5.3-B] /Users/fionawang/.gradle/caches/transforms-3/7c2b163972c5e064e02ca15ffe753027/transformed/jetified-opencv-repackaged-4.5.3-B/AndroidManifest.xml:7:5-9:41
 MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/fionawang/.gradle/caches/transforms-3/9250e5fcfdd977913d30d77c44b99cac/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:7:5-8:41
 MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/fionawang/.gradle/caches/transforms-3/9250e5fcfdd977913d30d77c44b99cac/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:7:5-8:41
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		MERGED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
-		INJECTED from /Users/fionawang/FTC/OC-2022-23-FW/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		MERGED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /Users/fionawang/FTC/OC2022-23Backup/TeamCode/src/main/AndroidManifest.xml
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:5-81
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:5-81
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:22-78
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:22-78
 meta-data#org.firstinspires.latestSupportedControlHubVersion
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:23:9-25:33
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:23:9-25:33
 	android:value
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:25:13-30
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:25:13-30
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:24:13-78
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:24:13-78
 activity#org.firstinspires.ftc.robotcontroller.internal.PermissionValidatorWrapper
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-39:20
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-39:20
 	android:screenOrientation
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:33:13-49
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:33:13-49
 	android:label
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-45
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-45
 	android:launchMode
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:32:13-44
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:32:13-44
 	android:configChanges
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-59
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-59
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-101
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-101
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:34:13-38:29
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:34:13-38:29
 category#android.intent.category.LAUNCHER
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:35:17-77
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:35:17-77
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:35:27-74
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:35:27-74
 action#android.intent.action.MAIN
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:37:17-69
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:37:17-69
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:37:25-66
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:37:25-66
 activity#org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:40:9-58:20
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:40:9-58:20
 	android:screenOrientation
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:45:13-49
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:45:13-49
 	android:label
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:43:13-45
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:43:13-45
 	android:launchMode
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:44:13-44
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:44:13-44
 	android:configChanges
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:42:13-59
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:42:13-59
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:41:13-101
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:41:13-101
 intent-filter#action:name:android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:46:13-48:29
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:46:13-48:29
 action#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:47:17-90
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:47:17-90
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:47:25-87
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:47:25-87
 meta-data#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:50:13-52:57
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:50:13-52:57
 	android:resource
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:52:17-54
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:52:17-54
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:51:17-79
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:51:17-79
 meta-data#org.firstinspires.main.entry
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:55:13-57:40
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:55:13-57:40
 	android:value
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:57:17-37
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:57:17-37
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:56:17-60
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:56:17-60
 service#com.qualcomm.ftccommon.FtcRobotControllerService
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:61:9-63:38
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:61:9-63:38
 	android:enabled
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:63:13-35
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:63:13-35
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:62:13-76
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:62:13-76
 receiver#org.firstinspires.ftc.ftccommon.internal.RunOnBoot
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:66:9-77:20
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:66:9-77:20
 	android:enabled
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:68:13-35
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:68:13-35
 	android:exported
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:69:13-36
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:69:13-36
 	android:permission
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:70:13-75
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:70:13-75
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:67:13-78
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:67:13-78
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON+category:name:android.intent.category.DEFAULT
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:71:13-76:29
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:71:13-76:29
 category#android.intent.category.DEFAULT
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:72:17-76
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:72:17-76
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:72:27-73
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:72:27-73
 action#android.intent.action.BOOT_COMPLETED
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:74:17-79
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:74:17-79
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:74:25-76
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:74:25-76
 action#android.intent.action.QUICKBOOT_POWERON
-ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:75:17-82
+ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:75:17-82
 	android:name
-		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC-2022-23-FW/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:75:25-79
+		ADDED from [:FtcRobotController] /Users/fionawang/FTC/OC2022-23Backup/FtcRobotController/build/intermediates/merged_manifest/debug/AndroidManifest.xml:75:25-79
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from [org.firstinspires.ftc:Blocks:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/a381e547c5b335b4f336c1a8dc63554f/transformed/jetified-Blocks-8.1.1/AndroidManifest.xml:11:5-13:35
 MERGED from [org.firstinspires.ftc:FtcCommon:8.1.1] /Users/fionawang/.gradle/caches/transforms-3/141689e5190e0e257142042991ad8358/transformed/jetified-FtcCommon-8.1.1/AndroidManifest.xml:13:5-15:35

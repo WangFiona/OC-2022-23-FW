@@ -276,6 +276,7 @@ public class teleop1 extends OpMode {
         }
         RobotLog.ii(TAG_SL, "turret encoder " + robot.turret.getCurrentPosition());
         RobotLog.ii(TAG_SL, "slideL encoder " + robot.vSlides.slideLeft.getCurrentPosition());
+        RobotLog.ii(TAG_SL, "slideM encoder " + robot.vSlides.slideMiddle.getCurrentPosition());
         RobotLog.ii(TAG_SL, "slideR encoder " + robot.vSlides.slideRight.getCurrentPosition());
 
         if(gamepad1.x && Button.SLIDE_RESET.canPress(timestamp)){
@@ -361,9 +362,11 @@ public class teleop1 extends OpMode {
         }
 
         if(gamepad2.x && Button.TURRET_RIGHT.canPress(timestamp) && slideLocation != SlideLocation.BOTTOM && slideLocation != SlideLocation.L1){
-            if(Left){
+            /*if(Left){
                 robot.alignerInit();
-            }
+            }*/
+            if(slideLocation == SlideLocation.L3 || slideLocation == SlideLocation.L4)
+                robot.aligner.setRight();
             robot.turret.setPower(0);
             turretAdjust = -92;//-87;
             robot.turret.moveTo(turretAdjust, turretPower);
@@ -372,9 +375,11 @@ public class teleop1 extends OpMode {
         }
 
         if(gamepad2.b && Button.TURRET_LEFT.canPress(timestamp) && slideLocation != SlideLocation.BOTTOM && slideLocation != SlideLocation.L1){
-            if(!Left){
+            /*if(!Left){
                 robot.alignerInit();
-            }
+            }*/
+            if(slideLocation == SlideLocation.L3 || slideLocation == SlideLocation.L4)
+                robot.aligner.setLeft();
             robot.turret.setPower(0);
             turretAdjust = 87;
             robot.turret.moveTo(turretAdjust, turretPower);
@@ -408,15 +413,15 @@ public class teleop1 extends OpMode {
         }
 
         if(slowMode == SlowMode.SLOW) {
-            if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3 + 30) {
+            if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3 + 20) {
                 powerSlow = true;
                 //previousPower = slowPower;
                 slowPower = 0.3f;
-            } else if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3 - 80) {
+            } else if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level3 - 70) {
                 powerSlow = true;
                 previousPower = slowPower;
                 slowPower = 0.4f;
-            } else if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level2 - 50) {
+            } else if (robot.vSlides.slideLeft.getCurrentPosition() > robot.vSlides.level2 - 40) {
                 powerSlow = true;
                 previousPower = slowPower;
                 slowPower = 0.7f;
@@ -447,6 +452,7 @@ public class teleop1 extends OpMode {
         //telemetry.addData("sensorR", robot.sensorR.getRawLightDetected());
         telemetry.addData("turret encoder ", turretPos);
         telemetry.addData("slideL encoder ", robot.vSlides.slideLeft.getCurrentPosition());
+        telemetry.addData("slideM encoder ", robot.vSlides.slideMiddle.getCurrentPosition());
         telemetry.addData("slideR encoder ", robot.vSlides.slideRight.getCurrentPosition());
         telemetry.addData("limit switch ", robot.vSlides.isSlideSwitchPressed());
         telemetry.addData("hSlide getPos ", robot.hSlides.getPos());
@@ -540,13 +546,13 @@ public class teleop1 extends OpMode {
             if(level == robot.vSlides.level1 || level == robot.vSlides.stack){
                 robot.vSlides.moveTo(50);
             } else
-                robot.vSlides.moveTo(level-260);
+                robot.vSlides.moveTo(level-195);
         } else if(buttonState == ButtonState.NO){
             robot.vSlides.moveTo(level);
         }
 
         if(upState == UpState.PRESSED){
-            robot.vSlides.moveTo(level+130);
+            robot.vSlides.moveTo(level+150);
         } else if(upState == UpState.NO){
             robot.vSlides.moveTo(level);
         }
@@ -586,7 +592,7 @@ public class teleop1 extends OpMode {
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
-                robot.vSlides.moveTo(75);
+                robot.vSlides.moveTo(45);
             }
         } else if((gamepad2.dpad_down) && Button.BTN_L2.canPress(timestamp)){
             robot.alignerInit();
@@ -596,20 +602,20 @@ public class teleop1 extends OpMode {
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
-                robot.vSlides.moveTo(160);
+                robot.vSlides.moveTo(93);
             }
         } else if((gamepad2.dpad_right) && Button.BTN_L3.canPress(timestamp)){
             if(slideMode == SlideMode.NORMAL) {
                 robot.vSlides.moveTo3();
                 slideLocation = SlideLocation.L3;
-                /*if(aligner){
+                if(aligner){
                     alignerOut = true;
                     alignerDelay = System.currentTimeMillis();
-                }*/
+                }
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
-                robot.vSlides.moveTo(255);
+                robot.vSlides.moveTo(165);
             }
         } else if((gamepad2.dpad_up) && Button.BTN_L4.canPress(timestamp)){
             if(slideMode == SlideMode.NORMAL) {
@@ -622,12 +628,12 @@ public class teleop1 extends OpMode {
             } else {
                 //robot.clawOpen();
                 slideLocation = SlideLocation.STACK;
-                robot.vSlides.moveTo(330);
+                robot.vSlides.moveTo(228);
             }
         }
 
         if(alignerOut && System.currentTimeMillis() - alignerDelay > 400){
-            robot.alignerOut();
+            robot.aligner.setTeleOut();
             alignerOut = false;
         }
 
@@ -643,6 +649,7 @@ public class teleop1 extends OpMode {
 
         if(robot.vSlides.switchSlideDown.isTouch()){
             robot.vSlides.slideLeft.resetPosition();
+            robot.vSlides.slideMiddle.resetPosition();
             robot.vSlides.slideRight.resetPosition();
         }
         //telemetry.update();
@@ -691,7 +698,7 @@ public class teleop1 extends OpMode {
                 cycleMode = false;
                 robot.clawGrab();
                 robot.alignerInit();
-                if(robot.vSlides.getCurrentPosition() > 1800) {
+                if(robot.vSlides.getCurrentPosition() > 1400) {
                     turretAdjust = 0;
                     goZero = true;
                     robot.turret.moveTo(turretAdjust, turretPower);
@@ -762,13 +769,13 @@ public class teleop1 extends OpMode {
         //extend aligner
         if(cycleMode && System.currentTimeMillis() - startCycle > 1450 &&
                 System.currentTimeMillis() - startCycle <= 2700){
-            //robot.alignerOut();
+            //robot.aligner.setTeleOut();
             robot.hSlides.setPosition(120f);
         }
 
         if(cycleMode && System.currentTimeMillis() - startCycle > 1820 &&
                 System.currentTimeMillis() - startCycle <= 2700){
-            robot.alignerOut();
+            robot.aligner.setTeleOut();
         }
 
         //lower slides a little before dumping
@@ -833,6 +840,7 @@ public class teleop1 extends OpMode {
         } else {
             robot.vSlides.forcestop();
             robot.vSlides.reset(robot.vSlides.slideLeft);
+            robot.vSlides.reset(robot.vSlides.slideMiddle);
             robot.vSlides.reset(robot.vSlides.slideRight);
             telemetry.addLine("reset");
             slideManualDown = false;
@@ -849,11 +857,13 @@ public class teleop1 extends OpMode {
         } else {
             robot.vSlides.forcestop();
             robot.vSlides.slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.vSlides.slideMiddle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.vSlides.slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             //robot.vSlides.reset(robot.vSlides.slideLeft);
             //robot.vSlides.reset(robot.vSlides.slideRight);
             telemetry.addLine("reset");
             RobotLog.ii(TAG_SL, "slideL encoder reset " + robot.vSlides.slideLeft.getCurrentPosition());
+            RobotLog.ii(TAG_SL, "slideM encoder reset " + robot.vSlides.slideMiddle.getCurrentPosition());
             RobotLog.ii(TAG_SL, "slideR encoder reset " + robot.vSlides.slideRight.getCurrentPosition());
             //telemetry.update();
             if(justAdjusted) {
@@ -882,6 +892,7 @@ public class teleop1 extends OpMode {
     public void brakeSlides(int level){
         if(robot.vSlides.getCurrentPosition()-level < 5){
             robot.vSlides.slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            robot.vSlides.slideMiddle.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.vSlides.slideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.vSlides.setPower(0);
         }

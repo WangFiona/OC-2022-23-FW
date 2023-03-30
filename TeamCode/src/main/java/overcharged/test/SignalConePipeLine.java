@@ -36,19 +36,19 @@ public class SignalConePipeLine extends OpenCvPipeline {
     public Mat processFrame(Mat input){
         //coordinates of top-left and bottom right points in rectangle
         if(Left){
-            x1 = 0.48;
-            x2 = 0.56;
-            y1 = 0.48;
-            y2 = 0.31;
+            x1 = 0.554;//0.48;
+            x2 = 0.634;//0.56;
+            y1 = 0.546;//0.48;
+            y2 = 0.376;//0.31;
              /*x1 = 0.56;
              x2 = 0.64;
              y1 = 0.6;
              y2 = 0.43;*/
         } else {
-            x1 = 0.55;
-            x2 = 0.63;
-            y1 = 0.48;
-            y2 = 0.31;
+            x1 = 0.62;
+            x2 = 0.7;
+            y1 = 0.508;
+            y2 = 0.38;
              /*x1 = 0.59;
              x2 = 0.67;
              y1 = 0.6;
