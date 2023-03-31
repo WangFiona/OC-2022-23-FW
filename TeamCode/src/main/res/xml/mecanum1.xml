@@ -7,8 +7,8 @@
             <goBILDA5202SeriesMotor name="driveRB" port="1" />
             <goBILDA5202SeriesMotor name="slideR" port="2" />
             <goBILDA5202SeriesMotor name="slideM" port="3" />
-            <Servo name="hSlides" port="0" />
-            <Servo name="pivot" port="1" />
+            <Servo name="aligner" port="0" />
+            <Servo name="claw" port="1" />
             <!--<RevColorSensorV3 name="sensorR" port="1" bus="1" />-->
         </LynxModule>
         <LynxModule name="Control Hub" port="173">
@@ -18,8 +18,8 @@
             <goBILDA5202SeriesMotor name="slideL" port="2" />
             <!--<LynxEmbeddedIMU name="imu" port="0" bus="0" /> -->
             <DigitalDevice name="limitswitch" port="1" />
-            <Servo name="claw" port="0" />
-            <Servo name="aligner" port="1" />
+            <Servo name="pivot" port="0" />
+            <Servo name="hSlides" port="1" />
             <RevColorSensorV3 name="sensorF" port="2" bus="2" />
             <DigitalDevice name="led_white" port="6" />
             <DigitalDevice name="led_yellow" port="4" />

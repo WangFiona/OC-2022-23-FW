@@ -6,8 +6,8 @@ public class Aligner {
     public OcServo aligner;
     public OcServo pivot;
 
-    public static final float INIT = 17f;//25f;//21f;
-    public static float OUT = 173f;//194f;//182f;//182f;
+    public static final float INIT = 23f;//17f;//25f;//21f;
+    public static float OUT = 174f;//194f;//182f;//182f;
     public static float TELE_OUT = 169f;
     public static final float HALF = 154f;//150f;
 
