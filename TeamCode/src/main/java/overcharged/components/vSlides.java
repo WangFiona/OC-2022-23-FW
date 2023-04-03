@@ -120,7 +120,7 @@ public class vSlides {
         try {
             slideR = new OcMotorEx(hardwareMap,
                     "slideR",
-                    DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_USING_ENCODER);
+                    DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
         } catch (Exception e) {
             RobotLog.ee(RobotConstants.TAG_R, "missing: slideR " + e.getMessage());
             missing = missing + ", slideR";

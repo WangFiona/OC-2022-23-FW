@@ -341,6 +341,7 @@ public class teleop1 extends OpMode {
 
         if(smallTurn && System.currentTimeMillis()-smallWait > 400){
             smallTurn = false;
+            robot.aligner.setLeft();
             if (slideLocation == SlideLocation.L4 || slideLocation == SlideLocation.L3) {
                 robot.vSlides.moveTo2();
             }
@@ -348,6 +349,7 @@ public class teleop1 extends OpMode {
 
         if(waitTurret && System.currentTimeMillis()-waitTime > 400){
             robot.turret.setPower(0);
+            robot.aligner.setLeft();
             if (slideMode == SlideMode.NORMAL)
                 robot.clawGrab();
 
