@@ -66,7 +66,7 @@ public class OcSwitch
      */
     public boolean isTouch () {
         if (isDigital) {
-			return !disabled ? digital.getState() : false;
+			return !(!disabled ? digital.getState() : false); //switched for new limit switch (when clicked, false is returned)
        }
         else {
             return analog.getVoltage() / analog.getMaxVoltage() > 0.99;

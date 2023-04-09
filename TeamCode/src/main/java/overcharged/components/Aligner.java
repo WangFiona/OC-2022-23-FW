@@ -6,12 +6,13 @@ public class Aligner {
     public OcServo aligner;
     public OcServo pivot;
 
-    public static final float INIT = 23f;//17f;//25f;//21f;
+    public static final float INIT = 19f;//17f;//25f;//21f;
     public static float OUT = 183f;//194f;//182f;//182f;
     public static float TELE_OUT = 183f;
     public static final float HALF = 154f;//150f;
 
     public static float LEFT = 40;
+    public static float MIDDLE = 124;
     public static float RIGHT = 208;
 
     public Aligner(HardwareMap hardwareMap) {
@@ -34,6 +35,8 @@ public class Aligner {
     public void setHalf() { aligner.setPosition(HALF); }
 
     public void setLeft() { pivot.setPosition(LEFT);}
+
+    public void setMiddle() { pivot.setPosition(MIDDLE);}
 
     public void setRight() { pivot.setPosition(RIGHT);}
 }

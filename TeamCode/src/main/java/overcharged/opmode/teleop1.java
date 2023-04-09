@@ -95,6 +95,8 @@ public class teleop1 extends OpMode {
     boolean firstTime4 = true;
     boolean firstTime5 = true;
     double grabAngle = 50;
+    boolean pivotWait = false;
+    long pivotTime;
 
     public enum ClawState{
         OPEN,
@@ -150,6 +152,14 @@ public class teleop1 extends OpMode {
             telemetry.addData("Status", "Initialized");
             telemetry.update();
             robot.turret.turret.setTargetPositionPIDFCoefficients(16,0,0,0);
+            robot.vSlides.slideMiddle.setPower(0);
+            robot.vSlides.slideLeft.setPower(0);
+            robot.vSlides.slideRight.setPower(0);
+            robot.driveRightFront.setPower(0);
+            robot.driveRightBack.setPower(0);
+            robot.driveLeftFront.setPower(0);
+            robot.driveLeftBack.setPower(0);
+            robot.turret.turret.setPower(0);
         } catch (Exception e) {
             RobotLog.ee(TAG_T, "Teleop init failed: " + e.getMessage());
             telemetry.addData("Init Failed", e.getMessage());
@@ -449,7 +459,7 @@ public class teleop1 extends OpMode {
         telemetry.addData("goZero", goToZero);
         telemetry.addData("goToZero", goToZero);
         telemetry.addData("slowPower", slowPower);
-        telemetry.addData("sensorF", robot.sensorF.getDistance(DistanceUnit.CM));
+        //telemetry.addData("sensorF", robot.sensorF.getDistance(DistanceUnit.CM));
         //telemetry.addData("sensorL", robot.sensorL.getRawLightDetected());
         //telemetry.addData("sensorR", robot.sensorR.getRawLightDetected());
         telemetry.addData("turret encoder ", turretPos);
@@ -488,7 +498,13 @@ public class teleop1 extends OpMode {
         //Controls for claw
         if((gamepad1.right_bumper) && Button.BTN_OPEN.canPress(timestamp)){
             if(clawState == ClawState.GRAB && !slideGoBottom){
-                robot.alignerInit();
+                if(slideLocation == SlideLocation.L3 || slideLocation == SlideLocation.L4){
+                    robot.aligner.setMiddle();
+                    pivotTime = System.currentTimeMillis();
+                    pivotWait = true;
+                } else{
+                    robot.alignerInit();
+                }
                 robot.clawOpen();
                 clawState = ClawState.OPEN;
             }else if(clawState == ClawState.OPEN){
@@ -499,6 +515,11 @@ public class teleop1 extends OpMode {
                 }
                 clawState = ClawState.GRAB;
             }
+        }
+
+        if(pivotWait && System.currentTimeMillis()-pivotTime > 200){
+            pivotWait = false;
+            robot.aligner.setInit();
         }
 
         if((gamepad1.left_bumper && slideLocation != SlideLocation.BOTTOM)){
@@ -669,7 +690,7 @@ public class teleop1 extends OpMode {
         else
             robot.ledGreenOn(false);
 
-        if(autoGrab && robot.sensorF.getDistance(DistanceUnit.CM) < 7 && clawState == ClawState.OPEN){
+        /*if(autoGrab && robot.sensorF.getDistance(DistanceUnit.CM) < 7 && clawState == ClawState.OPEN){
             robot.clawGrab();
             clawState = ClawState.GRAB;
             if(slideLocation == SlideLocation.BOTTOM && slideMode == SlideMode.NORMAL) {
@@ -681,7 +702,7 @@ public class teleop1 extends OpMode {
         }
 
         if(robot.sensorF.getDistance(DistanceUnit.CM) > 7 && clawState == ClawState.OPEN)
-            robot.ledYellowOn(false);
+            robot.ledYellowOn(false);*/
 
         robot.drawLed();
 
@@ -694,7 +715,7 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(gamepad1.dpad_right && Button.CYCLE_MODE.canPress(timestamp)){
+        /*if(gamepad1.dpad_right && Button.CYCLE_MODE.canPress(timestamp)){
             if(cycleMode) {
                 robot.turret.turret.setTargetPositionPIDFCoefficients(16, 0, 0, 0);
                 cycleMode = false;
@@ -824,7 +845,7 @@ public class teleop1 extends OpMode {
             robot.hSlides.setPosition(125f);
         }
 
-        /*//not first cycle, extend h slides
+        //not first cycle, extend h slides
         if(cycleMode && !firstCycle && System.currentTimeMillis() - startCycle < 600){
             robot.hSlides.setPosition(120f);
             firstTime5 = true;

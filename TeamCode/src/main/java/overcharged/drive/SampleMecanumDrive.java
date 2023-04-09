@@ -57,10 +57,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(4, 0, 0);//4  or 18 0 1
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 1);//4  or 18 0 1
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);//8 or 2
 
-    public static double LATERAL_MULTIPLIER = 5.13616135546;//1.55405863674;//1.52408391136;//1.47562708587;//.558;
+    public static double LATERAL_MULTIPLIER = 1.045206;//5.13616135546;//1.55405863674;//1.52408391136;//1.47562708587;//.558;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -123,8 +123,8 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         leftFront = hardwareMap.get(DcMotorEx.class, "driveLF");
         leftRear = hardwareMap.get(DcMotorEx.class, "driveLB");
-        rightRear = hardwareMap.get(DcMotorEx.class, "driveRB");
         rightFront = hardwareMap.get(DcMotorEx.class, "driveRF");
+        rightRear = hardwareMap.get(DcMotorEx.class, "driveRB");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 

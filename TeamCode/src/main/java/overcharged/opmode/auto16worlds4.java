@@ -33,8 +33,8 @@ import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
 
 @Config
-@Autonomous(name="auto8mid")
-public class auto8mid extends LinearOpMode {
+@Autonomous(name="auto16worlds4")
+public class auto16worlds4 extends LinearOpMode {
 
     private RobotMecanum robot;
     SampleMecanumDrive drive;
@@ -112,7 +112,7 @@ public class auto8mid extends LinearOpMode {
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
-            s3 = new Pose2d(xVal,0, Left? Math.toRadians(90) : Math.toRadians(-90));
+            s3 = new Pose2d(xVal,0, Left? Math.toRadians(0) : Math.toRadians(-90));
             p1 = new Vector2d(xVal-1, (Left? 22 : 26));
             p2 = new Vector2d(xVal-5, (Left? -3 : 3)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
@@ -278,8 +278,9 @@ public class auto8mid extends LinearOpMode {
         double startEL = drive.leftRear.getCurrentPosition();
         double startEM = drive.rightRear.getCurrentPosition();
         double startER = drive.rightFront.getCurrentPosition();
+        drive.followTrajectorySequence(toSquare3);
 
-        robot.turret.isNegative(false);
+        /*robot.turret.isNegative(false);
         robot.hSlides.setPosition(Left? dumpLengthL : dumpLengthR);//Left ? 79f : 79f);//(Left? 129f : 142f);//132
         drive.followTrajectorySequence(toSquare3);
 
@@ -380,7 +381,7 @@ public class auto8mid extends LinearOpMode {
             }
         } else{ //blue
             drive.followTrajectorySequence(to2);
-        }
+        }*/
     }
 
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {
@@ -389,7 +390,7 @@ public class auto8mid extends LinearOpMode {
         //    robot.hSlides.setPosition(33f);//80f);
         //    lp.waitMillis(500);
         //} else {
-        robot.hSlides.setPosition(Left? 80f : 80f);//140f);
+        robot.hSlides.setPosition(Left? 40f : 40f);//140f);
         robot.alignerInit();
         lp.waitMillis(350);//600);
         //}
@@ -397,8 +398,8 @@ public class auto8mid extends LinearOpMode {
         robot.turret.moveTo(resetAngle, turretPower);//, Left? true : false);//(Left? -(resetAngle) : (resetAngle)), turretPower);
 
         //if(!wait) {
-            lp.waitMillis(300);
-            robot.hSlides.setPosition(Left? 130f : 125f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
+        lp.waitMillis(300);
+        robot.hSlides.setPosition(Left? 100f : 100f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
         //}
 
         lp.waitMillis(400);//84.5, 81.4
