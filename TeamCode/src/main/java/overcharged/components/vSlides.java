@@ -270,16 +270,20 @@ public class vSlides {
         moveSlidesTo( level2);
     }*/
 
+    public void moveToBottom(){
+        moveToBottomSpeed(-0.85f);
+    }
+
     /**
      * Move the slides to the last bottom level
      */
-    public void moveToBottom()
+    public void moveToBottomSpeed(float power)
     {
         //moveSlidesTo( 0);
         slideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMiddle.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        move(SLIDE_POWER_DOWN);
+        move(power);//SLIDE_POWER_DOWN);
     }
 
     /**

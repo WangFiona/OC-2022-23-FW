@@ -26,10 +26,11 @@ public class vSlidesThread implements Runnable {
     //boolean switchBroken = false;
     long slideDownTime;
     int cycleNumber=0;
+    float power = -0.85f;
 
     private SignalColors signalColors = SignalColors.Red;
 
-    public vSlidesThread(boolean up, WaitLinear wl, LinearOpMode mode, RobotMecanum r, SignalColors d, double cone1, double i, int l) {
+    public vSlidesThread(float p, boolean up, WaitLinear wl, LinearOpMode mode, RobotMecanum r, SignalColors d, double cone1, double i, int l) {
         // store parameter for later use
         c1 = cone1;
         interval = i;
@@ -39,6 +40,7 @@ public class vSlidesThread implements Runnable {
         opMode = mode;
         robot = r;
         signalColors=d;
+        power = -p;
 
         /*startencoder=se;
         cycleNumber=cN;*/
@@ -117,10 +119,11 @@ public class vSlidesThread implements Runnable {
     public void slideDown(WaitLinear lp) throws InterruptedException {
         //robot.clawOpen();
         while(!slideReachedBottom() && slideDownTime-System.currentTimeMillis()<1000){
-            robot.vSlides.moveToBottom();
+            robot.vSlides.moveToBottomSpeed(power);
         }
         robot.vSlides.forcestop();
         robot.vSlides.reset(robot.vSlides.slideLeft);
+        robot.vSlides.reset(robot.vSlides.slideMiddle);
         robot.vSlides.reset(robot.vSlides.slideRight);
 
         /*robot.armMid();

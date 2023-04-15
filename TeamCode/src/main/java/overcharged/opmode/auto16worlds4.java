@@ -24,6 +24,7 @@ import overcharged.components.DuckDetector;
 import overcharged.components.RobotMecanum;
 import overcharged.components.SignalColors;
 import overcharged.components.hSlides;
+import overcharged.drive.DriveConstants;
 import overcharged.drive.SampleMecanumDrive;
 import overcharged.linear.util.SelectLinear;
 import overcharged.linear.util.WaitLinear;
@@ -48,15 +49,15 @@ public class auto16worlds4 extends LinearOpMode {
     boolean Left = true;
     float turretPower = 1f;
     double y3 = -60;
-    int cone1 = -10;//22;//5;
-    int interval = 70;//67
+    int cone1 = 10;//22;//5;
+    int interval = 55;//67
     boolean grabbed = true;
-    double resetAngle = 13;
+    double resetAngle = -6;
     int offset = 60;
-    float dumpLengthL = 79f;
-    float dumpLength2L = 137f;
-    float dumpLengthR = 89f;
-    float dumpLength2R = 134f;
+    float dumpLengthL = 161f;//79f;
+    float dumpLength2L = 172f;
+    float dumpLengthR = 161f;//89f;
+    float dumpLength2R = 172f;
     float close = 12f;
     float far = 15f;
     int Length = 0;
@@ -86,12 +87,12 @@ public class auto16worlds4 extends LinearOpMode {
             //robot.clawGrab();
 
             drive = new SampleMecanumDrive(hardwareMap);
-            robot.clawGrab();
+            //robot.clawGrab();
             robot.aligner.autoValue();
 
             Left = sl.selectPosition();
             if(!Left)
-                resetAngle = 15;
+                resetAngle = 10;
 
             Length = sl.selectLength();
             if(Length == 2){
@@ -107,12 +108,12 @@ public class auto16worlds4 extends LinearOpMode {
             }
 
             double xVal = (Left? 50: 51);
-            double yVal = (Left? 11: -12); //-6
-            double yVal2 = (Left? 8.5: -6); //-6
+            double yVal = (Left? 1: -12); //-6
+            double yVal2 = (Left? 1: -6); //-6
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
-            s3 = new Pose2d(xVal,0, Left? Math.toRadians(0) : Math.toRadians(-90));
+            s3 = new Pose2d(xVal,0, Left? Math.toRadians(94) : Math.toRadians(-90));
             p1 = new Vector2d(xVal-1, (Left? 22 : 26));
             p2 = new Vector2d(xVal-5, (Left? -3 : 3)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
@@ -120,35 +121,41 @@ public class auto16worlds4 extends LinearOpMode {
             pR3 = new Vector2d(25, -25);
 
             toSquare3 = drive.trajectorySequenceBuilder(start)
-                    //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(57, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(s3)
-                    .addSpatialMarker(new Vector2d((Left? 10 : 15),0), () -> {
-                        //robot.vSlides.moveTo(1420);
+                    .addSpatialMarker(new Vector2d((Left? 1 : 12),0), () -> {
+                        robot.vSlides.moveTo(1460);
                     })
-                    .addSpatialMarker(new Vector2d((Left? 20 : 20), 0), () -> {
-                        //robot.turret.moveTo((Left? -163 : 163), turretPower);//, Left? false : true);//-154 : 151), turretPower);
+                    .addSpatialMarker(new Vector2d((Left? 2 : 13), 0), () -> {
+                        robot.turret.moveTo((Left? -170 : 170), turretPower);//, Left? false : true);//-154 : 151), turretPower);
                     })
                     .addSpatialMarker(new Vector2d((Left? 30 : 30),0), () -> {
-                        //robot.alignerOut();
+                        robot.alignerOut();
+                        if(Left){robot.aligner.setRight();}
+                        robot.hSlides.setPosition(Left? dumpLengthL/3 : dumpLengthR/3);
+                        robot.turret.turret.setTargetPositionPIDFCoefficients(1.5, 0, 0, 0);//1.4
                     })
-                    .addSpatialMarker(new Vector2d((Left? 50 : 50),0), () -> {
-                        //robot.vSlides.moveTo(1160);
-                        //robot.turret.setPower(0);
+                    .addSpatialMarker(new Vector2d((Left? 43 : 43),0), () -> {
+                        robot.hSlides.setPosition(Left? dumpLengthL : dumpLengthR);
+                    })
+                    .addSpatialMarker(new Vector2d((Left? 49.9 : 50),0), () -> {
+                        robot.vSlides.moveTo(1200);
+                        robot.turret.setPower(0);
                     })
                     .build();
 
             toLine = drive.trajectorySequenceBuilder(toSquare3.end())
                     //.setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
-                    .lineToLinearHeading(new Pose2d(line, Left? Math.toRadians(90) : Math.toRadians(-93)))
+                    .lineToLinearHeading(new Pose2d(line, Left? Math.toRadians(88) : Math.toRadians(-88)))
                     //.strafeTo(line)
                     .build();
 
-            correct = drive.trajectorySequenceBuilder(new Pose2d(line.getX(), line.getY()+(Left? -1 : 1), Left? Math.toRadians(90) : Math.toRadians(-90)))
-                    .lineToLinearHeading(new Pose2d(line, Left? Math.toRadians(90) : Math.toRadians(-93)))
+            correct = drive.trajectorySequenceBuilder(toSquare3.end())//new Pose2d(line.getX(), line.getY()+(Left? -1 : 1), Left? Math.toRadians(90) : Math.toRadians(-90)))
+                    .lineToLinearHeading(new Pose2d(line, Left? Math.toRadians(88) : Math.toRadians(-88)))
                     .build();
 
             correct2 = drive.trajectorySequenceBuilder(new Pose2d(line.getX(), line.getY()+(Left? -1 : 1), Left? Math.toRadians(90) : Math.toRadians(-90)))
-                    .lineToLinearHeading(new Pose2d(line2, Left? Math.toRadians(90) : Math.toRadians(-90)))
+                    .lineToLinearHeading(new Pose2d(line2, Left? Math.toRadians(88) : Math.toRadians(-88)))
                     .build();
 
             score = drive.trajectorySequenceBuilder(toLine.end())
@@ -156,38 +163,40 @@ public class auto16worlds4 extends LinearOpMode {
                     .build();
 
             to1 = drive.trajectorySequenceBuilder(toLine.end())
-                    .lineToLinearHeading(new Pose2d(p1, 0))
+                    .lineToLinearHeading(new Pose2d(p1, Math.toRadians(180)))
                     .build();
 
-            toR1 = drive.trajectorySequenceBuilder(toLine.end())
+            /*toR1 = drive.trajectorySequenceBuilder(toLine.end())
                     .strafeTo(p1)
                     .addSpatialMarker(new Vector2d(xVal-2,4), () -> {
                         lowerSlidesThread(lp, 1);})
-                    .build();
+                    .build();*/
 
             to2 = drive.trajectorySequenceBuilder(toLine.end())
-                    .strafeTo(p2)
+                    .lineToLinearHeading(new Pose2d(p2, Math.toRadians(180)))
+                    //.strafeTo(p2)
                     //.addSpatialMarker(new Vector2d(xVal-3,2), () -> {
                     //lowerSlidesThread(lp, 1);})
                     .build();
 
 
-            to2p2 = drive.trajectorySequenceBuilder(to2.end())
+            /*to2p2 = drive.trajectorySequenceBuilder(to2.end())
                     .lineTo(p2p2)
-                    .build();
+                    .build();*/
 
             to3 = drive.trajectorySequenceBuilder(toLine.end())
-                    .strafeTo(p3)
-                    //.addSpatialMarker(new Vector2d(-2,-4), () -> {
-                    //lowerSlidesThread(lp, 1);})
+                    .lineToLinearHeading(new Pose2d(p3, Math.toRadians(180)))
+                    .addSpatialMarker(new Vector2d(48,-15), () -> {
+                        lowerSlidesThread(lp, 1);
+                    })
                     .build();
 
-            toR3 = drive.trajectorySequenceBuilder(correct2.end())
+            /*toR3 = drive.trajectorySequenceBuilder(correct2.end())
                     //.lineToLinearHeading(new Pose2d(line2.getX(), line2.getY()+7, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     //.lineToLinearHeading(new Pose2d(25, line2.getY()+7, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     //.lineToLinearHeading(new Pose2d(25, -22, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     .lineToLinearHeading(new Pose2d(p3, 0))
-                    .build();
+                    .build();*/
 
             this.detector = new SignalConePipeLine();
             //this.detector.useDefaults();
@@ -275,22 +284,27 @@ public class auto16worlds4 extends LinearOpMode {
     public void AutoBody(WaitLinear lp, boolean Left) throws InterruptedException {
         RobotLog.ii(TAG_SL, "started");
         drive.setPoseEstimate(start);
+        robot.clawGrab();
         double startEL = drive.leftRear.getCurrentPosition();
         double startEM = drive.rightRear.getCurrentPosition();
         double startER = drive.rightFront.getCurrentPosition();
-        drive.followTrajectorySequence(toSquare3);
+        //drive.followTrajectorySequence(toSquare3);
 
-        /*robot.turret.isNegative(false);
-        robot.hSlides.setPosition(Left? dumpLengthL : dumpLengthR);//Left ? 79f : 79f);//(Left? 129f : 142f);//132
+        robot.turret.isNegative(false);
+        robot.hSlides.setPosition(Left? 40f : 40f);//dumpLengthL : dumpLengthR);//Left ? 79f : 79f);//(Left? 129f : 142f);//132
         drive.followTrajectorySequence(toSquare3);
 
         //robot.alignerInit();
+        /*robot.vSlides.moveTo(1200);
+        robot.turret.setPower(0);
+        lp.waitMillis(100);*/
         robot.claw.setAutoOpen();
+        drive.followTrajectorySequence(toLine);
 
         reset90(lp, Left, 5, false);
         //drive.followTrajectorySequence(toLine);
 
-        long parkTime = 4500; //5500
+        long parkTime = 4900; //5500
         if (signalColors == SignalColors.Red)
             parkTime += Left ? 1000 : 2000;
         else if (signalColors == SignalColors.Blue)
@@ -317,38 +331,51 @@ public class auto16worlds4 extends LinearOpMode {
             cLevel--;
             grabbed = false;
 
-            float hSlidesOut = 130f;//153f;
-            while (robot.sensorF.getDistance(DistanceUnit.CM) > 2.5 && hSlidesOut <= hSlides.OUT) {//hSlidesOut >= hSlides.MIN+10) {
+            float hSlidesOut = robot.hSlides.getPos();//153f;
+            //lp.waitMillis(1000);
+            while (robot.sensorF.getDistance(DistanceUnit.CM) > 4 && hSlidesOut <= hSlides.OUT) {//hSlidesOut >= hSlides.MIN+10) {
                 hSlidesOut += 3;
                 robot.hSlides.setPosition(hSlidesOut);
-                lp.waitMillis(10);
+                lp.waitMillis(30);
             }
 
             RobotLog.ii(TAG_SL, "sensorF distance: " + robot.sensorF.getDistance(DistanceUnit.CM) + "hSlidesOut: " + hSlidesOut + "vSlides: currentPos R: " + robot.vSlides.slideRight.getCurrentPosition() +
                     "currentPos L: " + robot.vSlides.slideLeft.getCurrentPosition());
             robot.clawGrab();
-            lp.waitMillis(350);
+            lp.waitMillis(500);
             robot.hSlides.setPosition((hSlidesOut - 10));
-            robot.vSlides.moveTo(1430);//moveTo4();
+            robot.vSlides.moveTo(1000);//moveTo4();
             lp.waitMillis(200);
+            robot.hSlides.setPosition(hSlides.IN);
 
             if (robot.sensorF.getDistance(DistanceUnit.CM) < 10) {
                 grabbed = true;
-            } else
+            } else {
                 notGrab++;
+            }
 
+            robot.turret.moveTo((Left? -172 : 172), turretPower); //-46
+            lp.waitMillis(Left? 450 : 450);//950
+            robot.vSlides.moveTo(1460);//moveTo4();
+            lp.waitMillis(Left? 350 : 350);//950
+            robot.turret.turret.setTargetPositionPIDFCoefficients(1.5,0,0,0);
             robot.alignerOut();
+            if(Left){robot.aligner.setRight();}
+            robot.hSlides.setPosition(Left? dumpLength2L : dumpLength2R);
+            lp.waitMillis(Left? 400 : 300);//950
+            drive.followTrajectorySequence(correct2);
+
+            /*robot.alignerOut();
             robot.hSlides.setPosition(Left? dumpLength2L : dumpLength2R);//Left ? 137f : 127f);//(Left? 188f : 179f);//183f
             robot.turret.moveTo((Left ? -173 : 174), turretPower);//, Left? false : true);//-180 : 180), turretPower); //-46
-            lp.waitMillis(700);
+            lp.waitMillis(700);*/
             RobotLog.ii(TAG_SL, "dump actual angle " + robot.turret.getCurrentAngle());
 
             if (robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
                 //robot.hSlides.setPosition(Left? 183f : 179f);
-                drive.followTrajectorySequence(correct2);
-                robot.vSlides.moveTo(1140);
+                robot.vSlides.moveTo(1200);
                 robot.turret.setPower(0);
-                lp.waitMillis(150);
+                lp.waitMillis(200);
             } else {
                 lp.waitMillis(700);
             }
@@ -356,17 +383,14 @@ public class auto16worlds4 extends LinearOpMode {
             robot.claw.setAutoOpen();
         }
         robot.alignerInit();
+        robot.aligner.setLeft();
 
         robot.turret.turret.setTargetPositionPIDFCoefficients(7, 0, 0, 0);
 
-        //lp.waitMillis(300);
         robot.hSlides.setPosition(hSlides.IN);
-        lp.waitMillis(250);
-        robot.clawGrab();
-        robot.turret.moveTo(0, turretPower);//, Left? true : false);
-        lp.waitMillis(500);
+        robot.clawOpen();
+        robot.turret.moveTo(0, turretPower);
 
-        lowerSlidesThread(lp, 1);
         if(signalColors == SignalColors.Red){
             if(Left) {
                 drive.followTrajectorySequence(to3);
@@ -381,40 +405,61 @@ public class auto16worlds4 extends LinearOpMode {
             }
         } else{ //blue
             drive.followTrajectorySequence(to2);
-        }*/
+        }
+        //lp.waitMillis(300);
+        /*robot.hSlides.setPosition(hSlides.IN);
+        lp.waitMillis(550);
+        robot.clawGrab();
+        robot.turret.moveTo(0, turretPower);//, Left? true : false);*/
+
+        lp.waitMillis(30000-System.currentTimeMillis()+startTime);
+        /*robot.vSlides.slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.vSlides.slideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.vSlides.slideMiddle.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.vSlides.setPower(0);*/
+        robot.vSlides.forcestop();
+        robot.vSlides.reset(robot.vSlides.slideLeft);
+        robot.vSlides.reset(robot.vSlides.slideMiddle);
+        robot.vSlides.reset(robot.vSlides.slideRight);
+
+        //lowerSlidesThread(lp, 1);
     }
 
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {
         robot.turret.turret.setTargetPositionPIDFCoefficients(7,0,0,0);
-        //if(!wait){
-        //    robot.hSlides.setPosition(33f);//80f);
-        //    lp.waitMillis(500);
-        //} else {
-        robot.hSlides.setPosition(Left? 40f : 40f);//140f);
+        robot.hSlides.setPosition(Left? 20f : 20f);//140f);
+        robot.aligner.setLeft();
         robot.alignerInit();
         lp.waitMillis(350);//600);
-        //}
 
         robot.turret.moveTo(resetAngle, turretPower);//, Left? true : false);//(Left? -(resetAngle) : (resetAngle)), turretPower);
 
-        //if(!wait) {
-        lp.waitMillis(300);
-        robot.hSlides.setPosition(Left? 100f : 100f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
-        //}
+        if(wait) {
+            lp.waitMillis(400);
+            robot.vSlides.moveTo(cone1 + (interval * newL));
+            robot.turret.turret.setTargetPositionPIDFCoefficients(3, 0, 0, 0);
+            lp.waitMillis(300);
+        }
+        else {
+            lp.waitMillis(550);
+            robot.vSlides.moveTo(cone1 + (interval * newL));
+            robot.turret.turret.setTargetPositionPIDFCoefficients(3, 0, 0, 0);
+            lp.waitMillis(150);
+        }
 
-        lp.waitMillis(400);//84.5, 81.4
-        robot.vSlides.moveTo(cone1+(interval*newL));
         if(wait) {
             drive.followTrajectorySequence(correct);
-            //lp.waitMillis(100);
-        } else
+            robot.hSlides.setPosition(Left? 142f : 142f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
+        } else {
+            robot.hSlides.setPosition(Left? 162f : 162f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
             drive.followTrajectorySequence(toLine);
+        }
 
         telemetry.addData("reset angle ", resetAngle);
         telemetry.update();
-        while(!wait && robot.sensorF.getDistance(DistanceUnit.CM) > 8 && ((Left && robot.turret.getCurrentAngle() < 5) || (!Left && robot.turret.getCurrentAngle() > 5))){//robot.turret.getCurrentAngle()+360 < 370){
+        while(!wait && robot.sensorF.getDistance(DistanceUnit.CM) > 7 && ((Left && robot.turret.getCurrentAngle() < 5) || (!Left && robot.turret.getCurrentAngle() > 5))){//robot.turret.getCurrentAngle()+360 < 370){
             robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.turret.setPower(Left? 0.2f : -0.2f);
+            robot.turret.setPower(Left? 0.09f : -0.09f);
             RobotLog.ii(TAG_SL, "current angle " + robot.turret.getCurrentAngle());
             telemetry.addData("current angle", robot.turret.getCurrentAngle());
             telemetry.addData("reset angle ", resetAngle);
@@ -434,7 +479,7 @@ public class auto16worlds4 extends LinearOpMode {
     }
 
     public void lowerSlidesThread(WaitLinear lp, int level) { // asynchronously start raising the slides
-        Runnable lowerSlidesThread = new vSlidesThread(false, lp, this, robot, signalColors, cone1, interval, level);
+        Runnable lowerSlidesThread = new vSlidesThread(0.6f, false, lp, this, robot, signalColors, cone1, interval, level);
         Thread thread = new Thread(lowerSlidesThread);
         thread.start();
     }

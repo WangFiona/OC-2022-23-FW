@@ -417,7 +417,7 @@ public class auto10RedAtHome extends LinearOpMode {
     }
 
     public void lowerSlidesThread(WaitLinear lp, int level) { // asynchronously start raising the slides
-        Runnable lowerSlidesThread = new vSlidesThread(false, lp, this, robot, signalColors, cone1, interval, level);
+        Runnable lowerSlidesThread = new vSlidesThread(0.85f,false, lp, this, robot, signalColors, cone1, interval, level);
         Thread thread = new Thread(lowerSlidesThread);
         thread.start();
     }
