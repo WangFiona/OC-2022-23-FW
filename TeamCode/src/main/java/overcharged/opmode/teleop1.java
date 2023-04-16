@@ -305,7 +305,7 @@ public class teleop1 extends OpMode {
                 robot.vSlides.moveTo(250);
                 slideLocation = SlideLocation.LT;
             }
-            if(robot.vSlides.getCurrentPosition() > 400) {
+            if(robot.vSlides.getCurrentPosition() > 200) {
                 if (tx > 0 && robot.turret.getCurrentPosition() < 1550) {
                     robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.turret.setPower(turretPower);

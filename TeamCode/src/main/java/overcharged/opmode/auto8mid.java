@@ -338,7 +338,7 @@ public class auto8mid extends LinearOpMode {
             robot.hSlides.setPosition((hSlidesOut - 6));
             robot.vSlides.moveTo(1030);//1430);//moveTo4();
             lp.waitMillis(200);
-            robot.turret.moveTo((Left ? -167 : 167), turretPower);//, Left? false : true);//-180 : 180), turretPower); //-46
+            robot.turret.moveTo((Left ? -170 : 170), turretPower);//, Left? false : true);//-180 : 180), turretPower); //-46
             //lp.waitMillis(100);
 
             if (robot.sensorF.getDistance(DistanceUnit.CM) < 10) {
@@ -392,6 +392,8 @@ public class auto8mid extends LinearOpMode {
         } else{ //blue
             drive.followTrajectorySequence(to2);
         }
+        robot.claw.setPosition(135f);
+        lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
 
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {

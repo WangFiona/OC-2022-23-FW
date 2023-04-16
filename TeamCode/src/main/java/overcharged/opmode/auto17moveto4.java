@@ -188,11 +188,11 @@ public class auto17moveto4 extends LinearOpMode {
                     .lineToLinearHeading(new Pose2d(p1, Math.toRadians(180)))
                     .build();
 
-            /*toR1 = drive.trajectorySequenceBuilder(toLine.end())
+            toR1 = drive.trajectorySequenceBuilder(toLine.end())
                     .strafeTo(p1)
                     .addSpatialMarker(new Vector2d(xVal-2,4), () -> {
                         lowerSlidesThread(lp, 1);})
-                    .build();*/
+                    .build();
 
             to2 = drive.trajectorySequenceBuilder(toLine.end())
                     .lineToLinearHeading(new Pose2d(p2, Math.toRadians(180)))
@@ -202,9 +202,9 @@ public class auto17moveto4 extends LinearOpMode {
                     .build();
 
 
-            /*to2p2 = drive.trajectorySequenceBuilder(to2.end())
+            to2p2 = drive.trajectorySequenceBuilder(to2.end())
                     .lineTo(p2p2)
-                    .build();*/
+                    .build();
 
             to3 = drive.trajectorySequenceBuilder(toLine.end())
                     .lineToLinearHeading(new Pose2d(p3, Math.toRadians(180)))
@@ -213,12 +213,12 @@ public class auto17moveto4 extends LinearOpMode {
                     })
                     .build();
 
-            /*toR3 = drive.trajectorySequenceBuilder(correct2.end())
+            toR3 = drive.trajectorySequenceBuilder(correct2.end())
                     //.lineToLinearHeading(new Pose2d(line2.getX(), line2.getY()+7, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     //.lineToLinearHeading(new Pose2d(25, line2.getY()+7, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     //.lineToLinearHeading(new Pose2d(25, -22, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     .lineToLinearHeading(new Pose2d(p3, 0))
-                    .build();*/
+                    .build();
 
             this.detector = new SignalConePipeLine();
             //this.detector.useDefaults();
@@ -437,7 +437,6 @@ public class auto17moveto4 extends LinearOpMode {
         robot.clawGrab();
         robot.turret.moveTo(0, turretPower);//, Left? true : false);*/
 
-        lp.waitMillis(30000-System.currentTimeMillis()+startTime);
         /*robot.vSlides.slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.vSlides.slideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.vSlides.slideMiddle.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -448,6 +447,8 @@ public class auto17moveto4 extends LinearOpMode {
         robot.vSlides.reset(robot.vSlides.slideRight);
 
         //lowerSlidesThread(lp, 1);
+        robot.claw.setPosition(135f);
+        lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
 
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {
