@@ -459,7 +459,7 @@ public class teleop1 extends OpMode {
         telemetry.addData("goZero", goToZero);
         telemetry.addData("goToZero", goToZero);
         telemetry.addData("slowPower", slowPower);
-        //telemetry.addData("sensorF", robot.sensorF.getDistance(DistanceUnit.CM));
+        telemetry.addData("sensorF", robot.sensorF.getDistance(DistanceUnit.CM));
         //telemetry.addData("sensorL", robot.sensorL.getRawLightDetected());
         //telemetry.addData("sensorR", robot.sensorR.getRawLightDetected());
         telemetry.addData("turret encoder ", turretPos);

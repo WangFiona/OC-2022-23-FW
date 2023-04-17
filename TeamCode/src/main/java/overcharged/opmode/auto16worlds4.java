@@ -33,7 +33,7 @@ import overcharged.test.EasyOpenCVExample;
 import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
 
-@Config
+@Disabled
 @Autonomous(name="auto16worlds4")
 public class auto16worlds4 extends LinearOpMode {
 

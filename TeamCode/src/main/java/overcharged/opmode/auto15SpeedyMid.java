@@ -32,7 +32,7 @@ import overcharged.test.EasyOpenCVExample;
 import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
 
-@Config
+@Disabled
 @Autonomous(name="auto15SpeedyMid")
 public class auto15SpeedyMid extends LinearOpMode {
 
