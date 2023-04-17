@@ -26,7 +26,7 @@ public class CVTest extends LinearOpMode {
 
         pipeline = new SignalConePipeLine();
         cam.setPipeline(pipeline);
-        pipeline.isLeft(true);
+        pipeline.isLeft(false);
         //cam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
 
         cam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener(){

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class hSlides {
     public OcServo hSlides;
 
-    public static final float IN = 15f;//28f;//9f;//20f;//235f;//33f;//44f;//185f;
+    public static final float IN = 16f;//28f;//9f;//20f;//235f;//33f;//44f;//185f;
     public static final float INIT = IN;
     public static final float START = 149f;//160f;
     public static final float PRESET1 = 142f;//153f;

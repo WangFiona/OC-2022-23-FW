@@ -50,12 +50,12 @@ public class auto10RedAtHome extends LinearOpMode {
     int cone1 = -38;//22;//5;
     int interval = 55;//67
     boolean grabbed = true;
-    double resetAngle = 74;
+    double resetAngle = 78;
     int notGrab = 0;
     float dumpLengthL = 90f;
-    float dumpLength2L = 118f;
+    float dumpLength2L = 114f;//118f;
     float dumpLengthR = 90f;
-    float dumpLength2R = 118f;
+    float dumpLength2R = 122f;
     float close = 12f;
     float far = 15f;
     int Length = 0;
@@ -100,6 +100,9 @@ public class auto10RedAtHome extends LinearOpMode {
                 dumpLength2R += far;
             }
 
+            if(!Left)
+                resetAngle = 79;
+
             double xVal = (Left? 50: 51);
             double yVal = (Left? 11: -9); //-6
             double yVal2 = (Left? 6: -6); //8.5
@@ -107,7 +110,7 @@ public class auto10RedAtHome extends LinearOpMode {
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
             s3 = new Vector2d(xVal,0);
-            p1 = new Vector2d(xVal-1, (Left? 27 : 25));
+            p1 = new Vector2d((Left? xVal-1 : xVal+1), (Left? 27 : 27));
             p2 = new Vector2d(xVal-7, (Left? -2 : 3)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
             p3 = new Vector2d(xVal-(Left? -4 : 4), -25);
@@ -128,9 +131,9 @@ public class auto10RedAtHome extends LinearOpMode {
                         //if(!Left){robot.aligner.setRight();}
                     })
                     .addSpatialMarker(new Vector2d((Left? 27 : 27), 0), () -> {
-                        robot.turret.moveTo((Left? 67 : -67), 1f);//45
+                        robot.turret.moveTo((Left? 71 : -73), 1f);//45
                     })
-                    .addSpatialMarker(new Vector2d((Left? 49 : 50),0), () -> {
+                    .addSpatialMarker(new Vector2d((Left? 49.9 : 50.9),0), () -> {
                         robot.vSlides.moveTo(1200);
                         robot.turret.setPower(0);
                     })
@@ -163,9 +166,11 @@ public class auto10RedAtHome extends LinearOpMode {
                     .build();
 
             toR1 = drive.trajectorySequenceBuilder(toLine.end())
-                    .lineToLinearHeading(new Pose2d(p1, 0))
-                    //.addSpatialMarker(new Vector2d(xVal-2,4), () -> {
-                        //lowerSlidesThread(lp, 1);})
+                    .lineToLinearHeading(new Pose2d(p1, Left? Math.toRadians(90) : Math.toRadians(-90)))
+                    .addSpatialMarker(new Vector2d((Left? xVal-1 : xVal+1), (Left? 27 : 23)), () -> {
+                        if(robot.vSlides.switchSlideDown.isTouch())
+                            robot.claw.setPosition(135f);
+                    })
                     .build();
 
             to2 = drive.trajectorySequenceBuilder(toLine.end())
@@ -177,8 +182,10 @@ public class auto10RedAtHome extends LinearOpMode {
 
             to3 = drive.trajectorySequenceBuilder(toLine.end())
                     .lineToLinearHeading(new Pose2d(p3, Left? Math.toRadians(90) : Math.toRadians(-90)))
-                    //.addSpatialMarker(new Vector2d(-2,-4), () -> {
-                    //lowerSlidesThread(lp, 1);})
+                    .addSpatialMarker(new Vector2d(xVal-(Left? -4 : 4), -18), () -> {
+                        if(robot.vSlides.switchSlideDown.isTouch())
+                            robot.claw.setPosition(135f);
+                    })
                     .build();
 
             toR3 = drive.trajectorySequenceBuilder(toLine.end())
@@ -280,6 +287,8 @@ public class auto10RedAtHome extends LinearOpMode {
 
         robot.hSlides.setPosition(Left? dumpLengthL : dumpLengthR);
         drive.followTrajectorySequence(toSquare3);
+        robot.vSlides.moveTo(1200);
+        //lp.waitMillis(150);
 
         robot.claw.setAutoOpen();
         robot.aligner.setMiddle();
@@ -323,20 +332,14 @@ public class auto10RedAtHome extends LinearOpMode {
             RobotLog.ii(TAG_SL, "sensorF distance: " + robot.sensorF.getDistance(DistanceUnit.CM) + "hSlidesOut: "  + hSlidesOut + "vSlides: currentPos R: " + robot.vSlides.slideRight.getCurrentPosition() +
                     "currentPos L: " + robot.vSlides.slideLeft.getCurrentPosition());
             robot.clawGrab();
-            lp.waitMillis(350);
+            lp.waitMillis(400);
             robot.hSlides.setPosition((hSlidesOut-10));
             robot.vSlides.moveTo(800);//moveTo4();
             lp.waitMillis(200);
             robot.hSlides.setPosition(hSlides.IN);
 
-            if(robot.sensorF.getDistance(DistanceUnit.CM) < 10) {
-                grabbed = true;
-            } else
-                notGrab++;
-            telemetry.addData("notgrab ", notGrab);
-            telemetry.update();
 
-            robot.turret.moveTo((Left? 74 : -74), turretPower); //-46
+            robot.turret.moveTo((Left? 74 : -76), turretPower); //-46
             lp.waitMillis(Left? 600 : 600);//950
             robot.vSlides.moveTo(1400);//moveTo4();
             robot.alignerOut();
@@ -344,6 +347,14 @@ public class auto10RedAtHome extends LinearOpMode {
             //robot.hSlides.setPosition(Left? dumpLength2L : dumpLength2R);//164f : 142f);//157f : 156f);
             drive.followTrajectorySequence(correct2);
             //lp.waitMillis(Left? 80 : 50);//950
+
+            if(robot.sensorF.getDistance(DistanceUnit.CM) < 3) {
+                grabbed = true;
+            } else
+                notGrab++;
+            telemetry.addData("notgrab ", notGrab);
+            telemetry.update();
+            RobotLog.ii(TAG_SL, "isGrabbed ", grabbed + "distance " + robot.sensorF.getDistance(DistanceUnit.CM));
 
             if(robot.sensorF.getDistance(DistanceUnit.CM) < 10 && grabbed) {
                 //robot.hSlides.setPosition(Left? 183f : 179f);
@@ -406,6 +417,9 @@ public class auto10RedAtHome extends LinearOpMode {
 
         robot.turret.moveTo((Left? -resetAngle : resetAngle), turretPower); //84.5, 81.4
         robot.vSlides.moveTo(cone1+(interval*newL));
+        int coneLevel = cone1+(interval*newL);
+        RobotLog.ii(TAG_SL, "cone level " + coneLevel);
+
 
         if(!wait) {
             lp.waitMillis(300);
@@ -414,6 +428,7 @@ public class auto10RedAtHome extends LinearOpMode {
             robot.turret.turret.setTargetPositionPIDFCoefficients(3,0,0,0);
             robot.hSlides.setPosition(Left? 115f : 115f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
             drive.followTrajectorySequence(toLine);
+            //lp.waitMillis(1000);
         } else {
             lp.waitMillis(300);
             robot.aligner.setLeft();
@@ -422,6 +437,7 @@ public class auto10RedAtHome extends LinearOpMode {
             robot.hSlides.setPosition(Left? 104f : 104f);//140f);
             drive.followTrajectorySequence(correct);
         }
+        RobotLog.ii(TAG_SL, "actual cone level " + robot.vSlides.getCurrentPosition());
         //lp.waitMillis(1000);
 
         telemetry.addData("reset angle ", resetAngle);
@@ -439,7 +455,7 @@ public class auto10RedAtHome extends LinearOpMode {
             resetAngle = 83;
             robot.turret.moveTo((Left? -resetAngle : resetAngle), turretPower); //84.5, 81.4
         } else if(!wait) {
-            resetAngle = Math.abs(robot.turret.getCurrentAngle()) - (Left ? 0 : 3);
+            resetAngle = Math.abs(robot.turret.getCurrentAngle()) - (Left ? 0 : 0);
             robot.turret.moveTo((Left ? -resetAngle : resetAngle), turretPower);
         }
     }

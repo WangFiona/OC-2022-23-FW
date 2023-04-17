@@ -1,5 +1,9 @@
 package overcharged.test;
 
+import static overcharged.config.RobotConstants.TAG_SL;
+
+import com.qualcomm.robotcore.util.RobotLog;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -45,14 +49,14 @@ public class SignalConePipeLine extends OpenCvPipeline {
              y1 = 0.6;
              y2 = 0.43;*/
         } else {
-            x1 = 0.62;
+            x1 = 0.534;//0.48;
+            x2 = 0.614;//0.56;
+            y1 = 0.596;//0.48;
+            y2 = 0.426;
+            /*x1 = 0.62;
             x2 = 0.7;
             y1 = 0.508;
-            y2 = 0.38;
-             /*x1 = 0.59;
-             x2 = 0.67;
-             y1 = 0.6;
-             y2 = 0.43;*/
+            y2 = 0.38;*/
         }
         Point tl  = new Point(x1 * input.cols(),y1 * input.rows());
         Point br = new Point(x2 * input.cols(), y2 * input.rows());
@@ -63,6 +67,7 @@ public class SignalConePipeLine extends OpenCvPipeline {
         avgB = (int) Core.mean(rawImage).val[2];
         int maxRG = Math.max(avgR, avgG);
         int max = Math.max(maxRG, avgB);
+        RobotLog.ii(TAG_SL, "R " + avgR + " G " + avgG + " B " + avgB + " max " + max);
 
         if (max == avgR) {
             color = "RED";
