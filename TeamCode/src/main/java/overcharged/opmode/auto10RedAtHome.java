@@ -54,8 +54,8 @@ public class auto10RedAtHome extends LinearOpMode {
     int notGrab = 0;
     float dumpLengthL = 90f;
     float dumpLength2L = 114f;//118f;
-    float dumpLengthR = 90f;
-    float dumpLength2R = 122f;
+    float dumpLengthR = 94f;
+    float dumpLength2R = 125f;
     float close = 12f;
     float far = 15f;
     int Length = 0;
@@ -426,7 +426,7 @@ public class auto10RedAtHome extends LinearOpMode {
             robot.aligner.setLeft();
             lp.waitMillis(200);
             robot.turret.turret.setTargetPositionPIDFCoefficients(3,0,0,0);
-            robot.hSlides.setPosition(Left? 115f : 115f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
+            robot.hSlides.setPosition(Left? 115f : 111f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
             drive.followTrajectorySequence(toLine);
             //lp.waitMillis(1000);
         } else {
@@ -436,13 +436,14 @@ public class auto10RedAtHome extends LinearOpMode {
             robot.turret.turret.setTargetPositionPIDFCoefficients(3,0,0,0);
             robot.hSlides.setPosition(Left? 104f : 104f);//140f);
             drive.followTrajectorySequence(correct);
+            lp.waitMillis(150);
         }
         RobotLog.ii(TAG_SL, "actual cone level " + robot.vSlides.getCurrentPosition());
         //lp.waitMillis(1000);
 
         telemetry.addData("reset angle ", resetAngle);
         telemetry.update();
-        while(!wait && robot.sensorF.getDistance(DistanceUnit.CM) > 7.2 && Math.abs(robot.turret.getCurrentAngle()) < 88){
+        while(!wait && robot.sensorF.getDistance(DistanceUnit.CM) > 8 && Math.abs(robot.turret.getCurrentAngle()) < 88){
             robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.turret.setPower(Left? -0.15f : 0.15f);
             telemetry.addData("current angle", robot.turret.getCurrentAngle());

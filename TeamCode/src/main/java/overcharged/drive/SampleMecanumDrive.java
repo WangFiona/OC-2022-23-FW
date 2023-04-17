@@ -155,6 +155,11 @@ public class SampleMecanumDrive extends MecanumDrive {
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }
 
+    public void followerChange(float timeout){
+        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
+                new Pose2d(0.5, 0.5, Math.toRadians(5.0)), timeout);
+    }
+
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, VEL_CONSTRAINT, ACCEL_CONSTRAINT);
     }
