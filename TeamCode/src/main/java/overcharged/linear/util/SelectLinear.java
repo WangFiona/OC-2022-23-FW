@@ -131,6 +131,16 @@ public class SelectLinear
         return index == 0;
     }
 
+    public boolean selectExtraDistance ()
+            throws InterruptedException {
+        RobotLog.i("entered alliance selection");
+
+        String[] alliances = new String[] {"Extra", "No Extra"};
+        int index = select(alliances,
+                "Extra Distance");
+        return index == 0;
+    }
+
     public int selectLength ()
             throws InterruptedException {
         RobotLog.i("entered hslide dump length");

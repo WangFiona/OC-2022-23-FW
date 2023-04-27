@@ -54,14 +54,16 @@ public class auto17moveto4 extends LinearOpMode {
     boolean grabbed = true;
     double resetAngle = -6;
     int offset = 60;
-    float dumpLengthL = 158f;
+    float dumpLengthL = 37f;
     float dumpLength2L = 119f;//172f;
-    float dumpLengthR = 158f;
+    float dumpLengthR = 56f;
     float dumpLength2R = 135f;//172f;
     float close = 12f;
     float far = 15f;
     int Length = 0;
     int cLevel = 5;
+    boolean Extra = true;
+    double distance = 0.5;
     //int hSlidesReset = 150;
 
     TrajectorySequence toSquare3, toLine, toLine2, to1, to2, to3, toScore, correct, correct2, to2p2, score, toR1, toR3;
@@ -98,15 +100,21 @@ public class auto17moveto4 extends LinearOpMode {
             Length = sl.selectLength();
             if(Length == 2){
                 dumpLengthL -= close;
-                dumpLength2L -= close;
-                dumpLengthL -= close;
-                dumpLength2R -= close;
+                //dumpLength2L -= close;
+                dumpLengthR -= close;
+                //dumpLength2R -= close;
             } else if(Length == 1){
                 dumpLengthL += far;
-                dumpLength2L += far;
+                //dumpLength2L += far;
                 dumpLengthR += far;
-                dumpLength2R += far;
+                //dumpLength2R += far;
             }
+
+            Extra = sl.selectExtraDistance();
+            if(Extra)
+                distance = 0.5;
+            else
+                distance = 0;
 
             double xVal = (Left? 50: 51);
             double yVal = (Left? 6: -6); //-6
@@ -115,18 +123,18 @@ public class auto17moveto4 extends LinearOpMode {
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
-            s3 = new Pose2d(xVal,0, Left? Math.toRadians(94) : Math.toRadians(-90));
+            s3 = new Pose2d(xVal+distance,Left ? 1 : -1, Left? Math.toRadians(94) : Math.toRadians(-90));
             p1 = new Vector2d(Left? xVal-5 : xVal-1, (Left? 27 : 27));
             p2 = new Vector2d(xVal, (Left? 0 : 0)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
             p3 = new Vector2d(xVal-(Left? 0 : -1), -25);
             pR3 = new Vector2d(25, -25);
 
-            toSquare3 = drive.trajectorySequenceBuilder(start)
+            toSquare3 = drive.trajectorySequenceBuilder(start)//65
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(65, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(s3)
                     .addSpatialMarker(new Vector2d((Left? 1 : 1),0), () -> {
-                        robot.hSlides.setPosition(Left? 37f : 56f);
+                        robot.hSlides.setPosition(Left? dumpLengthL : dumpLengthR);
                     })
                     .addSpatialMarker(new Vector2d((Left? 10 : 15),0), () -> {
                         robot.vSlides.moveTo(1000);//1420);
@@ -138,7 +146,7 @@ public class auto17moveto4 extends LinearOpMode {
                         robot.alignerOut();
                         if(Left){robot.aligner.setRight();}
                     })
-                    .addSpatialMarker(new Vector2d((Left? 49.9 : 50.9),0), () -> {
+                    .addSpatialMarker(new Vector2d((Left? 49.9+distance : 50.9+distance),0), () -> {
                         robot.vSlides.moveTo(850);
                         robot.turret.setPower(0);
                     })
@@ -202,6 +210,7 @@ public class auto17moveto4 extends LinearOpMode {
                     .build();
 
             to1 = drive.trajectorySequenceBuilder(correct2.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(80, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(p1, Math.toRadians(192)))
                     .addSpatialMarker(new Vector2d(p1.getX(), (Left? 4 : 17)), () -> {
                         lowerSlidesThread(lp, 1);
@@ -213,6 +222,7 @@ public class auto17moveto4 extends LinearOpMode {
                     .build();
 
             toR1 = drive.trajectorySequenceBuilder(correct2.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(80, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(p1, Math.toRadians(180)))
                     .addSpatialMarker(new Vector2d(p1.getX(),10.5), () -> {
                         robot.turret.moveTo(0, turretPower);
@@ -229,6 +239,7 @@ public class auto17moveto4 extends LinearOpMode {
                     .build();
 
             to3 = drive.trajectorySequenceBuilder(correct2.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(80, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(p3, Math.toRadians(180)))
                     .addSpatialMarker(new Vector2d(p3.getX(),-15), () -> {
                         lowerSlidesThread(lp, 1);
@@ -236,6 +247,7 @@ public class auto17moveto4 extends LinearOpMode {
                     .build();
 
             toR3 = drive.trajectorySequenceBuilder(correct2.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(80, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(p3, Math.toRadians(180)))
                     /*.addSpatialMarker(new Vector2d(p3.getX(), 5), () -> {
                         robot.hSlides.setPosition(hSlides.IN);
@@ -287,7 +299,8 @@ public class auto17moveto4 extends LinearOpMode {
             //detector.reset();
             telemetry.addData("Signal Color", signalColors);
             telemetry.addData("Left?", Left);
-            telemetry.addData("Aligner Value", robot.aligner.OUT);
+            //telemetry.addData("Aligner Value", robot.aligner.OUT);
+            telemetry.addData("Extra", distance);
             /*telemetry.addData("Dump LengthL", dumpLengthL);
             telemetry.addData("Dump Length2L", dumpLength2L);
             telemetry.addData("Dump LengthR", dumpLengthR);
@@ -440,7 +453,8 @@ public class auto17moveto4 extends LinearOpMode {
         } else {
             robot.hSlides.setPosition(Left? (float)(dumpLength2L-20) : (float)(dumpLength2R-20));
         }*/
-        lp.waitMillis(250);
+
+        lp.waitMillis(100);
 
         if((signalColors == SignalColors.Red && !Left) || (signalColors == SignalColors.Blue)
                 || (signalColors == SignalColors.Green && Left)) {
@@ -564,7 +578,7 @@ public class auto17moveto4 extends LinearOpMode {
             resetAngle = 0;
             robot.turret.moveTo(resetAngle, turretPower);//, Left? false : true); //84.5, 81.4
         } else if(!wait) {
-            resetAngle = robot.turret.getCurrentAngle() - (Left ? 0 : 0);
+            resetAngle = robot.turret.getCurrentAngle() - (Left ? 1 : 0);
             robot.turret.moveTo(resetAngle, turretPower);//, Left? false : true);
         }
         RobotLog.ii(TAG_SL, "reset angle " + resetAngle);

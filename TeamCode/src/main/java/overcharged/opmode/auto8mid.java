@@ -61,6 +61,8 @@ public class auto8mid extends LinearOpMode {
     float far = 15f;
     int Length = 0;
     int cLevel = 5;
+    boolean Extra = true;
+    double distance = 0.5;
     //int hSlidesReset = 150;
 
     TrajectorySequence toSquare3, toLine, toLine2, to1, to2, to3, toScore, correct, correct2, to2p2, score, toR1, toR3;
@@ -96,15 +98,21 @@ public class auto8mid extends LinearOpMode {
             Length = sl.selectLength();
             if(Length == 2){
                 dumpLengthL -= close;
-                dumpLength2L -= close;
+                //dumpLength2L -= close;
                 dumpLengthL -= close;
-                dumpLength2R -= close;
+                //dumpLength2R -= close;
             } else if(Length == 1){
                 dumpLengthL += far;
-                dumpLength2L += far;
+                //dumpLength2L += far;
                 dumpLengthR += far;
-                dumpLength2R += far;
+                //dumpLength2R += far;
             }
+
+            Extra = sl.selectExtraDistance();
+            if(Extra)
+                distance = 0.5;
+            else
+                distance = 0;
 
             double xVal = (Left? 50: 51);
             double yVal = (Left? 11: -12); //-6
@@ -112,7 +120,7 @@ public class auto8mid extends LinearOpMode {
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
-            s3 = new Pose2d(xVal,0, Left? Math.toRadians(90) : Math.toRadians(-90));
+            s3 = new Pose2d(xVal+distance,0, Left? Math.toRadians(90) : Math.toRadians(-90));
             p1 = new Vector2d(xVal-4, (Left? 26 : 28));
             p2 = new Vector2d(xVal-5, (Left? -1 : 3)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
@@ -238,7 +246,9 @@ public class auto8mid extends LinearOpMode {
             //detector.reset();
             telemetry.addData("Signal Color", signalColors);
             telemetry.addData("Left?", Left);
-            telemetry.addData("Aligner Value", robot.aligner.OUT);
+            //telemetry.addData("Aligner Value", robot.aligner.OUT);
+            telemetry.addData("Extra", distance);
+            //telemetry.addData("Aligner Value", robot.aligner.OUT);
             /*telemetry.addData("Dump LengthL", dumpLengthL);
             telemetry.addData("Dump Length2L", dumpLength2L);
             telemetry.addData("Dump LengthR", dumpLengthR);

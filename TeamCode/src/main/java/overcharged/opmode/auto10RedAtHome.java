@@ -23,6 +23,7 @@ import overcharged.components.DuckDetector;
 import overcharged.components.RobotMecanum;
 import overcharged.components.SignalColors;
 import overcharged.components.hSlides;
+import overcharged.drive.DriveConstants;
 import overcharged.drive.SampleMecanumDrive;
 import overcharged.linear.util.SelectLinear;
 import overcharged.linear.util.WaitLinear;
@@ -59,6 +60,8 @@ public class auto10RedAtHome extends LinearOpMode {
     float close = 12f;
     float far = 15f;
     int Length = 0;
+    boolean Extra = true;
+    double distance = 0.5;
     //int hSlidesReset = 150;
 
     TrajectorySequence toSquare3, toLine, toLine2, to1, to2, to3, toScore, correct, correct2, to2p2, score, toR1, toR3;
@@ -91,7 +94,7 @@ public class auto10RedAtHome extends LinearOpMode {
             if(Length == 2){
                 dumpLengthL -= close;
                 dumpLength2L -= close;
-                dumpLengthL -= close;
+                dumpLengthR -= close;
                 dumpLength2R -= close;
             } else if(Length == 1){
                 dumpLengthL += far;
@@ -103,13 +106,19 @@ public class auto10RedAtHome extends LinearOpMode {
             if(!Left)
                 resetAngle = 79;
 
+            Extra = sl.selectExtraDistance();
+            if(Extra)
+                distance = 0.5;
+            else
+                distance = 0;
+
             double xVal = (Left? 50: 51);
             double yVal = (Left? 11: -9); //-6
             double yVal2 = (Left? 6: -6); //8.5
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
-            s3 = new Vector2d(xVal,0);
+            s3 = new Vector2d(xVal+distance,0);
             p1 = new Vector2d((Left? xVal-1 : xVal+1), (Left? 27 : 27));
             p2 = new Vector2d(xVal-7, (Left? -2 : 3)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
@@ -181,6 +190,7 @@ public class auto10RedAtHome extends LinearOpMode {
                     .build();
 
             to3 = drive.trajectorySequenceBuilder(toLine.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(60, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(p3, Left? Math.toRadians(90) : Math.toRadians(-90)))
                     .addSpatialMarker(new Vector2d(xVal-(Left? -4 : 4), -18), () -> {
                         if(robot.vSlides.switchSlideDown.isTouch())
@@ -227,6 +237,8 @@ public class auto10RedAtHome extends LinearOpMode {
             telemetry.addData("Signal Color", signalColors);
             telemetry.addData("Left?", Left);
             telemetry.addData("Length", Length);
+            //telemetry.addData("Aligner Value", robot.aligner.OUT);
+            telemetry.addData("Extra", distance);
             telemetry.addData("Dump LengthL", dumpLengthL);
             telemetry.addData("Dump Length2L", dumpLength2L);
             telemetry.addData("Dump LengthR", dumpLengthR);

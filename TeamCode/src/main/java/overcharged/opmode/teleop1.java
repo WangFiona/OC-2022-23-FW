@@ -377,8 +377,10 @@ public class teleop1 extends OpMode {
             /*if(Left){
                 robot.alignerInit();
             }*/
-            if(slideLocation == SlideLocation.L3 || slideLocation == SlideLocation.L4)
-                robot.aligner.setRight();
+            if(slideLocation == SlideLocation.L3 || slideLocation == SlideLocation.L4) {
+                if(aligner)
+                    robot.aligner.setRight();
+            }
             robot.turret.setPower(0);
             turretAdjust = -92;//-87;
             robot.turret.moveTo(turretAdjust, turretPower);
@@ -499,7 +501,8 @@ public class teleop1 extends OpMode {
         if((gamepad1.right_bumper) && Button.BTN_OPEN.canPress(timestamp)){
             if(clawState == ClawState.GRAB && !slideGoBottom){
                 if(slideLocation == SlideLocation.L3 || slideLocation == SlideLocation.L4){
-                    robot.aligner.setMiddle();
+                    if(aligner)
+                        robot.aligner.setMiddle();
                     pivotTime = System.currentTimeMillis();
                     pivotWait = true;
                 } else{
