@@ -9,7 +9,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -32,7 +31,7 @@ import overcharged.linear.util.WaitLinear;
 import overcharged.test.EasyOpenCVExample;
 import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
-@Disabled
+
 @Config
 @Autonomous(name="auto10RedAtHome")
 public class auto10RedAtHome extends LinearOpMode {

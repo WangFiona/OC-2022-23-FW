@@ -6,13 +6,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Claw {
     public OcServo claw;
 
-    public static final float OPEN = 180f;//120f;//115f;//210f;//208f;//142f;//134f;
-    public static final float GRAB = 254f;//64f;//66f;//165f;//108f;//86f;
-    public static final float AUTO_OPEN = 115f;//185f;//247f;//182f;//170f;
+    public static final float OPEN = 115f;//210f;//208f;//142f;//134f;
+    public static final float GRAB = 64f;//66f;//165f;//108f;//86f;
+    public static final float AUTO_OPEN = 185f;//247f;//182f;//170f;
 
     public Claw(HardwareMap hardwareMap) {
-        claw = new OcServo(hardwareMap, "claw", 165f);
-    } //intialized position
+        claw = new OcServo(hardwareMap, "claw", 156f);
+    }
 
     public float getPos(){
         return claw.getPosition();

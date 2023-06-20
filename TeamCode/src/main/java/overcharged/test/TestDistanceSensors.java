@@ -18,7 +18,7 @@ import overcharged.components.OcSwitch;
 /**
  * Created by Parthiv Nair on 3/8/2022.
  */
-@Disabled
+//@Disabled
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TestDistanceSensors", group = "Test")
 public class TestDistanceSensors extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();

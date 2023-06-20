@@ -1,6 +1,5 @@
 package overcharged.odometry;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -12,7 +11,6 @@ import overcharged.components.OcGyro2;
 import overcharged.linear.components.OcEncoder;
 
 import static overcharged.config.RobotConstants.TAG_O;
-@Disabled
 
 /**
  * Created by Advaith Nair on 3/1/2020.

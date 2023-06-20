@@ -39,19 +39,24 @@ public class SignalConePipeLine extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input){
         //coordinates of top-left and bottom right points in rectangle
-        //change values (keep x values distance same) change square position
         if(Left){
-            //left
             x1 = 0.484;//0.48;
             x2 = 0.564;//0.56;
             y1 = 0.596;//0.48;
             y2 = 0.426;//0.31;
+             /*x1 = 0.56;
+             x2 = 0.64;
+             y1 = 0.6;
+             y2 = 0.43;*/
         } else {
-            //right
             x1 = 0.534;//0.48;
             x2 = 0.614;//0.56;
             y1 = 0.596;//0.48;
             y2 = 0.426;
+            /*x1 = 0.62;
+            x2 = 0.7;
+            y1 = 0.508;
+            y2 = 0.38;*/
         }
         Point tl  = new Point(x1 * input.cols(),y1 * input.rows());
         Point br = new Point(x2 * input.cols(), y2 * input.rows());
