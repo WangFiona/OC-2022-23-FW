@@ -54,7 +54,7 @@ public class auto17moveto4 extends LinearOpMode {
     boolean grabbed = true;
     double resetAngle = -6;
     int offset = 60;
-    float dumpLengthL = 37f;//first dump on the left side
+    float dumpLengthL = 34f;//first dump on the left side (hslides)
     float dumpLength2L = 119f;//rest of the dumps on the left
     float dumpLengthR = 56f;//first dump on the right side
     float dumpLength2R = 135f;//rest of the dumps on the right
@@ -66,6 +66,7 @@ public class auto17moveto4 extends LinearOpMode {
     double distance = 0.5;
     //int hSlidesReset = 150;
 
+    //no change
     TrajectorySequence toSquare3, toLine, toLine2, to1, to2, to3, toScore, correct, correct2, to2p2, score, toR1, toR3;
     Pose2d start = new Pose2d();
 
@@ -79,8 +80,8 @@ public class auto17moveto4 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         try {
+            //no change
             telems = new MultipleTelemetry(dashboard.getTelemetry(), telemetry);
-
 
             robot = new RobotMecanum(this, true, true);
             WaitLinear lp = new WaitLinear(this);
@@ -115,14 +116,16 @@ public class auto17moveto4 extends LinearOpMode {
             else
                 distance = 0;
 
-            double xVal = (Left? 50: 51);
-            double yVal = (Left? 6: -6); //-6
+            //change
+            double xVal = (Left? 50: 51); //robot (forward backwards)
+            double yVal = (Left? 6: -6); //-6 (postivie to left, negative to right)
             double yVal2 = (Left? -12: 10); //-6
             starting = new Vector2d(50, 1);
             line = new Vector2d(xVal, yVal);
             line2 = new Vector2d(xVal, yVal2);
             scorePos = new Vector2d(xVal, (Left? -15: 15));
-            s3 = new Pose2d(xVal+distance,Left ? 1 : -1, Left? Math.toRadians(94) : Math.toRadians(-90));
+            //change 1.5 (close to 3 pole first dump)
+            s3 = new Pose2d(xVal+distance,Left ? 1.5 : -1, Left? Math.toRadians(94) : Math.toRadians(-90));
             p1 = new Vector2d(Left? xVal-5 : xVal-1, (Left? 27 : 27));
             p2 = new Vector2d(xVal, (Left? 0 : 0)); //xVal-3
             p2p2 = new Vector2d(xVal-8, (Left? 0 : 3));
@@ -152,6 +155,7 @@ public class auto17moveto4 extends LinearOpMode {
                     })
                     .build();
 
+            //no change
             //get closer to cone stack
             toLine = drive.trajectorySequenceBuilder(toSquare3.end())
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, Math.PI * 2, DriveConstants.TRACK_WIDTH))
@@ -249,6 +253,7 @@ public class auto17moveto4 extends LinearOpMode {
                     .lineTo(p2p2)
                     .build();*/
 
+            //webcam no change
             this.detector = new SignalConePipeLine();
             //this.detector.useDefaults();
             webcam.setPipeline(detector);
@@ -297,6 +302,7 @@ public class auto17moveto4 extends LinearOpMode {
 
             waitForStart();
 
+            //code starts (don't start)
             if (opModeIsActive()) {
                 startTime = System.currentTimeMillis();
                 time1 = System.currentTimeMillis();
@@ -327,6 +333,7 @@ public class auto17moveto4 extends LinearOpMode {
         }
     }
 
+    //don't touch
     private void initCamera() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources()
                 .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -336,6 +343,8 @@ public class auto17moveto4 extends LinearOpMode {
         webcam.openCameraDevice();
     }
 
+    //actual code
+
     public void AutoBody(WaitLinear lp, boolean Left) throws InterruptedException {
         RobotLog.ii(TAG_SL, "started");
         drive.setPoseEstimate(start);
@@ -344,7 +353,7 @@ public class auto17moveto4 extends LinearOpMode {
         double startER = drive.rightFront.getCurrentPosition();
 
         robot.turret.isNegative(false);
-        drive.followTrajectorySequence(toSquare3);
+        drive.followTrajectorySequence(toSquare3); //roadrunner
         robot.vSlides.moveTo(850);
 
         robot.claw.setAutoOpen();
@@ -363,6 +372,8 @@ public class auto17moveto4 extends LinearOpMode {
         boolean firstTime = true;
         int numGrabbed = 0;
         int notGrab = 0;
+
+        //hslide goes forward till detect cone
         while(System.currentTimeMillis() - startTime < (30000-parkTime) && opModeIsActive() && cLevel >= 1 && notGrab < 2 && numGrabbed<5) {
             numGrabbed++;
             if (!grabbed)
@@ -378,6 +389,7 @@ public class auto17moveto4 extends LinearOpMode {
             cLevel--;
             grabbed = false;
 
+            //change for hslides maybe...
             float hSlidesOut = robot.hSlides.getPos();//153f;
             while (robot.sensorF.getDistance(DistanceUnit.CM) > (Left ? 4 : 5) && hSlidesOut <= 158f) {//hSlidesOut >= hSlides.MIN+10) {
                 hSlidesOut += 3;
@@ -448,12 +460,13 @@ public class auto17moveto4 extends LinearOpMode {
         } else{ //blue
             drive.followTrajectorySequence(to2);
         }
-        robot.claw.setPosition(135f);
+        robot.claw.setPosition(165f);
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
 
+    //reset after dump
     public void reset90(WaitLinear lp, boolean Left, int newL, boolean wait) throws InterruptedException {
-        robot.turret.turret.setTargetPositionPIDFCoefficients(7,0,0,0);
+        robot.turret.turret.setTargetPositionPIDFCoefficients(9,0,0,0); //only change P, +faster spped, less accurate
         robot.alignerInit();
         lp.waitMillis(350);//600);
         robot.hSlides.setPosition(hSlides.IN);//140f);
@@ -463,18 +476,20 @@ public class auto17moveto4 extends LinearOpMode {
         if(wait) { //5 stack
             lp.waitMillis(400);
             robot.turret.turret.setTargetPositionPIDFCoefficients(2.5, 0, 0, 0);
-            robot.hSlides.setPosition(Left? 125f : 125f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
+            robot.hSlides.setPosition(Left? 125f : 125f); //change hslide length (too far from stack)
             drive.followTrajectorySequence(correct);
-        } else { //preload
+        } else { //preload (first rotation)
             lp.waitMillis(550);
             robot.turret.turret.setTargetPositionPIDFCoefficients(2, 0, 0, 0);
-            robot.hSlides.setPosition(Left? 142f : 137f);//136f//(Left? 143f : 145f);//(Left ? 85f : 100f));
+            robot.hSlides.setPosition(Left? 142f : 137f); //change hslide length (too far from stack)
             drive.followTrajectorySequence(toLine);//toLine);
+            lp.waitMillis(Left? 400 : 150); //wait to detect cone when changing
         }
 
         telemetry.addData("reset angle ", resetAngle);
         telemetry.update();
-        while(!wait && robot.sensorF.getDistance(DistanceUnit.CM) > 10 && ((Left && robot.turret.getCurrentAngle() < 5) || (!Left && robot.turret.getCurrentAngle() > -5))){//robot.turret.getCurrentAngle()+360 < 370){
+        //8 inch, if closer then rotate)
+        while(!wait && robot.sensorF.getDistance(DistanceUnit.CM) > (Left?10 : 8) && ((Left && robot.turret.getCurrentAngle() < 5) || (!Left && robot.turret.getCurrentAngle() > -5))){//robot.turret.getCurrentAngle()+360 < 370){
             robot.turret.turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.turret.setPower(Left? 0.09f : -0.09f);
             RobotLog.ii(TAG_SL, "current angle " + robot.turret.getCurrentAngle());
@@ -487,6 +502,7 @@ public class auto17moveto4 extends LinearOpMode {
             RobotLog.ii(TAG_SL, "reset angle detected distance " + robot.sensorF.getDistance(DistanceUnit.CM));
         }
         robot.turret.setPower(0);
+        //don't change
         if((Left && robot.turret.getCurrentAngle() >= 5) || (!Left && robot.turret.getCurrentAngle() <= -5)){//robot.turret.getCurrentAngle()+360 >= 370){
             resetAngle = 0;
             robot.turret.moveTo(resetAngle, turretPower);//, Left? false : true); //84.5, 81.4

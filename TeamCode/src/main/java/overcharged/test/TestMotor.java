@@ -13,6 +13,7 @@ import overcharged.components.OcMotor;
 /**
  * Created by Parthiv Nair on 1/30/2018.
  */
+@Disabled
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TestMotor", group = "Tester")
 public class TestMotor extends OpMode {

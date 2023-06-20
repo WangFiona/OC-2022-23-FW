@@ -3,6 +3,7 @@ package overcharged.test;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,6 +16,7 @@ import overcharged.util.PIDCalculator;
 /**
  * Created by Parthiv Nair on 12/10/2019.
  */
+@Disabled
 
 @Config
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TestSlides", group = "Test")

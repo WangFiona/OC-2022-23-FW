@@ -1,6 +1,7 @@
 package overcharged.opmode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import overcharged.components.Button;
 import overcharged.components.RobotMecanum;
 import overcharged.components.oldRobotMecanum;
+@Disabled
 
 @Config
 @TeleOp(name="switchTester", group="Test")

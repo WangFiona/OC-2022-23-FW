@@ -32,7 +32,7 @@ import overcharged.linear.util.WaitLinear;
 import overcharged.test.EasyOpenCVExample;
 import overcharged.test.SignalConePipeLine;
 import overcharged.trajectorysequence.TrajectorySequence;
-
+@Disabled
 @Config
 @Autonomous(name="auto13close4")
 public class auto13close4 extends LinearOpMode {

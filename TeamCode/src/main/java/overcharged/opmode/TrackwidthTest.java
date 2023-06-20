@@ -8,6 +8,7 @@ import overcharged.components.Drive;
 import overcharged.components.Robot6Wheel;
 import overcharged.components.TankDrive;
 
+@Disabled
 @TeleOp(name="TrackwidthTest", group="Game")
 public class TrackwidthTest extends OpMode {
 

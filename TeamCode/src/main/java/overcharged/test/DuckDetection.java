@@ -1,5 +1,6 @@
 package overcharged.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,6 +19,7 @@ import overcharged.components.DuckPositions;
 import overcharged.components.RingDetector;
 import overcharged.components.RingPosition;
 import overcharged.linear.util.SelectLinear;
+@Disabled
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Duck Detection", group = "Test")
 public class DuckDetection extends OpMode {

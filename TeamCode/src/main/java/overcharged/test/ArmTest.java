@@ -14,6 +14,7 @@ import overcharged.components.OcServo;
  * Created by Parthiv Nair on 10/13/2018.
  * You can set the initial position using this program. This is useful especially when replacing servos
  */
+@Disabled
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "ArmTest", group = "Test")
 public class ArmTest extends OpMode {

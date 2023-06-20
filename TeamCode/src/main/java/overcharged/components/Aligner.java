@@ -6,14 +6,14 @@ public class Aligner {
     public OcServo aligner;
     public OcServo pivot;
 
-    public static final float INIT = 19f;//17f;//25f;//21f;
-    public static float OUT = 183f;//194f;//182f;//182f;
-    public static float TELE_OUT = 183f;
+    public static final float INIT = 16f;//19f;//17f;//25f;//21f;
+    public static float OUT = 180f;//183f;//194f;//182f;//182f;
+    public static float TELE_OUT = 180f;
     public static final float HALF = 154f;//150f;
 
-    public static float LEFT = 40;
-    public static float MIDDLE = 124;
-    public static float RIGHT = 208;
+    public static float LEFT = 30f;//40;
+    public static float MIDDLE = 121f;//124;
+    public static float RIGHT = 202f;//208;
 
     public Aligner(HardwareMap hardwareMap) {
         aligner = new OcServo(hardwareMap, "aligner", INIT);
