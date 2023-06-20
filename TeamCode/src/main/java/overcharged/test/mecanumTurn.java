@@ -9,7 +9,7 @@ import overcharged.components.oldRobotMecanum;
 import overcharged.drive.SampleMecanumDrive;
 import overcharged.linear.util.WaitLinear;
 
-@Disabled
+//@Disabled
 @Autonomous(name="mecanumTurn")
 public class mecanumTurn extends LinearOpMode {
 

@@ -15,7 +15,7 @@ import static overcharged.config.RobotConstants.TAG_A;
 /*
  * Overcharged Team #12599 Autonomous
  */
-@Disabled
+//@Disabled
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "AutoTestTurn", group = "Test")
 public class AutonomousTestTurn extends LinearOpMode {
     ///Overcharged Autonomous Robot class

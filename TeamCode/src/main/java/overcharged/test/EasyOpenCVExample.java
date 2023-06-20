@@ -39,7 +39,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Disabled
+//@Disabled
 @Autonomous
 /** region1 = near **/
 public class EasyOpenCVExample extends LinearOpMode
